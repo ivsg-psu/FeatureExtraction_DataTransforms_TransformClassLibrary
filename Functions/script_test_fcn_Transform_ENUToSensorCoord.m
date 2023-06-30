@@ -28,7 +28,7 @@ clc
 
 % TO DO
 %
-% cases for different sensorReadings
+% cases for different sensorReadings_ENU
 % fail conditions for inputs like inf and NaN. 
 
 %% Case 1
@@ -484,13 +484,13 @@ transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading
 % Fail Conditions
 
 
-%% The cases from 17 - XX are written to test the accuracy of sensor platform coordinates 
+%% The cases XX are written to test the accuracy of sensor platform coordinates 
 
 % when a point(sensorReading) in ENU coordinates is transformed to 
 % sensor platform coordinates
 
 
-%% Case XX
+%% Sensor Platform - Case XX
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into sensor platform coordinates.
@@ -520,7 +520,7 @@ expected_transformed_ENUPoint_in_dashCoord = [1, 0, -1.6];
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
 
-%% Case XX2
+%% Sensor Platform - Case XX2
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into sensor platform coordinates.
@@ -546,7 +546,7 @@ expected_transformed_ENUPoint_in_dashCoord = [-4, 0, -1.6];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case XX3
+%% Sensor Platform - Case XX3
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into sensor platform coordinates.
@@ -572,7 +572,7 @@ expected_transformed_ENUPoint_in_dashCoord = [1, 4, -1.6];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case XX4
+%% Sensor Platform - Case XX4
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into sensor platform coordinates.
@@ -598,39 +598,14 @@ expected_transformed_ENUPoint_in_dashCoord = [1, 0, -3.6];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case XX5
 
-% In this case, we are transforming the sensorReading_ENU (in ENU
-% coordinates) into sensor platform coordinates.
-
-
-% A point in ENU coordinates. In this case, the point is in origin
-sensorReading_ENU = [0, 0, 0];
-
-% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
-vehiclePose_ENU = [0,0,2,0,0,0];
-
-% The vehicle is moved 2 units in the Z - direction relative to ENU
-% coordinates.
-%
-% Therefore, the expected answer of the transformed
-% sensorReading_ENU in sensor platform coordinates will be [1, 0, -3.6]
-
-% Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'sensor_platform';  
-
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
-expected_transformed_ENUPoint_in_dashCoord = [1, 0, -3.6];
-
-assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
-
-%% The cases from XX - XX are written to test the accuracy of sick lidar coordinates 
+%% The cases YY are written to test the accuracy of sick lidar coordinates 
 
 % when a point(sensorReading) in ENU coordinates is transformed to 
 % sick lidar coordinates
 
 
-%% Case XX
+%% Sick Lidar - Case YY
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into sick lidar coordinates.
@@ -657,13 +632,91 @@ expected_transformed_ENUPoint_in_dashCoord = [1.5, 0, 1.4];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% The cases from XX - XX are written to test the accuracy of velodyne lidar coordinates 
+%% Sick Lidar - Case YY2
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into sick lidar coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [5,0,0,0,0,0];
+
+% The vehicle is moved 5 units in the X - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in sick lidar coordinates will be [-3.5, 0, 1.4]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'sickLidar';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [-3.5, 0, 1.4];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Sick Lidar - Case YY3
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into sick lidar coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,-4,0,0,0,0];
+
+% The vehicle is moved -4 units in the Y - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in sick lidar coordinates will be [1.5, 4, 1.4]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'sick_lidar';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [1.5, 4, 1.4];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Sick Lidar - Case YY4
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into sick lidar coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,0,2,0,0,0];
+
+% The vehicle is moved 2 units in the Z - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in sick lidar coordinates will be [1, 0, -3.6]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'sick_lidar';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [1, 0, -3.6];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% The cases ZZ are written to test the accuracy of velodyne lidar coordinates 
 
 % when a point(sensorReading) in ENU coordinates is transformed to 
 % velodyne lidar coordinates
 
 
-%% Case XX
+%% Velodyne Lidar - Case ZZ
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into velodyne lidar coordinates.
@@ -689,13 +742,91 @@ transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading
 % 
 % assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% The cases from XX - XX are written to test the accuracy of left GPS coordinates 
+%% Velodyne Lidar - Case ZZ2
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into velodyne lidar coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [5,0,0,0,0,0];
+
+% The vehicle is moved 5 units in the X - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in velodyne lidar coordinates will be [-5, X, X]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'velodyne_lidar';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% expected_transformed_ENUPoint_in_dashCoord = [-5, X, X];
+% 
+% assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Velodyne Lidar - Case ZZ3
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into velodyne lidar coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,-4,0,0,0,0];
+
+% The vehicle is moved -4 units in the Y - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in velodyne lidar coordinates will be [0, X, X]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'velodyneLidar';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% expected_transformed_ENUPoint_in_dashCoord = [0, X, X];
+% 
+% assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Velodyne Lidar - Case ZZ4
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into velodyne lidar coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,0,2,0,0,0];
+
+% The vehicle is moved 2 units in the Z - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in velodyne lidar coordinates will be [0, X, X]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'velodynelidar';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% expected_transformed_ENUPoint_in_dashCoord = [0, X, X];
+% 
+% assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% The cases AA are written to test the accuracy of left GPS coordinates 
 
 % when a point(sensorReading) in ENU coordinates is transformed to 
 % left GPS coordinates
 
 
-%% Case XX
+%% Left GPS - Case AA
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into left GPS coordinates.
@@ -721,13 +852,92 @@ expected_transformed_ENUPoint_in_dashCoord = [0.7, -0.762, -2.1];
 
 assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
 
-%% The cases from XX - XX are written to test the accuracy of right GPS coordinates 
+%% Left GPS - Case AA2
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into left GPS coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [5,0,0,0,0,0];
+
+% The vehicle is moved 5 units in the X - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in left GPS coordinates will be [-4.3, -0.762, -2.1]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'left GPS';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [-4.3, -0.762, -2.1];
+
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
+
+%% Left GPS - Case AA3
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into left GPS coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,-4,0,0,0,0];
+
+% The vehicle is moved -4 units in the Y - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in left GPS coordinates will be [0.7, 3.238, -2.1]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'left_GPS';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [0.7, 3.238, -2.1];
+
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
+
+%% Left GPS - Case AA4
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into left GPS coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,0,2,0,0,0];
+
+% The vehicle is moved 2 units in the Z - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in left GPS coordinates will be [0.7, -0.762, -4.1]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'leftgps';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [0.7, -0.762, -4.1];
+
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
+
+
+%% The cases BB are written to test the accuracy of right GPS coordinates 
 
 % when a point(sensorReading) in ENU coordinates is transformed to 
 % right GPS coordinates
 
 
-%% Case XX
+%% right GPS - Case BB
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into right GPS coordinates.
@@ -750,6 +960,84 @@ in_dashCoord = 'rightGPS';
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
 expected_transformed_ENUPoint_in_dashCoord = [0.7, 0.762, -2.1];
+
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
+
+%% right GPS - Case BB2
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into right GPS coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [5,0,0,0,0,0];
+
+% The vehicle is moved 5 units in the X - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in right GPS coordinates will be [-4.3, 0.762, -2.1]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'right GPS';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [-4.3, 0.762, -2.1];
+
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
+
+%% right GPS - Case BB3
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into right GPS coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,-4,0,0,0,0];
+
+% The vehicle is moved -4 units in the Y - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in right GPS coordinates will be [0.7, 4.762, -2.1]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'right_GPS';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [0.7, 4.762, -2.1];
+
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
+
+%% right GPS - Case BB4
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into right GPS coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,0,2,0,0,0];
+
+% The vehicle is moved 2 units in the Z - direction relative to ENU
+% coordinates.
+%
+% Therefore, the expected answer of the transformed
+% sensorReading_ENU in right GPS coordinates will be [0.7, -0.762, -4.1]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'rightgps';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [0.7, 0.762, -4.1];
 
 assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
 
