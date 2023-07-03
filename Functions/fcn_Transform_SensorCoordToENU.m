@@ -434,10 +434,10 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
 
 function cube_points = fcn_INTERNAL_fillCube(length,width,height,offset_length,offset_width, offset_height)
-fprintf(1,'Preparing cube of:\n');
-fprintf(1,'\tLength: %.2f\n',length);
-fprintf(1,'\tWidth: %.2f\n',width);
-fprintf(1,'\tHeigth: %.2f\n',height);
+% fprintf(1,'Preparing cube of:\n');
+% fprintf(1,'\tLength: %.2f\n',length);
+% fprintf(1,'\tWidth: %.2f\n',width);
+% fprintf(1,'\tHeigth: %.2f\n',height);
 cube_points = [
     -length -width -height
     length -width -height

@@ -26,10 +26,6 @@ clc
 % when a point(sensorReading) in ENU coordinates is transformed to 
 % vehicle coordinates
 
-% TO DO
-%
-% cases for different sensorReadings_ENU
-% fail conditions for inputs like inf and NaN. 
 
 %% Vehicle Coordinates - Case 1
 
@@ -1074,15 +1070,15 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % coordinates.
 %
 % Therefore, the expected answer of the transformed
-% sensorReading_ENU in sick lidar coordinates will be [1, 0, -3.6]
+% sensorReading_ENU in sick lidar coordinates will be [1.5, 0, -0.6]
 
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'sick_lidar';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
-expected_transformed_ENUPoint_in_dashCoord = [1, 0, -3.6];
+expected_transformed_ENUPoint_in_dashCoord = [1.5, 0, -0.6];
 
-assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
 
 %% Sick Lidar - Case 5
 
@@ -1759,6 +1755,8 @@ assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transf
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into right GPS coordinates.
 
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
 
 % vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
 vehiclePose_ENU = [1,7,-4,0,90,0];
@@ -1784,6 +1782,8 @@ assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transf
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into right GPS coordinates.
 
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
 
 % vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
 vehiclePose_ENU = [-9,-7,3,90,0,0];
@@ -1822,6 +1822,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 %
 % Therefore, the expected answer of the transformed
 % sensorReading_ENU in left GPS coordinates will be [0.9, -2.3, -3.238]
+
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'rightgps';  
 
