@@ -25,7 +25,7 @@ function transformed_ENUPoint_in_SensorCoord = fcn_Transform_ENUToSensorCoord(se
 %           z: translates the vehicle in the z direction relative to
 %           ENU coordinates
 %
-%        orientation of the vehicle 
+%        orientation of the vehicle - Follows ISO convention
 %
 %          roll: rotates the vehicle about its x-axis relative to ENU
 %          coordinates (the vehicle's orientation changes relative to
@@ -304,7 +304,7 @@ set(handles.transform_sensorplatform_to_velodyneLIDAR,'Matrix',Mtransform_velody
 x = vehiclePose_ENU(1);
 y = vehiclePose_ENU(2);
 z = vehiclePose_ENU(3);
-roll = vehiclePose_ENU(4);
+roll = -vehiclePose_ENU(4);
 pitch = vehiclePose_ENU(5);
 yaw = vehiclePose_ENU(6);
 
@@ -496,10 +496,13 @@ axis equal;
 grid on;
 xlim([-15 15]);
 ylim([-15 15]);
+
+xticks(-15:1:15);
+yticks(-15:1:15);
 %zlim([-15 15]);
-xlabel('East');
-ylabel('North');
-zlabel('Up');
+xlabel('East','FontSize',15,'FontWeight','bold');
+ylabel('North','FontSize',15,'FontWeight','bold');
+zlabel('Up','FontSize',15,'FontWeight','bold');
 
 % Plot the origin
 plot_handles(2) = plot3(cube_points(end,1),cube_points(end,2),cube_points(end,3),'Color',color_plot,'MarkerSize',50);
