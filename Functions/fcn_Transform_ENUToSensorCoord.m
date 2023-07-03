@@ -155,14 +155,12 @@ mapping_van_plot_handles = fcn_INTERNAL_plotCube(cube_points);
 
 % Once the first plot is made, we can define the axes
 ax = gca; % Grab current axes;
-%handles.global_coordinates = hgtransform('Parent',ax);
 handles.transform_ground_to_body = hgtransform('Parent',ax);
 handles.transform_body_to_sensorplatform = hgtransform('Parent',handles.transform_ground_to_body);
 handles.transform_sensorplatform_to_LIDAR = hgtransform('Parent',handles.transform_body_to_sensorplatform);
 handles.transform_sensorplatform_to_leftGPS = hgtransform('Parent',handles.transform_body_to_sensorplatform);
 handles.transform_sensorplatform_to_rightGPS = hgtransform('Parent',handles.transform_body_to_sensorplatform);
 handles.transform_sensorplatform_to_velodyneLIDAR = hgtransform('Parent',handles.transform_body_to_sensorplatform);
-%set(global_coordinates_plot_handles,'Parent',handles.global_coordinates); 
 set(mapping_van_plot_handles,'Parent',handles.transform_ground_to_body); 
 
 
