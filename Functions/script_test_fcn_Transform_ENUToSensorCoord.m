@@ -1941,3 +1941,46 @@ expected_transformed_ENUPoint_in_dashCoord = [0.9, -2.3, -3.238];
 assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
 
 end
+
+%% 
+
+% input arguments should not exceed 3
+
+if 1 == 0
+
+ % A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [3,4,-3,180,270];
+
+SensorVals = [3, 4, 6];
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'rightgps';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord, SensorVals);
+expected_transformed_ENUPoint_in_dashCoord = [0.9, -2.3, -3.238];
+
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
+
+end
+
+%% 
+
+% input arguments should not be less than 3
+
+if 1 == 0
+
+ % A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'rightgps';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [0.9, -2.3, -3.238];
+
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
+
+end

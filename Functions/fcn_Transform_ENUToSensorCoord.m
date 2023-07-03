@@ -103,7 +103,7 @@ end
 
 if flag_check_inputs
     % Are there the right number of inputs?
-    if nargin < 1 || nargin > 3
+    if nargin < 3 || nargin > 3
         error('Incorrect number of input arguments')
     end
         
