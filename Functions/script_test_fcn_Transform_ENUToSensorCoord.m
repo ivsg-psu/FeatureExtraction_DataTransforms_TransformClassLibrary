@@ -31,7 +31,7 @@ clc
 % cases for different sensorReadings_ENU
 % fail conditions for inputs like inf and NaN. 
 
-%% Case 1
+%% Vehicle Coordinates - Case 1
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -48,14 +48,14 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % sensorReading_ENU in vehicle coordinates will be [-5, 0, 0]
 
 % Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'vehicle';  
+in_dashCoord = 'vehicleCoord';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
 expected_transformed_ENUPoint_in_dashCoord = [-5, 0, 0];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 2
+%% Vehicle Coordinates - Case 2
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -79,7 +79,7 @@ expected_transformed_ENUPoint_in_dashCoord = [0, 4, 0];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 3
+%% Vehicle Coordinates - Case 3
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -96,14 +96,14 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % sensorReading_ENU in vehicle coordinates will be [0, 0, -2];
 
 % Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'vehicle';  
+in_dashCoord = 'vehicle_coord';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
 expected_transformed_ENUPoint_in_dashCoord = [0, 0, -2];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 4
+%% Vehicle Coordinates - Case 4
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -120,14 +120,14 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % sensorReading_ENU in vehicle coordinates will be [-4, 0, 0]
 
 % Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'vehicle';  
+in_dashCoord = 'vehicle coordinates';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
 expected_transformed_ENUPoint_in_dashCoord = [-4, 0, 0];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 5
+%% Vehicle Coordinates - Case 5
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -144,14 +144,14 @@ vehiclePose_ENU = [5,0,0,0,0,90];
 % sensorReading_ENU in vehicle coordinates will be [0, 4, 0]
 
 % Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'vehicle';  
+in_dashCoord = 'vehicle_Coord';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
 expected_transformed_ENUPoint_in_dashCoord = [0, 4, 0];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 6
+%% Vehicle Coordinates - Case 6
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -168,14 +168,14 @@ vehiclePose_ENU = [5,0,0,0,90,0];
 % sensorReading_ENU in vehicle coordinates will be [0, 0, -4]
 
 % Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'vehicle';  
+in_dashCoord = 'Coordinates_vehicle';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
 expected_transformed_ENUPoint_in_dashCoord = [0, 0, -4];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 7
+%% Vehicle Coordinates - Case 7
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -199,7 +199,7 @@ expected_transformed_ENUPoint_in_dashCoord = [-4, 0, 0];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 8
+%% Vehicle Coordinates - Case 8 - vehilclePose_ENU with roll, pitch and yaw = 0.
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -224,7 +224,7 @@ expected_transformed_ENUPoint_in_dashCoord = [5, -7, -3];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 9
+%% Vehicle Coordinates - Case 9 - vehilclePose_ENU with yaw
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -252,7 +252,7 @@ expected_transformed_ENUPoint_in_dashCoord = [-5, 4, 6];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 10
+%% Vehicle Coordinates - Case 10 - vehilclePose_ENU with pitch
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -280,7 +280,7 @@ expected_transformed_ENUPoint_in_dashCoord = [-6, -5, -4];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 11
+%% Vehicle Coordinates - Case 11 - vehilclePose_ENU with position and roll 
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -304,11 +304,11 @@ vehiclePose_ENU = [4,5,-6,90,0,0];
 in_dashCoord = 'vehicle';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
-expected_transformed_ENUPoint_in_dashCoord = [-4, 6, 5];
+expected_transformed_ENUPoint_in_dashCoord = [-4, -6, -5];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 12
+%% Vehicle Coordinates - Case 12 - vehilclePose_ENU with position, pitch and yaw
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -318,25 +318,25 @@ assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_
 sensorReading_ENU = [0, 0, 0];
 
 % vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
-vehiclePose_ENU = [1,-9,5,0,60,90];
+vehiclePose_ENU = [1,-9,5,0,90,180];
 
 % The vehicle is moved 1 units in the X direction, -9 units in the 
 % Y direction, and 5 units in the Z direction relative to ENU coordinates.
-% coordinates. The roll, pitch and yaw are 0, 60, and 90, respectively
+% coordinates. The roll, pitch and yaw are 0, 90, and 180, respectively
 % relative to ENU coordinates. 
 %
 % Therefore, the expected answer of the transformed
-% sensorReading_ENU in vehicle coordinates will be [X, X, X];
+% sensorReading_ENU in vehicle coordinates will be [5, -9, 1]
 
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
-% expected_transformed_ENUPoint_in_dashCoord = [-4, 6, 5];
-% 
-% assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+expected_transformed_ENUPoint_in_dashCoord = [5, -9, 1];
 
-%% Case 13
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 13 - vehilclePose_ENU with position, roll and pitch
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -346,25 +346,25 @@ transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading
 sensorReading_ENU = [0, 0, 0];
 
 % vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
-vehiclePose_ENU = [1,-9,5,20,0,45];
+vehiclePose_ENU = [1,-9,5,90,180,0];
 
 % The vehicle is moved 1 units in the X direction, -9 units in the 
 % Y direction, and 5 units in the Z direction relative to ENU coordinates.
-% coordinates. The roll, pitch and yaw are 20, 0, and 90, respectively
+% coordinates. The roll, pitch and yaw are 0, 90, and 180, respectively
 % relative to ENU coordinates. 
 %
 % Therefore, the expected answer of the transformed
-% sensorReading_ENU in vehicle coordinates will be [X, X, X];
+% sensorReading_ENU in vehicle coordinates will be [1, -5, 9]
 
 % Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'vehicle';  
+in_dashCoord = 'vehicle_coordinates';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
-% expected_transformed_ENUPoint_in_dashCoord = [-4, 6, 5];
-% 
-% assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+expected_transformed_ENUPoint_in_dashCoord = [1, -5, 9];
 
-%% Case 14
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 14 - vehilclePose_ENU with position, roll and yaw
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -374,25 +374,25 @@ transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading
 sensorReading_ENU = [0, 0, 0];
 
 % vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
-vehiclePose_ENU = [1,-9,5,45,30,0];
+vehiclePose_ENU = [1,-9,5,180,0,90];
 
 % The vehicle is moved 1 units in the X direction, -9 units in the 
 % Y direction, and 5 units in the Z direction relative to ENU coordinates.
-% coordinates. The roll, pitch and yaw are 45, 30, and 0, respectively
+% coordinates. The roll, pitch and yaw are 180, 0, and 90, respectively
 % relative to ENU coordinates. 
 %
 % Therefore, the expected answer of the transformed
-% sensorReading_ENU in vehicle coordinates will be [X, X, X];
+% sensorReading_ENU in vehicle coordinates will be [9, -1, 5]
 
 % Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'vehicle';  
+in_dashCoord = 'vehicle_coordinates';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
-% expected_transformed_ENUPoint_in_dashCoord = [-4, 6, 5];
-% 
-% assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+expected_transformed_ENUPoint_in_dashCoord = [9, -1, 5];
 
-%% Case 15
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 15 - vehilclePose_ENU with position, roll, pitch and yaw
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -402,25 +402,25 @@ transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading
 sensorReading_ENU = [0, 0, 0];
 
 % vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
-vehiclePose_ENU = [5,3,-2,36,24,99];
+vehiclePose_ENU = [1,-9,5,270,90,180];
 
-% The vehicle is moved 5 units in the X direction, 3 units in the 
-% Y direction, and -2 units in the Z direction relative to ENU coordinates.
-% coordinates. The roll, pitch and yaw are 36, 24, and 99, respectively
+% The vehicle is moved 1 units in the X direction, -9 units in the 
+% Y direction, and 5 units in the Z direction relative to ENU coordinates.
+% coordinates. The roll, pitch and yaw are 270, 90, and 180, respectively
 % relative to ENU coordinates. 
 %
 % Therefore, the expected answer of the transformed
-% sensorReading_ENU in vehicle coordinates will be [X, X, X];
+% sensorReading_ENU in vehicle coordinates will be [5, 1, 9]
 
 % Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'vehicle';  
+in_dashCoord = 'vehicle_coordinates';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
-% expected_transformed_ENUPoint_in_dashCoord = [-4, 6, 5];
-% 
-% assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+expected_transformed_ENUPoint_in_dashCoord = [5, 1, 9];
 
-%% Case 16
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 16 - vehilclePose_ENU with position, and roll, pitch and yaw greater than 360 degrees
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -430,27 +430,25 @@ transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading
 sensorReading_ENU = [0, 0, 0];
 
 % vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
-vehiclePose_ENU = [5,3,-2,720+36,360+24,360+99];
+vehiclePose_ENU = [1,-9,5,360+270,720+90,1080+180];
 
-% The vehicle is moved 5 units in the X direction, 3 units in the 
-% Y direction, and -2 units in the Z direction relative to ENU coordinates.
-% coordinates. The roll, pitch and yaw are 720+36, 360+24, and 360+99, respectively
+% The vehicle is moved 1 units in the X direction, -9 units in the 
+% Y direction, and 5 units in the Z direction relative to ENU coordinates.
+% coordinates. The roll, pitch and yaw are 360+270, 720+90, and 1080+180, respectively
 % relative to ENU coordinates. 
 %
 % Therefore, the expected answer of the transformed
-% sensorReading_ENU in vehicle coordinates will be [X, X, X];
-% Note: The transformed_ENUPoint_in_dashCoord in case 15 and case 16 should
-% be same
+% sensorReading_ENU in vehicle coordinates will be [5, 1, 9]
 
 % Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'vehicle';  
+in_dashCoord = 'vehicle_coordinates';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
-% expected_transformed_ENUPoint_in_dashCoord = [-4, 6, 5];
-% 
-% assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+expected_transformed_ENUPoint_in_dashCoord = [5, 1, 9];
 
-%% Case 17
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
+
+%% Vehicle Coordinates - Case 17 - vehilclePose_ENU with position, and negative roll, pitch and yaw
 
 % In this case, we are transforming the sensorReading_ENU (in ENU
 % coordinates) into vehicle coordinates.
@@ -460,28 +458,265 @@ transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading
 sensorReading_ENU = [0, 0, 0];
 
 % vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
-vehiclePose_ENU = [5,3,-2,-36,-24,-99];
+vehiclePose_ENU = [1,-9,5,-270,-90,-180];
 
-% The vehicle is moved 5 units in the X direction, 3 units in the 
-% Y direction, and -2 units in the Z direction relative to ENU coordinates.
-% coordinates. The roll, pitch and yaw are -36, -24, and -99, respectively
+% The vehicle is moved 1 units in the X direction, -9 units in the 
+% Y direction, and 5 units in the Z direction relative to ENU coordinates.
+% coordinates. The roll, pitch and yaw are 270, 90, and 180, respectively
 % relative to ENU coordinates. 
 %
 % Therefore, the expected answer of the transformed
-% sensorReading_ENU in vehicle coordinates will be [X, X, X];
-
+% sensorReading_ENU in vehicle coordinates will be [-5, 1, -9]
 
 % Transforms sensorReading_ENU into this coordinates
-in_dashCoord = 'vehicle';  
+in_dashCoord = 'vehicle_coordinates';  
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
-% expected_transformed_ENUPoint_in_dashCoord = [-4, 6, 5];
+expected_transformed_ENUPoint_in_dashCoord = [-5, 1, -9];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 18 - When sensorReading_ENU is not [0, 0, 0].
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into vehicle coordinates.
+
+
+% A point in ENU coordinates. 
+sensorReading_ENU = [5, -3, 2];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [5,0,0,0,0,0]; 
+
+% The vehicle is moved 5 units in the X - direction relative to ENU
+% coordinates. Therefore, the expected answer of the transformed
+% sensorReading_ENU in vehicle coordinates will be [0, -3, 2]. The expected
+% answer can be guessed from sensorReading_ENU = [0, 0, 0] cases.
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'vehicleCoord';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [0, -3, 2];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 19 - When sensorReading_ENU is not [0, 0, 0].
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into vehicle coordinates.
+
+
+% A point in ENU coordinates. 
+sensorReading_ENU = [-7, -2, -5];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,8,0,0,0,0]; 
+
+% The vehicle is moved 8 units in the Y - direction relative to ENU
+% coordinates. Therefore, the expected answer of the transformed
+% sensorReading_ENU in vehicle coordinates will be [-7, -10, -5]. 
+% The expected answer can be guessed from sensorReading_ENU = [0, 0, 0] 
+% cases.
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'vehicle Coord';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [-7, -10,-5];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 20 - When sensorReading_ENU is not [0, 0, 0].
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into vehicle coordinates.
+
+
+% A point in ENU coordinates. 
+sensorReading_ENU = [4, 6, -4];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,0,-6,0,0,0]; 
+
+% The vehicle is moved -6 units in the Z - direction relative to ENU
+% coordinates. Therefore, the expected answer of the transformed
+% sensorReading_ENU in vehicle coordinates will be [4, 6, 2]. The expected
+% answer can be guessed from sensorReading_ENU = [0, 0, 0] cases.
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'vehicle Coord';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [4, 6, 2];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 21 - When sensorReading_ENU is not [0, 0, 0].
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into vehicle coordinates.
+
+
+% A point in ENU coordinates. 
+sensorReading_ENU = [2, -1, 9];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [-4,7,2,0,0,0]; 
+
+% The vehicle is moved -4 units in the X direction, 7 units in the 
+% Y direction, and 2 units in the Z direction relative to ENU coordinates.
+% coordinates. Therefore, the expected answer of the transformed
+% sensorReading_ENU in vehicle coordinates will be [6, -8, 7]. The expected
+% answer can be guessed from sensorReading_ENU = [0, 0, 0] cases.
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'vehicle Coord';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [6, -8, 7];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 22 - When sensorReading_ENU is not [0, 0, 0].
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into vehicle coordinates.
+
+
+% A point in ENU coordinates. 
+sensorReading_ENU = [2, -1, 9];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [-4,7,2,0,0,90]; 
+
+% The vehicle is moved -4 units in the X direction, 7 units in the 
+% Y direction, and 2 units in the Z direction relative to ENU coordinates.
+% coordinates. The roll, pitch and yaw are 0, 0, and 90, respectively
+% relative to ENU coordinates. Therefore, the expected answer of the 
+% transformed sensorReading_ENU in vehicle coordinates will be [-8, -6, 7]. 
+% The expected answer can be guessed from sensorReading_ENU = [0, 0, 0] 
+% cases.
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'vehicle Coord';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [-8, -6, 7];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 23 - When sensorReading_ENU is not [0, 0, 0].
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into vehicle coordinates.
+
+
+% A point in ENU coordinates. 
+sensorReading_ENU = [2, -1, 9];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [-4,7,2,0,90,0]; 
+
+% The vehicle is moved -4 units in the X direction, 7 units in the 
+% Y direction, and 2 units in the Z direction relative to ENU coordinates.
+% coordinates. The roll, pitch and yaw are 0, 90, and 0, respectively
+% relative to ENU coordinates. Therefore, the expected answer of the 
+% transformed sensorReading_ENU in vehicle coordinates will be [-7, -8, 6]. 
+% The expected answer can be guessed from sensorReading_ENU = [0, 0, 0] 
+% cases.
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'vehicle Coord';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [-7, -8, 6];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 24 - When sensorReading_ENU is not [0, 0, 0].
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into vehicle coordinates.
+
+
+% A point in ENU coordinates. 
+sensorReading_ENU = [2, -1, 9];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [-4,7,2,90,0,0]; 
+
+% The vehicle is moved -4 units in the X direction, 7 units in the 
+% Y direction, and 2 units in the Z direction relative to ENU coordinates.
+% coordinates. The roll, pitch and yaw are 90, 0, and 0, respectively
+% relative to ENU coordinates. Therefore, the expected answer of the 
+% transformed sensorReading_ENU in vehicle coordinates will be [6, -7, -8]. 
+% The expected answer can be guessed from sensorReading_ENU = [0, 0, 0] 
+% cases.
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'vehicle Coord';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [6, -7, -8];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Vehicle Coordinates - Case 25 - When sensorReading_ENU is not [0, 0, 0].
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into vehicle coordinates.
+
+
+% A point in ENU coordinates. 
+sensorReading_ENU = [2, -1, 9];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [-4,7,2,90,180,270]; 
+
+% The vehicle is moved -4 units in the X direction, 7 units in the 
+% Y direction, and 2 units in the Z direction relative to ENU coordinates.
+% coordinates. The roll, pitch and yaw are 90, 180, and 270, respectively
+% relative to ENU coordinates. Therefore, the expected answer of the 
+% transformed sensorReading_ENU in vehicle coordinates will be [-8, -6, 7]. 
+% The expected answer can be guessed from sensorReading_ENU = [0, 0, 0] 
+% cases.
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'vehicle Coord';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% expected_transformed_ENUPoint_in_dashCoord = [-8, 7, 6];
 % 
 % assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
-%% Case 18 
+%% Vehicle Coordinates - Case 26 - When sensorReading_ENU is not [0, 0, 0].
 
-% Fail Conditions
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into vehicle coordinates.
+
+
+% A point in ENU coordinates. 
+sensorReading_ENU = [2, -1, 9];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [-4,7,2,0,0,0]; 
+
+% The vehicle is moved -4 units in the X direction, 7 units in the 
+% Y direction, and 2 units in the Z direction relative to ENU coordinates.
+% coordinates. The roll, pitch and yaw are 360, 360, and 360, respectively
+% relative to ENU coordinates. Therefore, the expected answer of the 
+% transformed sensorReading_ENU in vehicle coordinates will be [6, -8, 7]. 
+% The expected answer can be guessed from sensorReading_ENU = [0, 0, 0] 
+% cases.
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'vehicle Coord';  
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+expected_transformed_ENUPoint_in_dashCoord = [6, -8, 7];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
 
 
 %% The cases XX are written to test the accuracy of sensor platform coordinates 
