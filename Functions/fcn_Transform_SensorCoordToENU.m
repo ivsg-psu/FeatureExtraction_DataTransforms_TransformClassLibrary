@@ -345,7 +345,7 @@ switch lower(sensor_string)
         body_fixed_measurement = (Mtransform_sensorplatform_translate*Mtranslate_vehicle*Myaw*Mpitch*Mroll)*sensorReading_SensorCoord_homogenous_measurement;
         transformed_SensorCoord_in_ENU = body_fixed_measurement(1:3,1)';
         plot3(transformed_SensorCoord_in_ENU(1),transformed_SensorCoord_in_ENU(2),transformed_SensorCoord_in_ENU(3),'r.','MarkerSize',50);
-        fprintf(fileID,'The point is located, in ENU coordinates frame transformed from sensorplatform frame, at:\n');
+        fprintf(fileID,'The point is located, in ENU coordinates frame transformed from sensor platform frame, at:\n');
         disp(transformed_SensorCoord_in_ENU);
 
     case 'sicklidar'
