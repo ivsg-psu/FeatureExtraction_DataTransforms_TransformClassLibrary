@@ -1,47 +1,92 @@
-% take #counts, encoder counts/rev, max count, min count, initial encoder
-% value as input --> later ---> predict encoder position 
-predicted_values.wheel_v_rear_left = wheel_v_rear_left;
-predicted_values.wheel_v_rear_right = wheel_v_rear_right;
-predicted_values.encoder_w_rear_left = encoder_w_rear_left;
-predicted_values.encoder_w_rear_right = encoder_w_rear_right;
-predicted_values.tire_slide_rear_left = tire_slide_rear_left;
-predicted_values.tire_slide_rear_right = tire_slide_rear_right; 
-predicted_values.tire_slide_rear_right = tire_slide_rear_right;
-predicted_values.vehicle_bounce_rear_left = vehicle_bounce_rear_left; 
-predicted_values.vehicle_bounce_rear_right = vehicle_bounce_rear_right; 
-predicted_values.wheel_acceleration_rear_left = wheel_acceleration_rear_left;
-predicted_values.wheel_acceleration_rear_right = wheel_acceleration_rear_right; 
-%Find acceleration  
-wheel_acceleration_rear_left = vehicle_acceleration + cross(chassis_alpha,pos_rear_left); 
-wheel_acceleration_rear_right = vehicle_acceleration + cross(chassis_alpha,pos_rear_right);
-
-encoder_w_rear_left = wheel_v_rear_left(1) ./ tire_radius;
-encoder_w_rear_right = wheel_v_rear_right(1) ./ tire_radius;
-
+function [discrete_encoder_count_rear_left, discrete_encoder_count_rear_right] = fcn_transform_encoderCounts(wheel_velocity_rear_left,wheel_velocity_rear_right,wheel_radius,initial_counts_rear_left,initial_counts_rear_right,delta_time,counts_per_revolution)
+% fcn_transform_encoderCounts
+% This function calculates the number of encoder coutns for eahc wheel
+% encoder. 
+%
+% FORMAT:
+%
+%       [discrete_encoder_count_rear_left, discrete_encoder_count_rear_right] = fcn_transform_encoderCounts(wheel_velocity_rear_left,wheel_velocity_rear_right,wheel_radius,initial_counts_rear_left,initial_counts_rear_right,delta_time,counts_per_revolution)
+%
 % INPUTS:
+%       wheel_velocity_rear_left = An array of rear left wheel velocities in m/s.
+%                                  Expected input is [v_1,v_2,v_3,...],
+%                                  where each velocity corresponds to a
+%                                  time step.
 %
-%       pos_rear_left: [x,y,z] position of rear left tire in meters. Expected value is
-%                      [0, d, 0], where d is the distance from middle of rear vehicle axle to
-%                      middle of tire
+%       wheel_velocity_rear_right = An array of rear right wheel velocities in m/s.
+%                                  Expected input is [v_1,v_2,v_3,...],
+%                                  where each velocity corresponds to a
+%                                  time step.
 %
-%       pos_rear_right: [x,y,z] position of rear right tire in meters. Expected value is
-%                      [0, - d, 0], where d is the distance from middle of rear vehicle axle to
-%                      middle of tire
-% 
-%       chassis_w: angular velocity of vehicle chassis in rad/s; vector; expected
-%       input is an array, [w_x, w_y,w_z], where w_x, w_y, and w_z are the
-%       components of the chassis' angular velocity.
+%       wheel_radius = Radius of wheel in meters.
 %
-%       chassis_alpha: angular acceleration of vehicle chassis in rad/s^2;
-%       vector; expected input is an array, [a_x, a_y, a_z], where a_x,
-%       a_y, and a_z are components of the chassis' angular acceleration.
+%       initial_counts_rear_left = Initial rear left encoder counts before data
+%                                  collection started. [counts]
 %
-%       chassis_v: linear velocity of vehicle in m/s; vector; expected input is an
-%       array, [v_x, v_y, v_z], where v_x, v_y, v_z are components of the
-%       chassis' linear velocity.
+%       initial_counts_rear_right = Initial rear left encoder counts before data
+%                                  collection started. [counts]
 %
-%       vehicle_acceleration: linear acceleration of vehicle in m/s^2; vector;
-%       expected input is an array,[a_x, a_y, a_z], where a_x, a_y, a_z are components of the
-%       chassis' linear acceleration.
+%       delta_time = Encoder time step in seconds.
 %
-%       tire_radius: radius of tire in meters. 
+%       counts_per_revolution = Encoder default number of counts per
+%                               revolution. [counts/rev.]
+%      
+% OUTPUTS:
+%      
+%       discrete_encoder_count_rear_left = An array of the calculated
+%                                          discrete encoder counts for the
+%                                          rear left wheel encoder. [counts]
+%
+%       discrete_encoder_count_rear_right = An array of the calculated
+%                                          discrete encoder counts for the
+%                                          rear right wheel encoder. [counts]
+%       
+% DEPENDENCIES:
+%
+%  No dependencies -----> Question: make it dependant on wheel velocity fcn?
+%
+% EXAMPLES:
+%
+%     See the script: script_test_fcn_transform_encoderCounts
+%     for a full test suite.
+
+% Revision history:
+%     
+% 2023_06_30: Mariam Abdellatief
+% -- Wrote the code originally 
+% 2023_07_03: Mariam Abdellatief
+% -- Functionalized code 
+% -- Added function definition 
+% -- Wrote test script
+
+%% Inputs
+%Check number of inputs
+if nargin < 7 || nargin > 7
+        error ('Incorrect number of input arguments')
+end 
+
+if initial_counts_rear_left < 0 ||initial_counts_rear_right < 0
+    error("Encoder initial counts can't be negative");
+end
+
+if delta_time < 0 || delta_time == 0
+    error("Time step has to be a positive number");
+end
+
+if counts_per_revolution < 0 || counts_per_revolution == 0
+    error("Encoder counts per revolution have to be positive");
+end
+
+
+%% Main 
+wheel_w_rear_left = wheel_velocity_rear_left ./ wheel_radius;
+continous_count_derivative_rear_left = counts_per_revolution * 2 * pi * wheel_w_rear_left;
+continous_counts_rear_left = cumsum(continous_count_derivative_rear_left * delta_time) + initial_counts_rear_left;
+discrete_encoder_count_rear_left = floor(continous_counts_rear_left);
+
+wheel_w_rear_right = wheel_velocity_rear_right ./ wheel_radius;
+continous_count_derivative_rear_right = counts_per_revolution * 2 * pi * wheel_w_rear_right;
+continous_counts_rear_right = cumsum(continous_count_derivative_rear_right * delta_time) + initial_counts_rear_right;
+discrete_encoder_count_rear_right = floor(continous_counts_rear_right);
+
+end 

@@ -4,7 +4,7 @@ function predicted_values = fcn_transform_predictWheelVelocity(pos_rear_left,pos
 %
 % FORMAT:
 %
-%       predicted_values = fcn_predict_encoder_spped_imu_acceleration()
+%       predicted_values = fcn_transform_predictWheelVelocity(pos_rear_left,pos_rear_right,chassis_w,chassis_v)
 %
 % INPUTS:
 %
@@ -37,7 +37,7 @@ function predicted_values = fcn_transform_predictWheelVelocity(pos_rear_left,pos
 %
 % EXAMPLES:
 %
-%     See the script: script_test_fcn_predict_encoder_spped_imu_acceleration
+%     See the script: script_test_fcn_transform_predictWheelVelocity
 %     for a full test suite.
 
 % Revision history:
