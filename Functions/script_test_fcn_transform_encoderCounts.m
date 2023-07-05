@@ -13,6 +13,18 @@ initial_counts_rear_left = 9;
 initial_counts_rear_right = 11;
 counts_per_revolution = 2;
 
+%% Case: Two input velocities
+wheel_velocity_rear_left = [11,2];
+wheel_velocity_rear_right = [9,7];
+delta_time = 5;
+[discrete_encoder_count_rear_left, discrete_encoder_count_rear_right] = fcn_transform_encoderCounts(wheel_velocity_rear_left,wheel_velocity_rear_right,wheel_radius,initial_counts_rear_left,initial_counts_rear_right,delta_time,counts_per_revolution); %#ok<ASGLU>
+expected_values.encoder_rear_left = [2312,2730]; %-->>IMP QUESTION: assertion fails bec the calculation takes the
+% previous encoder value without floor, but by hand I used floored value
+% --> Which is correct??
+expected_values.encoder_rear_right = [1895,3361];
+assert(isequal(discrete_encoder_count_rear_left,expected_values.encoder_rear_left));
+assert(isequal(discrete_encoder_count_rear_right,expected_values.encoder_rear_right));
+
 %% Case: Test with sine wave input 
 % Parameters
 amplitude = 1;      % Amplitude of the sine wave
