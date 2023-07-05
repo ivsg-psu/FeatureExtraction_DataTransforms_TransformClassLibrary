@@ -6,6 +6,8 @@ close all
 %% Revision History
 %7/3/2023 -- Mariam Abdellatief
 % -- Wrote code originally
+%7/5/2023 -- Mariam Abdellatief
+% -- Added other test cases 
 
 %% Assertions / Testing outputs
 wheel_radius = 0.3;
