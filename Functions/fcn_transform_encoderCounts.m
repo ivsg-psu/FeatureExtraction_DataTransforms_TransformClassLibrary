@@ -1,6 +1,6 @@
 function [discrete_encoder_count_rear_left, discrete_encoder_count_rear_right] = fcn_transform_encoderCounts(wheel_velocity_rear_left,wheel_velocity_rear_right,wheel_radius,initial_counts_rear_left,initial_counts_rear_right,delta_time,counts_per_revolution)
 % fcn_transform_encoderCounts
-% This function calculates the number of encoder coutns for eahc wheel
+% This function calculates the number of encoder coutns for each wheel.
 % encoder. 
 %
 % FORMAT:

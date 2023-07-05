@@ -15,26 +15,26 @@ function transformed_ENUPoint_in_SensorCoord = fcn_Transform_ENUToSensorCoord(se
 %      sensorReading_ENU: Sensor reading in ENU coordinates.
 %       
 %      vehiclePose_ENU: [x,y,z,roll,pitch,yaw]
-%
+% 
 %        position of the vehicle:
-%
+% 
 %           x: translates the vehicle in the x direction relative to
 %           ENU coordinates
 %           y: translates the vehicle in the y direction relative to
 %           ENU coordinates
 %           z: translates the vehicle in the z direction relative to
 %           ENU coordinates
-%
+% 
 %        orientation of the vehicle - Follows ISO convention
-%
+% 
 %          roll: rotates the vehicle about its x-axis relative to ENU
 %          coordinates (the vehicle's orientation changes relative to
 %          the Earth's surface)
-%
+% 
 %          pitch: rotates the vehicle about its y-axis relative to ENU
 %          coordinates (the vehicle's orientation changes relative to
 %          the Earth's surface)
-%
+% 
 %          yaw: rotates the vehicle about its z-axis relative to ENU
 %          coordinates (the vehicle's orientation changes relative to
 %          the Earth's surface)
@@ -42,23 +42,23 @@ function transformed_ENUPoint_in_SensorCoord = fcn_Transform_ENUToSensorCoord(se
 %      sensor: ENU coordinates are transformed to this "sensor"
 %              coordinates
 %             
-%
+% 
 %      (OPTIONAL INPUTS)
 %       
-%
+% 
 % OUTPUTS:
 %      
 %      transformed_ENUPoint_in_SensorCoord: the sensor reading from ENU
 %      coordinates is transformed into the corresponding sensor
 %      coordinates. 
-%
-%
+% 
+% 
 % DEPENDENCIES:
-%
+% 
 %      fcn_DebugTools_checkInputsToFunctions
-%
+% 
 % EXAMPLES:
-%
+% 
 %     See the script: script_test_fcn_Transform_ENUToSensorCoord
 %     for a full test suite.
 

@@ -8,16 +8,11 @@ Search for this, and you will find!
 >
 <!-- PROJECT LOGO -->
 <br />
-<p align="center">
-  <!-- <a href="https://github.com/ivsg-psu/FeatureExtraction_Association_PointToPointAssociation">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a> -->
-
   <h2 align="center"> FeatureExtraction_DataTransforms_TransformClassLibrary
   </h2>
 
   <pre align="center">
-    <img src=".\Images\RaceTrack.jpg" alt="main laps picture" width="960" height="540">
+    <img src=".\Images\Vehicle transform.jpg" alt="main transforms picture" width="577" height="246.67">
   </pre>
 
   <p align="center">
@@ -33,7 +28,7 @@ Search for this, and you will find!
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
     <li>
-      <a href="#about-the-project">About the Project</a>
+      <a href="#about">About</a>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -49,18 +44,16 @@ Search for this, and you will find!
     </li>
     <li><a href="#functions">Functions</li>
         <ul>
-          <li><a href="#fcn_laps_breakdataintolaps">fcn_Laps_breakDataIntoLaps - Core function of the repo, breaks data into laps</li>
-          <li><a href="#fcn_laps_checkzonetype">fcn_Laps_checkZoneType - Checks inputs to determine if zone is a point or line segment type</li>
-          <li><a href="#fcn_laps_breakdataintolapindices">fcn_Laps_breakDataIntoLapIndices - A more advanced version of fcn_Laps_breakDataIntoLaps, where the outputs are the indices that apply to each lap.</li>
-          <li><a href="#fcn_laps_findsegmentzonestartstop">fcn_Laps_findSegmentZoneStartStop - Supporting function that finds the portions of a path that meet a segment zone criteria</li>
-          <li><a href="#fcn_laps_findpointzonestartstopandminimum">fcn_Laps_findPointZoneStartStopAndMinimum - Supporting function that finds the portions of a path that meet a point zone criteria</li>
+          <li><a href="#fcn_transform_predictwheelvelocity">fcn_transform_predictWheelVelocity - Predicts wheel velocity given the vehicle's angular velocity</li>
+          <li><a href="#fcn_transform_encodercounts">fcn_transform_encoderCounts - Calculates encoder counts given the wheel's velocity</li>
+          <li><a href="#fcn_transform_determinesensor">fcn_Transform_determineSensor - Used for determining snesor type.</li>
+          <li><a href="#fcn_transform_sensorcoordtoenu">fcn_Transform_SensorCoordToENU - Transforms sensor readings from sensor coordinates to ENU coordinates</li>
+          <li><a href="#fcn_transform_enutosensorcoord">fcn_Transform_ENUToSensorCoord - Transforms the coordinates of a point from ENU coordinates to the sesnor's coordinates </li>
         </ul>
       </ul>
     <li><a href="#usage">Usage</a></li>
      <ul>
      <li><a href="#general-usage">General Usage</li>
-     <li><a href="#examples">Examples</li>
-     <li><a href="#definition-of-endpoints">Definition of Endpoints</li>
      </ul>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -69,12 +62,12 @@ Search for this, and you will find!
 
 ***
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+<!-- ABOUT -->
+## About
 
 <!--[![Product Name Screen Shot][product-screenshot]](https://example.com)-->
 
-The purpose of this code is 
+The purpose of this set of functions is to process cartesian data by doing transformations between coordinate systems: ENU coordinates, sensor coordinates, and vehicle-body coordinates, and by calculating wheel velocities and encoder readings. 
 
 <a href="#featureextraction_datatransforms_transformclasslibrary">Back to top</a>
 
@@ -87,18 +80,15 @@ To get a local copy up and running follow these simple steps.
 
 ### Installation
 
-1. Make sure to run MATLAB 2020b or higher. Why? The "digitspattern" command used in the DebugTools utilities was released late 2020 and this is used heavily in the Debug routines. If debugging is shut off, then earlier MATLAB versions will likely work, and this has been tested back to 2018 releases.
-
+1. Make sure to run MATLAB 2020b or higher.
 2. Clone the repo
 
    ```sh
-   git clone https://github.com/ivsg-psu/FeatureExtraction_DataClean_BreakDataIntoLaps
+   git clone https://github.com/ivsg-psu/FeatureExtraction_DataTransforms_TransformClassLibrary
    ```
+3. Confirm it works! Run the test scripts for each function. If the code works, the scripts should run without errors.
 
-3. Run the main code in the root of the folder (script_demo_Laps.m), this will download the required utilities for this code, unzip the zip files into a Utilities folder (.\Utilities), and update the MATLAB path to include the Utility locations. This install process will only occur the first time. Note: to force the install to occur again, delete the Utilities directory and clear all global variables in MATLAB (type: "clear global *").
-4. Confirm it works! Run script_demo_Laps. If the code works, the script should run without errors. This script produces numerous example images such as those in this README file.
-
-<a href="#featureextraction_dataclean_breakdataintolaps">Back to top</a>
+<a href="#featureextraction_datatransforms_transformclasslibrary">Back to top</a>
 
 ***
 
@@ -107,9 +97,9 @@ To get a local copy up and running follow these simple steps.
 
 The following are the top level directories within the repository:
 <ul>
- <li>/Documents folder: Descriptions of the functionality and usage of the various MATLAB functions and scripts in the repository.</li>
- <li>/Functions folder: The majority of the code for the point and patch association functionalities are implemented in this directory. All functions as well as test scripts are provided.</li>
- <li>/Utilities folder: Dependencies that are utilized but not implemented in this repository are placed in the Utilities directory. These can be single files but are most often folders containing other cloned repositories.</li>
+ <li>Functions folder: Contains all functions and their test scripts.</li>
+ <li>Scripts for development folder: Contains scripts used to develop the functions in this repository.</li>
+ <li>Images folder: Contains images used in the README file.</li>
 </ul>
 
 <a href="#featureextraction_datatransforms_transformclasslibrary">Back to top</a>
@@ -118,6 +108,7 @@ The following are the top level directories within the repository:
 
 ### Dependencies
 
+No dependencies 
 
 <a href="#featureextraction_datatransforms_transformclasslibrary">Back to top</a>
 
@@ -125,16 +116,222 @@ The following are the top level directories within the repository:
 
 <!-- FUNCTION DEFINITIONS -->
 ## Functions
+#### **fcn_transform_predictWheelVelocity**
+Usage: </br>
 
-### Basic Support Functions
+    This function predicts the velocity of the two rear wheels of the vehicle.
 
-#### fcn_Laps_plotSegmentZoneDefinition
+Inputs: </br>
 
-<a href="#featureextraction_dataclean_breakdataintolaps">Back to top</a>
+    pos_rear_left: [x,y,z] position of rear left tire in meters. Expected value is [0, d, 0], where d is the distance from middle of rear vehicle axle to middle of wheel.
+
+    pos_rear_right: [x,y,z] position of rear right tire in meters. Expected value is [0, - d, 0], where d is the distance from middle of rear vehicle axle to the middle of wheel.
+
+    chassis_w: angular velocity of vehicle chassis in rad/s; vector; expected input is an array, [w_x, w_y,w_z], where w_x, w_y, and w_z are the components of the chassis' angular velocity.
+
+    chassis_v: linear velocity of vehicle in m/s; vector; expected input is an array, [v_x, v_y, v_z], where v_x, v_y, v_z are components of the chassis' linear velocity.
+            
+Outputs:
+
+    wheel_v_rear_left: velocity of rear left wheel in m/s; vector, [V_x, V_y, V_z], where V_x, V_y, V_z are the components of the linear velocity of the rear left wheel. 
+
+    wheel_v_rear_right: velocity of rear right wheel in m/s; vector, [V_x, V_y, V_z], where V_x, V_y, V_z are the components of the linear velocity of the rear left wheel. 
+      
+Dependencies:
+
+      No dependencies 
+
+Examples:
+
+    See the script: script_test_fcn_transform_predictWheelVelocity
+    for a full test suite.
+
+#### **fcn_transform_encoderCounts**
+Usage: </br>
+
+    This function calculates the number of encoder coutns for each wheel.
+
+Inputs: </br>
+
+      wheel_velocity_rear_left = An array of rear left wheel velocities in m/s.
+                                 Expected input is [v_1,v_2,v_3,...],
+                                 where each velocity corresponds to a
+                                 time step.
+
+      wheel_velocity_rear_right = An array of rear right wheel velocities in m/s.
+                                 Expected input is [v_1,v_2,v_3,...],
+                                 where each velocity corresponds to a
+                                 time step.
+
+      wheel_radius = Radius of wheel in meters.
+
+      initial_counts_rear_left = Initial rear left encoder counts before data
+                                 collection started. [counts]
+
+      initial_counts_rear_right = Initial rear left encoder counts before data
+                                 collection started. [counts]
+
+      delta_time = Encoder time step in seconds.
+
+      counts_per_revolution = Encoder default number of counts per
+                              revolution. [counts/rev.]
+     
+Outputs:
+     
+      discrete_encoder_count_rear_left = An array of the calculated
+                                         discrete encoder counts for the
+                                         rear left wheel encoder. [counts]
+
+      discrete_encoder_count_rear_right = An array of the calculated
+                                         discrete encoder counts for the
+                                         rear right wheel encoder. [counts]
+      
+Dependencies:
+
+     No dependencies 
+
+Examples:
+
+    See the script: script_test_fcn_transform_encoderCounts
+    for a full test suite.
+
+
+#### **fcn_Transform_determineSensor**
+Usage: </br>
+
+    This function determines the sensor based on user inputs. 
+
+INPUTS:
+
+     type_of_sensor: The name of the sensor
+
+
+Outputs:
+
+     sensor: a string listing the data type, one of:
+            'sick', 'velodyne', 'rightGPS', 'leftGPS', 'sensorplatform',
+            'vehicle', 'all'.
+
+     Note: If the sensor is not recognized, it lists 'other'.
+
+Dependencies:
+
+     No dependencies 
+
+Examples:
+
+    See the script: script_test_fcn_Transform_determineSensor
+    for a full test suite.
+
+
+#### **fcn_Transform_SensorCoordToENU**
+Usage: </br>
+
+    This function takes a point in sensor coordinates (sensorReading_SensorCoord),vehicle pose in ENU coordinates, and the sensor string as the inputs and outputs the reading (sensorReading_SensorCoord) in ENU coordinates.
+ 
+Inputs:
+     
+     sensorReading_SensorCoord: Sensor reading in sensor coordinates.
+      
+     vehiclePose_ENU: [x,y,z,roll,pitch,yaw]
+
+       position of the vehicle:
+
+          x: translates the vehicle in the x direction relative to
+          ENU coordinates
+          y: translates the vehicle in the y direction relative to
+          ENU coordinates
+          z: translates the vehicle in the z direction relative to
+          ENU coordinates
+
+       orientation of the vehicle - Follows ISO convention
+
+         roll: rotates the vehicle about its x-axis relative to ENU
+         coordinates (the vehicle's orientation changes relative to
+         the Earth's surface)
+
+         pitch: rotates the vehicle about its y-axis relative to ENU
+         coordinates (the vehicle's orientation changes relative to
+         the Earth's surface)
+
+         yaw: rotates the vehicle about its z-axis relative to ENU
+         coordinates (the vehicle's orientation changes relative to
+         the Earth's surface)
+     
+      sensor: this "sensor" coordinates are transformed into ENU 
+      coordinates
+            
+Outputs:
+     
+     transformed_SensorCoord_in_ENU: the sensor reading from sensor
+     coordinates is transformed into the ENU coordinates
+     
+Dependencies:
+
+     No dependencies
+
+EXAMPLES:
+
+    See the script: script_test_fcn_Transform_SensorCoordToENU
+    for a full test suite.
+
+
+#### **fcn_Transform_ENUToSensorCoord**
+Usage: </br>
+
+    This function takes an ENU point (sensor reading in ENU coordinates), vehicle pose in ENU coordinates, and the sensor string as the inputs and outputs the ENU point's reading (sensorReading_ENU) in sensor coordinates.
+
+Inputs:
+     
+     sensorReading_ENU: Sensor reading in ENU coordinates.
+      
+     vehiclePose_ENU: [x,y,z,roll,pitch,yaw]
+
+       position of the vehicle:
+
+          x: translates the vehicle in the x direction relative to
+          ENU coordinates
+          y: translates the vehicle in the y direction relative to
+          ENU coordinates
+          z: translates the vehicle in the z direction relative to
+          ENU coordinates
+
+       orientation of the vehicle - Follows ISO convention
+
+         roll: rotates the vehicle about its x-axis relative to ENU
+         coordinates (the vehicle's orientation changes relative to
+         the Earth's surface)
+
+         pitch: rotates the vehicle about its y-axis relative to ENU
+         coordinates (the vehicle's orientation changes relative to
+         the Earth's surface)
+
+         yaw: rotates the vehicle about its z-axis relative to ENU
+         coordinates (the vehicle's orientation changes relative to
+         the Earth's surface)
+     
+     sensor: ENU coordinates are transformed to this "sensor"
+             coordinates
+            
+Outputs:
+     
+     transformed_ENUPoint_in_SensorCoord: the sensor reading from ENU
+     coordinates is transformed into the corresponding sensor
+     coordinates. 
+
+Dependencies:
+
+     No dependencies
+
+Examples:
+
+    See the script: script_test_fcn_Transform_ENUToSensorCoord
+    for a full test suite.
+
+
+<a href="#featureextraction_datatransforms_transformclasslibrary">Back to top</a>
 
 ***
-
-### Core Functions
 
 
 <!-- USAGE EXAMPLES -->
@@ -161,30 +358,9 @@ help fcn_fcnname
 
 for any function to view function details.
 
-<a href="#featureextraction_dataclean_breakdataintolaps">Back to top</a>
+<a href="#featureextraction_datatransforms_transformclasslibrary">Back to top</a>
 
 ***
-
-### Examples
-
-1. Run the main script to set up the workspace and demonstrate main outputs, including the figures included here:
-
-   ```sh
-   script_demo_Laps
-   ```
-
-    This exercises the main function of this code: fcn_Laps_breakDataIntoLaps
-
-2. After running the main script to define the included directories for utility functions, one can then navigate to the Functions directory and run any of the functions or scripts there as well. All functions for this library are found in the Functions sub-folder, and each has an associated test script. Run any of the various test scripts, such as:
-
-   ```sh
-   script_test_fcn_Laps_breakDataIntoLapIndices
-   ```
-
-<a href="#featureextraction_dataclean_breakdataintolaps">Back to top</a>
-
-***
-
 <!-- LICENSE -->
 ## License
 
@@ -207,7 +383,7 @@ This code is still in development (alpha testing)
 
 Sean Brennan - sbrennan@psu.edu
 
-Project Link: [hhttps://github.com/ivsg-psu/FeatureExtraction_DataClean_BreakDataIntoLaps](https://github.com/ivsg-psu/FeatureExtraction_DataClean_BreakDataIntoLaps)
+Project Link: [https://github.com/ivsg-psu/FeatureExtraction_DataTransforms_TransformClassLibrary](https://github.com/ivsg-psu/FeatureExtraction_DataTransforms_TransformClassLibrary)
 
 <a href="#featureextraction_datatransforms_transformclasslibrary">Back to top</a>
 
