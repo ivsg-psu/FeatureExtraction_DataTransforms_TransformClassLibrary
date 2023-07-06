@@ -6,6 +6,8 @@ close all
 %% Revision History
 %6/27/2023 -- Mariam Abdellatief
 % -- Wrote code originally
+%7/6/2023 -- Mariam Abdellatief
+% -- Added more test cases 
 
 %% Assertions / Testing outputs
 
@@ -104,6 +106,22 @@ expected_values.wheel_v_rear_left = [-31 11 11];
 expected_values.wheel_v_rear_right = [21 11 3];
 assert(isequal(predicted_values.wheel_v_rear_left,expected_values.wheel_v_rear_left));
 assert(isequal(predicted_values.wheel_v_rear_right,expected_values.wheel_v_rear_right));
+
+%% Case: Input velocities are 3x3 
+if 1 == 0
+    % will give a warning because slide and bounce are large
+    % WARNING: For this case to run, turn off the input checks in the function
+    fprintf(1,'Testing complex case with 3x3 velocities \n')
+    pos_rear_left = [[0,2,0];[0,2,0]]; % Note that the position has to be of the same size as the angular velocity
+    pos_rear_right = [[0,-2,0];[0,-2,0]]; % Note that the position has to be of the same size as the angular velocity
+    chassis_w = [[2,3,13];[21,11,7]];
+    chassis_v = [[-5,11,7];[0,5,0]];
+    predicted_values = fcn_transform_predictWheelVelocity(pos_rear_left,pos_rear_right,chassis_w,chassis_v);
+    expected_values.wheel_v_rear_left = [[-31 11 11];[-14 5 42]];
+    expected_values.wheel_v_rear_right = [[21 11 3];[14 5 -42]];
+    assert(isequal(predicted_values.wheel_v_rear_left,expected_values.wheel_v_rear_left));
+    assert(isequal(predicted_values.wheel_v_rear_right,expected_values.wheel_v_rear_right));
+end 
 
 %% Error throws
 if 1 == 0 
