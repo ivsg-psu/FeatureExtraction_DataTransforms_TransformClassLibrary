@@ -8,6 +8,7 @@ function predicted_values = fcn_transform_predictWheelVelocity(pos_rear_left,pos
 %
 % INPUTS:
 %
+%
 %       pos_rear_left: [x,y,z] position of rear left tire in meters. Expected value is
 %                      [0, d, 0], where d is the distance from middle of rear vehicle axle to
 %                      middle of tire
@@ -64,13 +65,14 @@ end
 %Check if inputs are arrays
 arguments_list = {pos_rear_left,pos_rear_right,chassis_w,chassis_v};
 for i = 1:numel(arguments_list)
-    if ~isnumeric(arguments_list{i}) || ~isequal(size(arguments_list{i}), [1 3])
+    x = size(chassis_v,1);
+    if ~isnumeric(arguments_list{i}) || ~isequal(size(arguments_list{i}), [x 3])
         error('One or more input arguments are not valid 1x3 arrays or is non-numeric.');      
     end
 end 
 
 %Check if the x and z components of wheel position is non-zero
-if pos_rear_left(1)~=0 || pos_rear_left(3)~=0 || pos_rear_right(1)~=0 || pos_rear_right(3)~=0
+if pos_rear_left(1,1)~=0 || pos_rear_left(1,3)~=0 || pos_rear_right(1,1)~=0 || pos_rear_right(1,3)~=0
     error("Wheel position components are expected to be zero in x and z.");
 end
 
