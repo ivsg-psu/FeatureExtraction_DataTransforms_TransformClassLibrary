@@ -316,7 +316,7 @@ Myaw = makehgtform('zrotate',yaw*pi/180);
 
 % First, translate the vehicle along x, y, and z
 % Next, rotate the vehicle based on yaw, pitch and roll 
-% The vehicle is rotated based on the convention
+% The vehicle is rotated based on the ISO convention
 set(handles.transform_ground_to_body,'Matrix',Mtranslate_vehicle*Myaw*Mpitch*Mroll);
 
 %% Plot the sensorReading_ENU in the ENU coordinates
