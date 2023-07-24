@@ -5,6 +5,24 @@ function transformed_ENUPoint_in_SensorCoord = fcn_Transform_ENUToSensorCoord(se
 % vehicle pose in ENU coordinates, and the sensor string as the inputs and
 % outputs the ENU point's reading (sensorReading_ENU) in sensor coordinates
 %
+% METHOD: 
+%
+% Step 1: The vehicle and sensors are created in the shapes of cubes.
+%
+% Step 2: If there are any perturbations in the position or orientation of
+%         the sensors, they are added to the sensors before moving them to
+%         the correct locations
+%
+% Step 3: Move the sensors to the corresponding locations by incorporating
+%         the perturbations
+%
+% Step 4: Set the pose of the vehicle based on the vehiclePose_ENU
+%        (input)
+%
+% Step 5: Find the transformed Point by multiplying the transformation
+%         matrices 
+%
+%
 % ASSUMPTIONS:
 %
 % 1) The dimension data and the location data of the vehicle and the  

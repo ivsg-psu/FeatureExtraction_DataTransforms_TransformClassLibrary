@@ -5,6 +5,37 @@ function transformed_SensorCoord_in_ENU = fcn_Transform_SensorCoordToENU(sensorR
 % vehicle pose in ENU coordinates, and the sensor string as the inputs and
 % outputs the reading (sensorReading_SensorCoord) in ENU coordinates
 %
+% METHOD: 
+%
+% Step 1: The vehicle and sensors are created in the shapes of cubes.
+%
+% Step 2: If there are any perturbations in the position or orientation of
+%         the sensors, they are added to the sensors before moving them to
+%         the correct locations
+%
+% Step 3: Move the sensors to the corresponding locations by incorporating
+%         the perturbations
+%
+% Step 4: Set the pose of the vehicle based on the vehiclePose_ENU
+%        (input)
+%
+% Step 5: Find the transformed Point by multiplying the transformation
+%         matrices 
+%
+%
+% ASSUMPTIONS:
+%
+% 1) The dimension data and the location data of the vehicle and the  
+%    sensors are assumed in the current function. Need to change the data
+%    according to the correct information later. 
+%
+% 2) All the sensors are offsetted to their correct locations relative to
+%    the sensor platform
+%
+% 3) The sensor platform is assumed to be located at the correct location
+%    without any perturbation
+%
+%
 % FORMAT:
 %
 %    transformed_SensorCoord_in_ENU = fcn_Transform_SensorCoordToENU(sensorReading_SensorCoord, vehiclePose_ENU, sensor)
@@ -457,11 +488,11 @@ Myaw = makehgtform('zrotate',yaw*pi/180);
 set(handles.transform_ground_to_body,'Matrix',Mtranslate_vehicle*Myaw*Mpitch*Mroll);
 
 
-%% Determine the sensor 
-
-% This function determines the sensor type. The detailed description of the
-% fucntion can be found in the function "fcn_Transform_determineSensor"
-sensor_string = fcn_Transform_determineSensor(sensor);
+% %% Determine the sensor 
+% 
+% % This function determines the sensor type. The detailed description of the
+% % fucntion can be found in the function "fcn_Transform_determineSensor"
+% sensor_string = fcn_Transform_determineSensor(sensor);
 
 %% Find the transformed_ENUPoint_in_SensorCoord
 
