@@ -1,4 +1,4 @@
-function transformed_SensorCoord_in_ENU = fcn_Transform_SensorCoordToENU(sensorReading_SensorCoord, vehiclePose_ENU, sensor)
+function transformed_SensorCoord_in_ENU = fcn_Transform_SensorCoordToENU(sensorReading_SensorCoord, vehiclePose_ENU, sensor, varargin)
 % fcn_Transform_SensorCoordToglobalCoord
 %
 % This function takes a point in sensor coordinates (sensorReading_SensorCoord),
@@ -42,9 +42,34 @@ function transformed_SensorCoord_in_ENU = fcn_Transform_SensorCoordToENU(sensorR
 %       coordinates
 %             
 %
-%      (OPTIONAL INPUTS)
-%       
+% (OPTIONAL INPUTS)
 %
+%     perturbation_sensor: [x_Perturbation,y_Perturbation,z_Perturbation,
+%                   roll_Perturbation,pitch_Perturbation,yaw_Perturbation]
+%
+%        Perturbation in the position of the vehicle:
+% 
+%           x_Perturbation: This is the perturbation of the sensor in the x
+%           direction, in cm, relative to the sensor platform coordinates.
+%
+%           y_Perturbation: This is the perturbation of the sensor in the y
+%           direction, in cm, relative to the sensor platform coordinates.
+%
+%           z_Perturbation: This is the perturbation of the sensor in the z
+%           direction, in cm, relative to the sensor platform coordinates.
+% 
+%        Perturbation IN THE orientation of the vehicle - Follows ISO 
+%        convention
+% 
+%          roll_Perturbation: The perturbation of the sensor orientation 
+%          about its x-axis 
+%
+%          pitch_Perturbation: The perturbation of the sensor orientation 
+%          about its y-axis 
+%
+%          yaw_Perturbation: The perturbation of the sensor orientation 
+%          about its z-axis 
+% 
 % OUTPUTS:
 %      
 %      transformed_SensorCoord_in_ENU: the sensor reading from sensor
@@ -72,7 +97,9 @@ function transformed_SensorCoord_in_ENU = fcn_Transform_SensorCoordToENU(sensorR
 % entered sensor type. 
 % 2023_06_29: Aneesh Batchu
 % -- added vehiclePose_ENU as the input to change the pose of the vehicle.
-
+% 2023_07_24: Aneesh Batchu
+% -- added perturbation to the sensor psotion and orientation as the
+% optional inputs
 
 % TO DO
 % 
@@ -102,12 +129,16 @@ end
 
 if flag_check_inputs
     % Are there the right number of inputs?
-    if nargin < 3 || nargin > 3
-        error('Incorrect number of input arguments')
-    end
-        
-    % NOTE: zone types are checked below
+    narginchk(3,4);
 
+end
+
+perturbation_in_sensorPose_relative_to_SensorPlatform = [0, 0, 0, 0, 0, 0];
+if 3 < nargin
+    temp = varargin{end};
+    if ~isempty(temp)
+        perturbation_in_sensorPose_relative_to_SensorPlatform = temp; 
+    end
 end
 
 %% Main code starts here
@@ -235,6 +266,110 @@ lidar_velodyne_box_points = fcn_INTERNAL_fillCube(length,width,height,offset_len
 lidar_velodyne_plot_handles = fcn_INTERNAL_plotCube(lidar_velodyne_box_points);
 set(lidar_velodyne_plot_handles,'Parent',handles.transform_sensorplatform_to_velodyneLIDAR);
 
+%% If there is any perturbation, add it to the sensor position and orientation before moving the items to their correct locations 
+
+
+% Determine the sensor
+
+% This function determines the sensor type. The detailed description of the
+% fucntion can be found in the function "fcn_Transform_determineSensor"
+sensor_string = fcn_Transform_determineSensor(sensor);
+
+
+switch lower(sensor_string)
+
+    case 'vehicle'
+
+        % fprintf(fileID,'\n The perturbation cannot be given to the vehicle. Choose any type of sensor. \n');
+        
+        sicklidar_perturbation = [0, 0, 0, 0, 0, 0];
+        leftgps_perturbation = [0, 0, 0, 0, 0, 0];
+        rightgps_perturbation = [0, 0, 0, 0, 0, 0];
+        velodynelidar_perturbation = [0, 0, 0, 0, 0, 0];
+
+    case 'sensorplatform'
+
+        % fprintf(fileID,'\n The perturbation cannot be given to the sensor platform. Choose any type of sensor. \n');
+
+        sicklidar_perturbation = [0, 0, 0, 0, 0, 0];
+        leftgps_perturbation = [0, 0, 0, 0, 0, 0];
+        rightgps_perturbation = [0, 0, 0, 0, 0, 0];
+        velodynelidar_perturbation = [0, 0, 0, 0, 0, 0];
+
+    case 'sicklidar'
+        
+        % The perturbation values of sick lidar
+
+        % sicklidar_perturbation_x = perturbation_in_sensorPose_relative_to_SensorPlatform(1); % Centimeters
+        % sicklidar_perturbation_y = perturbation_in_sensorPose_relative_to_SensorPlatform(2); % Centimeters
+        % sicklidar_perturbation_z = perturbation_in_sensorPose_relative_to_SensorPlatform(3); % Centimeters
+        % sicklidar_perturbation_roll = perturbation_in_sensorPose_relative_to_SensorPlatform(4); % Degrees
+        % sicklidar_perturbation_pitch = perturbation_in_sensorPose_relative_to_SensorPlatform(5); % Degrees
+        % sicklidar_perturbation_yaw = perturbation_in_sensorPose_relative_to_SensorPlatform(6); % Degrees
+
+        sicklidar_perturbation = perturbation_in_sensorPose_relative_to_SensorPlatform;
+        leftgps_perturbation = [0, 0, 0, 0, 0, 0];
+        rightgps_perturbation = [0, 0, 0, 0, 0, 0];
+        velodynelidar_perturbation = [0, 0, 0, 0, 0, 0];
+
+    case 'leftgps'
+        
+        % The perturbation values of left GPS
+
+        % leftgps_perturbation_x = perturbation_in_sensorPose_relative_to_SensorPlatform(1); % Centimeters
+        % leftgps_perturbation_y = perturbation_in_sensorPose_relative_to_SensorPlatform(2); % Centimeters
+        % leftgps_perturbation_z = perturbation_in_sensorPose_relative_to_SensorPlatform(3); % Centimeters
+        % leftgps_perturbation_roll = perturbation_in_sensorPose_relative_to_SensorPlatform(4); % Degrees
+        % leftgps_perturbation_pitch = perturbation_in_sensorPose_relative_to_SensorPlatform(5); % Degrees
+        % leftgps_perturbation_yaw = perturbation_in_sensorPose_relative_to_SensorPlatform(6); % Degrees
+
+        sicklidar_perturbation = [0, 0, 0, 0, 0, 0];
+        leftgps_perturbation = perturbation_in_sensorPose_relative_to_SensorPlatform;
+        rightgps_perturbation = [0, 0, 0, 0, 0, 0];
+        velodynelidar_perturbation = [0, 0, 0, 0, 0, 0];
+        
+    case 'rightgps'
+
+        % The perturbation values of right GPS
+
+        % rightgps_perturbation_x = perturbation_in_sensorPose_relative_to_SensorPlatform(1); % Centimeters
+        % rightgps_perturbation_y = perturbation_in_sensorPose_relative_to_SensorPlatform(2); % Centimeters
+        % rightgps_perturbation_z = perturbation_in_sensorPose_relative_to_SensorPlatform(3); % Centimeters
+        % rightgps_perturbation_roll = perturbation_in_sensorPose_relative_to_SensorPlatform(4); % Degrees
+        % rightgps_perturbation_pitch = perturbation_in_sensorPose_relative_to_SensorPlatform(5); % Degrees
+        % rightgps_perturbation_yaw = perturbation_in_sensorPose_relative_to_SensorPlatform(6); % Degrees
+
+        sicklidar_perturbation = [0, 0, 0, 0, 0, 0];
+        leftgps_perturbation = [0, 0, 0, 0, 0, 0];
+        rightgps_perturbation = perturbation_in_sensorPose_relative_to_SensorPlatform;
+        velodynelidar_perturbation = [0, 0, 0, 0, 0, 0];
+        
+    case 'velodynelidar'
+
+        % The perturbation values of velodyne lidar
+
+        % velodynelidar_perturbation_x = perturbation_in_sensorPose_relative_to_SensorPlatform(1); % Centimeters
+        % velodynelidar_perturbation_y = perturbation_in_sensorPose_relative_to_SensorPlatform(2); % Centimeters
+        % velodynelidar_perturbation_z = perturbation_in_sensorPose_relative_to_SensorPlatform(3); % Centimeters
+        % velodynelidar_perturbation_roll = perturbation_in_sensorPose_relative_to_SensorPlatform(4); % Degrees
+        % velodynelidar_perturbation_pitch = perturbation_in_sensorPose_relative_to_SensorPlatform(5); % Degrees
+        % velodynelidar_perturbation_yaw = perturbation_in_sensorPose_relative_to_SensorPlatform(6); % Degrees
+
+        sicklidar_perturbation = [0, 0, 0, 0, 0, 0];
+        leftgps_perturbation = [0, 0, 0, 0, 0, 0];
+        rightgps_perturbation = [0, 0, 0, 0, 0, 0];
+        velodynelidar_perturbation = perturbation_in_sensorPose_relative_to_SensorPlatform;
+
+    case 'other'
+
+        fprintf(fileID, "The sensor type is not defined yet. The sensor type will be updated soon. \n");
+
+    otherwise
+
+        error('Unrecognized sensor type requested: %s',sensor);
+
+end
+
 
 %% Now, start moving items to their correct locations
 
@@ -248,49 +383,54 @@ set(handles.transform_body_to_sensorplatform,'Matrix',Mtransform_sensorplatform_
 
 
 % Move the SICK LIDAR to its correct location
-lidar_sick_offset_x_relative_to_sensorplatform = -0.4; % Meters - GUESS!!
-lidar_sick_offset_y_relative_to_sensorplatform =  0; % Meters - GUESS!!
-lidar_sick_offset_z_relative_to_sensorplatform = -0.1; % Meters - GUESS!!
+lidar_sick_offset_x_relative_to_sensorplatform = -0.4 + sicklidar_perturbation(1)*(1/100); % Meters - GUESS!!
+lidar_sick_offset_y_relative_to_sensorplatform =  0 + sicklidar_perturbation(2)*(1/100); % Meters - GUESS!!
+lidar_sick_offset_z_relative_to_sensorplatform = -0.1 + sicklidar_perturbation(3)*(1/100); % Meters - GUESS!!
 
-sicklidar_perturbation_zrotate = 0;
-sicklidar_perturbation_xrotate = 0;
 
 Mtransform_sicklidar_translate = makehgtform('translate',[lidar_sick_offset_x_relative_to_sensorplatform, lidar_sick_offset_y_relative_to_sensorplatform, lidar_sick_offset_z_relative_to_sensorplatform]);
-Mtransform_sicklidar_zrotate = makehgtform('zrotate',sicklidar_perturbation_zrotate*pi/180);
-Mtransform_sicklidar_yrotate = makehgtform('yrotate',90*pi/180);
-Mtransform_sicklidar_xrotate = makehgtform('xrotate',sicklidar_perturbation_xrotate*pi/180);
+Mtransform_sicklidar_zrotate = makehgtform('zrotate',sicklidar_perturbation(6)*pi/180);
+Mtransform_sicklidar_yrotate = makehgtform('yrotate',(90+sicklidar_perturbation(5))*pi/180);
+Mtransform_sicklidar_xrotate = makehgtform('xrotate',sicklidar_perturbation(4)*pi/180);
 
 set(handles.transform_sensorplatform_to_LIDAR,'Matrix',Mtransform_sicklidar_translate*Mtransform_sicklidar_zrotate*Mtransform_sicklidar_yrotate*Mtransform_sicklidar_xrotate);
 
 % Move the LEFT GPS to its correct location
-gps_left_offset_x_relative_to_sensorplatform =  0.3; % Meters - GUESS!!
-gps_left_offset_y_relative_to_sensorplatform =  30*(1/12)*(1/3.281); % Meters - GUESS!!
-gps_left_offset_z_relative_to_sensorplatform =  0.5; % Meters - GUESS!!
+gps_left_offset_x_relative_to_sensorplatform =  0.3 + leftgps_perturbation(1)*(1/100); % Meters - GUESS!!
+gps_left_offset_y_relative_to_sensorplatform =  30*(1/12)*(1/3.281) + leftgps_perturbation(2)*(1/100); % Meters - GUESS!!
+gps_left_offset_z_relative_to_sensorplatform =  0.5 + leftgps_perturbation(3)*(1/100); % Meters - GUESS!!
 
 Mtransform_leftgps_translate = makehgtform('translate',[gps_left_offset_x_relative_to_sensorplatform gps_left_offset_y_relative_to_sensorplatform gps_left_offset_z_relative_to_sensorplatform]);
-set(handles.transform_sensorplatform_to_leftGPS,'Matrix',Mtransform_leftgps_translate);
+Mtransform_leftgps_zrotate = makehgtform('zrotate',leftgps_perturbation(6)*pi/180);
+Mtransform_leftgps_yrotate = makehgtform('yrotate',leftgps_perturbation(5)*pi/180);
+Mtransform_leftgps_xrotate = makehgtform('xrotate',leftgps_perturbation(4)*pi/180);
+
+set(handles.transform_sensorplatform_to_leftGPS,'Matrix',Mtransform_leftgps_translate*Mtransform_leftgps_zrotate*Mtransform_leftgps_yrotate*Mtransform_leftgps_xrotate);
 
 
 % Move the RIGHT GPS to its correct location
-gps_right_offset_x_relative_to_sensorplatform =  0.3; % Meters - GUESS!!
-gps_right_offset_y_relative_to_sensorplatform =  -30*(1/12)*(1/3.281); % Meters - GUESS!!
-gps_right_offset_z_relative_to_sensorplatform =  0.5; % Meters - GUESS!!
+gps_right_offset_x_relative_to_sensorplatform =  0.3 + rightgps_perturbation(1)*(1/100); % Meters - GUESS!!
+gps_right_offset_y_relative_to_sensorplatform =  -30*(1/12)*(1/3.281) + rightgps_perturbation(2)*(1/100); % Meters - GUESS!!
+gps_right_offset_z_relative_to_sensorplatform =  0.5 + rightgps_perturbation(3)*(1/100); % Meters - GUESS!!
 
 Mtransform_rightgps_translate = makehgtform('translate',[gps_right_offset_x_relative_to_sensorplatform gps_right_offset_y_relative_to_sensorplatform gps_right_offset_z_relative_to_sensorplatform]);
-set(handles.transform_sensorplatform_to_rightGPS,'Matrix',Mtransform_rightgps_translate);
+Mtransform_rightgps_zrotate = makehgtform('zrotate',rightgps_perturbation(6)*pi/180);
+Mtransform_rightgps_yrotate = makehgtform('yrotate',rightgps_perturbation(5)*pi/180);
+Mtransform_rightgps_xrotate = makehgtform('xrotate',rightgps_perturbation(4)*pi/180);
+
+set(handles.transform_sensorplatform_to_rightGPS,'Matrix',Mtransform_rightgps_translate*Mtransform_rightgps_zrotate*Mtransform_rightgps_yrotate*Mtransform_rightgps_xrotate);
 
 
 % Move the VELODYNE LIDAR to its correct location
-lidar_velodyne_offset_x_relative_to_sensorplatform = -1.0; % Meters - GUESS!!
-lidar_velodyne_offset_y_relative_to_sensorplatform =  0; % Meters - GUESS!!
-lidar_velodyne_offset_z_relative_to_sensorplatform = 0.4; % Meters - GUESS!!
+lidar_velodyne_offset_x_relative_to_sensorplatform = -1.0 + velodynelidar_perturbation(1)*(1/100); % Meters - GUESS!!
+lidar_velodyne_offset_y_relative_to_sensorplatform =  0 + velodynelidar_perturbation(2)*(1/100); % Meters - GUESS!!
+lidar_velodyne_offset_z_relative_to_sensorplatform = 0.4 + velodynelidar_perturbation(3)*(1/100); % Meters - GUESS!!
 
-velodyne_perturbation_yrotate = 0;
 
 Mtransform_velodynelidar_translate = makehgtform('translate',[lidar_velodyne_offset_x_relative_to_sensorplatform, lidar_velodyne_offset_y_relative_to_sensorplatform, lidar_velodyne_offset_z_relative_to_sensorplatform]);
-Mtransform_velodynelidar_zrotate = makehgtform('zrotate',90*pi/180);
-Mtransform_velodynelidar_yrotate = makehgtform('yrotate',velodyne_perturbation_yrotate*pi/180);
-Mtransform_velodynelidar_xrotate = makehgtform('xrotate',-36*pi/180);
+Mtransform_velodynelidar_zrotate = makehgtform('zrotate',(90 + velodynelidar_perturbation(6))*pi/180);
+Mtransform_velodynelidar_yrotate = makehgtform('yrotate',velodynelidar_perturbation(5)*pi/180);
+Mtransform_velodynelidar_xrotate = makehgtform('xrotate',(-36 + velodynelidar_perturbation(4))*pi/180);
 
 set(handles.transform_sensorplatform_to_velodyneLIDAR,'Matrix',Mtransform_velodynelidar_translate*Mtransform_velodynelidar_zrotate*Mtransform_velodynelidar_yrotate*Mtransform_velodynelidar_xrotate);
 

@@ -54,7 +54,7 @@ function transformed_ENUPoint_in_SensorCoord = fcn_Transform_ENUToSensorCoord(se
 %              coordinates
 %             
 % 
-%      (OPTIONAL INPUTS)
+% (OPTIONAL INPUTS)
 %
 %     perturbation_sensor: [x_Perturbation,y_Perturbation,z_Perturbation,
 %                   roll_Perturbation,pitch_Perturbation,yaw_Perturbation]
@@ -450,7 +450,6 @@ Mtransform_velodynelidar_yrotate = makehgtform('yrotate',velodynelidar_perturbat
 Mtransform_velodynelidar_xrotate = makehgtform('xrotate',(-36 + velodynelidar_perturbation(4))*pi/180);
 
 set(handles.transform_sensorplatform_to_velodyneLIDAR,'Matrix',Mtransform_velodynelidar_translate*Mtransform_velodynelidar_zrotate*Mtransform_velodynelidar_yrotate*Mtransform_velodynelidar_xrotate);
-
 
 %% Set the pose of the vehicle in ENU coordinates
 
