@@ -4,6 +4,9 @@
 % Revision history
 % 2023_06_29 - Aneesh Batchu
 % -- wrote the code originally
+% 2023_07_23 - Aneesh Batchu
+% -- added cases for the sensors with perturbation in their position and
+% orientation
 
 %% Set up the workspace
 close all
@@ -1695,6 +1698,97 @@ transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading
 expected_transformed_ENUPoint_in_dashCoord = [12.4, 1.5, -3];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Sick Lidar with perturbations - Case 19 
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into sick lidar coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,0,0,0,0,0];
+
+% The vehicle's position is at the origin and the orientation of the
+% vehicle is also zero which implies -- roll, pitch and yaw are zero
+%
+% Since we know the offset position of the sick lidar from the sensor 
+% platform and how it is oriented, the expected answer of the transformed
+% sensorReading_ENU in sick lidar coordinates will be [1.5, 0, 0.4]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'sickLidar';  
+
+% Perturbation in the position and orientation of the sick lidar in cm
+perturbation_of_sickLidar = [100, 0, 0, 0, 0, 0];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord, perturbation_of_sickLidar);
+expected_transformed_ENUPoint_in_dashCoord = [1.5, 0, 0.4];
+
+assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
+
+%% Sick Lidar with perturbations - Case 20
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into sick lidar coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,0,0,0,0,0];
+
+% The vehicle's position is at the origin and the orientation of the
+% vehicle is also zero which implies -- roll, pitch and yaw are zero
+%
+% Since we know the offset position of the sick lidar from the sensor 
+% platform and how it is oriented, the expected answer of the transformed
+% sensorReading_ENU in sick lidar coordinates will be [1.7, -0.05, 0.4]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'sickLidar';  
+
+% Perturbation in the position and orientation of the sick lidar in cm
+perturbation_of_sickLidar = [100, 5, 20, 0, 0, 0];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord, perturbation_of_sickLidar);
+expected_transformed_ENUPoint_in_dashCoord = [1.7, -0.05, 0.4];
+
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,6), round(expected_transformed_ENUPoint_in_dashCoord,6)));
+
+%% Sick Lidar with perturbations - Case 21
+
+% In this case, we are transforming the sensorReading_ENU (in ENU
+% coordinates) into sick lidar coordinates.
+
+
+% A point in ENU coordinates. In this case, the point is in origin
+sensorReading_ENU = [0, 0, 0];
+
+% vehiclePose_ENU = [x,y,z,roll,pitch,yaw]
+vehiclePose_ENU = [0,0,0,0,0,0];
+
+% The vehicle's position is at the origin and the orientation of the
+% vehicle is also zero which implies -- roll, pitch and yaw are zero
+%
+% Since we know the offset position of the sick lidar from the sensor 
+% platform and how it is oriented, the expected answer of the transformed
+% sensorReading_ENU in sick lidar coordinates will be [1.4, 0, -1.5]
+
+% Transforms sensorReading_ENU into this coordinates
+in_dashCoord = 'sickLidar';  
+
+% Perturbation in the position and orientation of the sick lidar, in cm,
+% relative to sensor platform. 
+perturbation_of_sickLidar = [0, 0, 0, 0, -90, 0];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord, perturbation_of_sickLidar);
+expected_transformed_ENUPoint_in_dashCoord = [1.4, 0, -1.5];
+
+assert(isequal(round(transformed_ENUPoint_in_dashCoord,6), round(expected_transformed_ENUPoint_in_dashCoord,6)));
 
 %% The following cases were written to test the accuracy of velodyne lidar coordinates 
 
