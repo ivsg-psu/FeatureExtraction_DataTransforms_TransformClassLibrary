@@ -28,6 +28,26 @@ clc
 
 % when a point(sensorReading_SensorCoord) in vehicle coordinates is 
 % transformed to ENU coordinates
+%% Test
+
+clc
+close all
+
+x = XYI{1, 1}(1,:);
+y = XYI{1, 1}(2,:);
+
+
+zers = zeros([size(x,2) 1]);
+
+
+sensorReading_SensorCoord = [x', y', zers];
+vehiclePose_ENU = zeros(804,6);
+sensor_or_vehicle = 'sickLidar';
+
+transformed_SensorCoord_in_ENU = fcn_Transform_SensorCoordToENU(vehicleParameters, sensorPoseParameters, sensor_or_vehicle, vehiclePose_ENU, sensorReading_SensorCoord, [], []);
+
+
+
 
 %% Vehicle Coordinates - Case 1
 

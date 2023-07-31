@@ -7,6 +7,9 @@ function transform_Matrix = fcn_Transform_determineTransformMatrix(vehicleParame
 % outputs a transform matrix, which is later used to transform the sensor
 % coordinates to ENU coordinates, and ENU coordinates to sensor coordinates
 %
+% NOTE: The vehicle and sensor pose parameters can be loaded from
+% Example_vehicleParameters_Struct
+%
 % METHOD (with the plots included): 
 %
 % Step 1: Assign the parameters to the vehicle and the sensors
@@ -299,85 +302,172 @@ Mtransform_Lidar_Velodyne_Rear_zrotate = makehgtform('zrotate',(sensorPoseParame
 Mtransform_Lidar_Velodyne_Rear_yrotate = makehgtform('yrotate',(sensorPoseParameters.Lidar_Velodyne_Rear.pitch_relative_to_own_axis + sensorPose_Perturbation.Lidar_Velodyne_Rear(5)) * pi/180);
 Mtransform_Lidar_Velodyne_Rear_xrotate = makehgtform('xrotate',(sensorPoseParameters.Lidar_Velodyne_Rear.roll_relative_to_own_axis + sensorPose_Perturbation.Lidar_Velodyne_Rear(4)) * pi/180);
 
-%% Set the pose of the vehicle in ENU coordinates
+%% Set the pose of the vehicle in ENU coordinates and Find the transform matrix
 
 
 % First, translate the vehicle along x, y, and z
 % Next, rotate the vehicle based on yaw, pitch and roll 
 % The vehicle is rotated based on the ISO convention
 
-Vehicle_x_relative_to_ENUCoord = vehiclePose_ENU(1);
-Vehicle_y_relative_to_ENUCoord = vehiclePose_ENU(2);
-Vehicle_z_relative_to_ENUCoord = vehiclePose_ENU(3);
-Vehicle_roll_relative_to_own_axis = -vehiclePose_ENU(4);
-Vehicle_pitch_relative_to_own_axis = vehiclePose_ENU(5);
-Vehicle_yaw_relative_to_own_axis = vehiclePose_ENU(6);
+Nrows = size(vehiclePose_ENU,1);
+transform_Matrix = zeros(4,4,Nrows);
+% IdenMat = eye(4);
+
+for i = 1:Nrows
+
+    Vehicle_x_relative_to_ENUCoord = vehiclePose_ENU(i,1);
+    Vehicle_y_relative_to_ENUCoord = vehiclePose_ENU(i,2);
+    Vehicle_z_relative_to_ENUCoord = vehiclePose_ENU(i,3);
+    Vehicle_roll_relative_to_own_axis = -vehiclePose_ENU(i,4);
+    Vehicle_pitch_relative_to_own_axis = vehiclePose_ENU(i,5);
+    Vehicle_yaw_relative_to_own_axis = vehiclePose_ENU(i,6);
+
+    % Transform matrices to move the Vehicle in ENU based on vehiclePose_ENU
+
+    % Mtransform_Vehicle_translate = IdenMat;
+    % Mtransform_Vehicle_translate(1:3,4) = [Vehicle_x_relative_to_ENUCoord Vehicle_y_relative_to_ENUCoord Vehicle_z_relative_to_ENUCoord];
+    % Mtransform_Vehicle_zrotate = IdenMat; 
+    % Mtransform_Vehicle_zrotate(1:2,1:2) = [cos(Vehicle_yaw_relative_to_own_axis)]
+
+    Mtransform_Vehicle_translate = makehgtform('translate', [Vehicle_x_relative_to_ENUCoord Vehicle_y_relative_to_ENUCoord Vehicle_z_relative_to_ENUCoord]);
+    Mtransform_Vehicle_zrotate = makehgtform('zrotate',Vehicle_yaw_relative_to_own_axis*pi/180);
+    Mtransform_Vehicle_yrotate = makehgtform('yrotate',Vehicle_pitch_relative_to_own_axis*pi/180);
+    Mtransform_Vehicle_xrotate = makehgtform('xrotate',Vehicle_roll_relative_to_own_axis*pi/180);
+
+    transform_Matrix_vehicleCase = Mtransform_Vehicle_translate*Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate;
+
+    % Find the transform matrix
+
+    sensor_or_vehicle_string = fcn_Transform_determineSensorTypeOrVehicle(sensor_or_vehicle);
+
+    switch lower(sensor_or_vehicle_string)
+
+        case 'vehicle'
+
+            transform_Matrix(:,:,i) = transform_Matrix_vehicleCase;
+
+        case 'sensorplatform'
+
+            transform_Matrix(:,:,i) = Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+                Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
+                transform_Matrix_vehicleCase;
 
 
-% Transform matrices to move the Vehicle in ENU based on vehiclePose_ENU
-Mtransform_Vehicle_translate = makehgtform('translate', [Vehicle_x_relative_to_ENUCoord Vehicle_y_relative_to_ENUCoord Vehicle_z_relative_to_ENUCoord]);
-Mtransform_Vehicle_zrotate = makehgtform('zrotate',Vehicle_yaw_relative_to_own_axis*pi/180);
-Mtransform_Vehicle_yrotate = makehgtform('yrotate',Vehicle_pitch_relative_to_own_axis*pi/180);
-Mtransform_Vehicle_xrotate = makehgtform('xrotate',Vehicle_roll_relative_to_own_axis*pi/180);
+        case 'sicklidar'
 
+            transform_Matrix(:,:,i) = Mtransform_Lidar_Sick_Rear_translate*Mtransform_Lidar_Sick_Rear_zrotate*Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate*...
+                Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+                Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
+                transform_Matrix_vehicleCase;
 
-%% Find the transform matrix
+        case 'leftgps'
 
-sensor_or_vehicle_string = fcn_Transform_determineSensorTypeOrVehicle(sensor_or_vehicle);
+            transform_Matrix(:,:,i) = Mtransform_GPS_SparkFun_LeftRear_translate*Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*...
+                Mtransform_GPS_SparkFun_LeftRear_xrotate*...
+                Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+                Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
+                transform_Matrix_vehicleCase;
 
-switch lower(sensor_or_vehicle_string)
+        case 'rightgps'
 
-    case 'vehicle'
+            transform_Matrix(:,:,i) = Mtransform_GPS_SparkFun_RightRear_translate*Mtransform_GPS_SparkFun_RightRear_zrotate*Mtransform_GPS_SparkFun_RightRear_yrotate*...
+                Mtransform_GPS_SparkFun_RightRear_xrotate*...
+                Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+                Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
+                transform_Matrix_vehicleCase;
 
-        transform_Matrix = Mtransform_Vehicle_translate*Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate;
+        case 'velodynelidar'
 
-    case 'sensorplatform'
+            transform_Matrix(:,:,i) = Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*...
+                                          Mtransform_Lidar_Velodyne_Rear_xrotate*...
+                                          Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+                                          Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
+                                          transform_Matrix_vehicleCase;
 
-        transform_Matrix = Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
-                           Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
-                           Mtransform_Vehicle_translate*Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate;
+        case 'other'
 
+            fprintf(fileID, "The sensor type is not defined yet. The sensor type will be updated soon. \n");
 
-    case 'sicklidar'
+        otherwise
 
-        transform_Matrix = Mtransform_Lidar_Sick_Rear_translate*Mtransform_Lidar_Sick_Rear_zrotate*Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate*...
-                           Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
-                           Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
-                           Mtransform_Vehicle_translate*Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate;
-        
-    case 'leftgps'
+            error('Unrecognized sensor type requested: %s',sensor_or_vehicle);
 
-        transform_Matrix = Mtransform_GPS_SparkFun_LeftRear_translate*Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*...
-                           Mtransform_GPS_SparkFun_LeftRear_xrotate*...
-                           Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
-                           Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
-                           Mtransform_Vehicle_translate*Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate;
-
-    case 'rightgps'
-
-        transform_Matrix = Mtransform_GPS_SparkFun_RightRear_translate*Mtransform_GPS_SparkFun_RightRear_zrotate*Mtransform_GPS_SparkFun_RightRear_yrotate*...
-                           Mtransform_GPS_SparkFun_RightRear_xrotate*...
-                           Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
-                           Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
-                           Mtransform_Vehicle_translate*Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate;
-
-    case 'velodynelidar'
-
-        transform_Matrix = Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*...
-                           Mtransform_Lidar_Velodyne_Rear_xrotate*...
-                           Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
-                           Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
-                           Mtransform_Vehicle_translate*Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate;
-
-    case 'other'
-
-        fprintf(fileID, "The sensor type is not defined yet. The sensor type will be updated soon. \n");
-
-    otherwise
-
-        error('Unrecognized sensor type requested: %s',sensor);
+    end
 
 end
+
+% Vehicle_x_relative_to_ENUCoord = vehiclePose_ENU(Nrows,1);
+% Vehicle_y_relative_to_ENUCoord = vehiclePose_ENU(Nrows,2);
+% Vehicle_z_relative_to_ENUCoord = vehiclePose_ENU(Nrows,3);
+% Vehicle_roll_relative_to_own_axis = -vehiclePose_ENU(Nrows,4);
+% Vehicle_pitch_relative_to_own_axis = vehiclePose_ENU(Nrows,5);
+% Vehicle_yaw_relative_to_own_axis = vehiclePose_ENU(Nrows,6);
+% 
+% 
+% % Transform matrices to move the Vehicle in ENU based on vehiclePose_ENU
+% Mtransform_Vehicle_translate = makehgtform('translate', [Vehicle_x_relative_to_ENUCoord Vehicle_y_relative_to_ENUCoord Vehicle_z_relative_to_ENUCoord]);
+% Mtransform_Vehicle_zrotate = makehgtform('zrotate',Vehicle_yaw_relative_to_own_axis*pi/180);
+% Mtransform_Vehicle_yrotate = makehgtform('yrotate',Vehicle_pitch_relative_to_own_axis*pi/180);
+% Mtransform_Vehicle_xrotate = makehgtform('xrotate',Vehicle_roll_relative_to_own_axis*pi/180);
+
+
+% %% Find the transform matrix
+% 
+% sensor_or_vehicle_string = fcn_Transform_determineSensorTypeOrVehicle(sensor_or_vehicle);
+% 
+% switch lower(sensor_or_vehicle_string)
+% 
+%     case 'vehicle'
+% 
+%         transform_Matrix = transform_Matrix_vehicleCase;
+% 
+%     case 'sensorplatform'
+% 
+%         transform_Matrix = Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+%                            Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
+%                            transform_Matrix_vehicleCase;
+% 
+% 
+%     case 'sicklidar'
+% 
+%         transform_Matrix = Mtransform_Lidar_Sick_Rear_translate*Mtransform_Lidar_Sick_Rear_zrotate*Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate*...
+%                            Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+%                            Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
+%                            transform_Matrix_vehicleCase;
+% 
+%     case 'leftgps'
+% 
+%         transform_Matrix = Mtransform_GPS_SparkFun_LeftRear_translate*Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*...
+%                            Mtransform_GPS_SparkFun_LeftRear_xrotate*...
+%                            Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+%                            Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
+%                            transform_Matrix_vehicleCase;
+% 
+%     case 'rightgps'
+% 
+%         transform_Matrix = Mtransform_GPS_SparkFun_RightRear_translate*Mtransform_GPS_SparkFun_RightRear_zrotate*Mtransform_GPS_SparkFun_RightRear_yrotate*...
+%                            Mtransform_GPS_SparkFun_RightRear_xrotate*...
+%                            Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+%                            Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
+%                            transform_Matrix_vehicleCase;
+% 
+%     case 'velodynelidar'
+% 
+%         transform_Matrix = Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*...
+%                            Mtransform_Lidar_Velodyne_Rear_xrotate*...
+%                            Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+%                            Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
+%                            transform_Matrix_vehicleCase;
+% 
+%     case 'other'
+% 
+%         fprintf(fileID, "The sensor type is not defined yet. The sensor type will be updated soon. \n");
+% 
+%     otherwise
+% 
+%         error('Unrecognized sensor type requested: %s',sensor_or_vehicle);
+% 
+% end
 
 %% Plot the results (for debugging)?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

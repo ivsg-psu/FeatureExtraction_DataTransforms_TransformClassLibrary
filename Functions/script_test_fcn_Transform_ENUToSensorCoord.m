@@ -49,7 +49,15 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicleCoord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-5, 0, 0];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -73,7 +81,15 @@ vehiclePose_ENU = [0,-4,0,0,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [0, 4, 0];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -97,7 +113,15 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle_coord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [0, 0, -2];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -121,7 +145,15 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle coordinates';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-4, 0, 0];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -145,7 +177,15 @@ vehiclePose_ENU = [5,0,0,0,0,90];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle_Coord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [0, 4, 0];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -169,7 +209,15 @@ vehiclePose_ENU = [5,0,0,0,90,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'Coordinates_vehicle';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [0, 0, -4];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -193,7 +241,15 @@ vehiclePose_ENU = [5,0,0,90,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-4, 0, 0];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -218,7 +274,15 @@ vehiclePose_ENU = [-5,7,3,0,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [5, -7, -3];
  
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -246,7 +310,15 @@ vehiclePose_ENU = [4,5,-6,0,0,90];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-5, 4, 6];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -274,7 +346,15 @@ vehiclePose_ENU = [4,5,-6,0,90,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-6, -5, -4];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -302,7 +382,15 @@ vehiclePose_ENU = [4,5,-6,90,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-4, -6, -5];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -330,7 +418,15 @@ vehiclePose_ENU = [1,-9,5,0,90,180];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [5, -9, 1];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -358,7 +454,15 @@ vehiclePose_ENU = [1,-9,5,90,180,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle_coordinates';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [1, -5, 9];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -386,7 +490,15 @@ vehiclePose_ENU = [1,-9,5,180,0,90];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle_coordinates';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [9, -1, 5];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -414,7 +526,15 @@ vehiclePose_ENU = [1,-9,5,270,90,180];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle_coordinates';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [5, 1, 9];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -442,8 +562,16 @@ vehiclePose_ENU = [1,-9,5,360+270,720+90,1080+180];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle_coordinates';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
-expected_transformed_ENUPoint_in_dashCoord = [5, 1, 9];
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
+vexpected_transformed_ENUPoint_in_dashCoord = [5, 1, 9];
 
 assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
 
@@ -470,7 +598,15 @@ vehiclePose_ENU = [1,-9,5,-270,-90,-180];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle_coordinates';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-5, 1, -9];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -495,7 +631,15 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicleCoord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [0, -3, 2];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -521,7 +665,15 @@ vehiclePose_ENU = [0,8,0,0,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle Coord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-7, -10,-5];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -546,7 +698,15 @@ vehiclePose_ENU = [0,0,-6,0,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle Coord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [4, 6, 2];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -572,7 +732,15 @@ vehiclePose_ENU = [-4,7,2,0,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle Coord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [6, -8, 7];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -600,7 +768,15 @@ vehiclePose_ENU = [-4,7,2,0,0,90];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle Coord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-8, -6, 7];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -628,7 +804,15 @@ vehiclePose_ENU = [-4,7,2,0,90,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle Coord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-7, -8, 6];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -656,7 +840,15 @@ vehiclePose_ENU = [-4,7,2,90,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle Coord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [6, -7, -8];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -684,7 +876,15 @@ vehiclePose_ENU = [-4,7,2,90,180,270];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle Coord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [-8, 7, 6];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
@@ -712,7 +912,15 @@ vehiclePose_ENU = [-4,7,2,0,0,0];
 % Transforms sensorReading_ENU into this coordinates
 in_dashCoord = 'vehicle Coord';  
 
-transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(sensorReading_ENU, vehiclePose_ENU, in_dashCoord);
+% perturbation in sensor Pose 
+% We are transforming the point to vehicle coordinates. We cannot add
+% perturbation to it
+perturbation_in_sensorPose = [];
+
+% If you want a plot, you can give some number here. 
+fig_num = [];
+
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
 expected_transformed_ENUPoint_in_dashCoord = [6, -8, 7];
 
 assert(isequal(transformed_ENUPoint_in_dashCoord, expected_transformed_ENUPoint_in_dashCoord));
