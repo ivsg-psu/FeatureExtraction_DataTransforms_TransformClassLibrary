@@ -1,6 +1,6 @@
 function sensor = fcn_Transform_determineSensorTypeOrVehicle(type_of_sensor_or_vehicle)
 % fcn_Transform_determineSensor
-% This function determines the sensor based on user inputs
+% This function determines the sensor or vehicle based on user inputs
 %
 % FORMAT:
 %
@@ -31,7 +31,7 @@ function sensor = fcn_Transform_determineSensorTypeOrVehicle(type_of_sensor_or_v
 %     See the script: script_test_fcn_Transform_determineSensor
 %     for a full test suite.
 %
-% This function was written on 2023_06_21 by A. Batchu
+% This function was written on 2023_06_21 by Aneesh Batchu
 
 % Revision history
 % 

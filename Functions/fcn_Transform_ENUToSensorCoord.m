@@ -38,7 +38,7 @@ function transformed_ENUPoint_in_SensorCoord = fcn_Transform_ENUToSensorCoord(ve
 % FORMAT:
 %
 %      transformed_ENUPoint_in_SensorCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, sensor_or_vehicle, 
-%                                                   vehiclePose_ENU, sensorReading_ENU, varargin)
+%                                                   vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num)
 %
 % INPUTS:
 %
@@ -126,7 +126,7 @@ function transformed_ENUPoint_in_SensorCoord = fcn_Transform_ENUToSensorCoord(ve
 % 
 % DEPENDENCIES:
 % 
-%      fcn_DebugTools_checkInputsToFunctions
+%      None
 % 
 % EXAMPLES:
 % 

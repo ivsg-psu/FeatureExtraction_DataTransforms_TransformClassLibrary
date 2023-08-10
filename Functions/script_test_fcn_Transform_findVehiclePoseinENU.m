@@ -41,6 +41,32 @@ close all
 % The distance between the GPS Antennas mid-point and the Sensor Mount 
 % is assumed to be zero
 
+%% Test 
+
+
+% The centers of Left GPS Antenna
+% GPSLeft_ENU = [x, y, z] in meters
+GPSLeft_ENU = [1, 1, 2; -1, -1, 2; 1, 3, 2; 1, 1, 2; 3, 3, 2];
+
+% The centers of Right GPS Antenna
+% GPSRight_ENU = [x, y, z] in meters
+GPSRight_ENU = [1, 3, 2; 3, 3, 2; 1, 1, 2; 1, 3, 1; 1, 1, 2];
+
+% The pitch of the vehicle is assumed as zero
+PITCH_vehicle_ENU = zeros(size(GPSLeft_ENU,1),1);
+
+% The sensor mount offset relative to vehicle origin = 
+% [-X_SensorMount_center, 0, +Z_SensorMount_center] in meters
+SensorMount_offset_relative_to_VehicleOrigin = [-1 0 1.6]; 
+
+
+% The POSE of the vehicle in ENU coordinates is in the form [X_vehicle_ENU, 
+% Y_vehicle_ENU, Z_vehicle_ENU, 0, 0, YAW_vehicle_ENU]
+
+vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin);
+
+disp(vehiclePose_ENU)
+
 %% Case 1 
 
 % This case has the inputs as per the assumptions 
