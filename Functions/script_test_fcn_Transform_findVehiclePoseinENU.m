@@ -25,18 +25,17 @@ close all
 
 %% Assumptions
 
-% The vehicle is assumed to have zero roll and pitch in ENU coordinates.
+% The vehicle is assumed to have zero pitch in ENU coordinates.
 %
-% Therefore, the output of this code will be the position of the vehicle
-% and YAW_vehicle_ENU.
-% vehiclePose_ENU = [X_vehicle_ENU, Y_vehicle_ENU, Z_vehicle_ENU, 0, 0, 
-%                   YAW_vehicle_ENU(in degrees)]
+% Therefore, the output of this code will be the position of the
+% vehicle,[X_vehicle_ENU, Y_vehicle_ENU, Z_vehicle_ENU], and 
+%  ROLL_vehicle_ENU, 0, YAW_vehicle_ENU]
+%
+% vehiclePose_ENU = [X_vehicle_ENU, Y_vehicle_ENU, Z_vehicle_ENU, 
+%                   ROLL_vehicle_ENU (in degrees), 0, YAW_vehicle_ENU(in degrees)]
 %
 % SensorMount_offset_y_relative_to_VehicleOrigin = 0. 
 %
-% Since the roll and pitch of the vehicle are assumed to be zero,
-% Z coordinates of the GPS Antenna centers are assumed to be 
-% " 2 " (2 meters from the ground).
 %
 % The distance between the GPS Antennas mid-point and the Sensor Mount 
 % is assumed to be zero
@@ -51,7 +50,7 @@ GPSLeft_ENU = [1, 1, 2; -1, -1, 2; 1, 3, 2; 1, 1, 2; 3, 3, 2];
 % The centers of Right GPS Antenna
 % GPSRight_ENU = [x, y, z] in meters
 GPSRight_ENU = [1, 3, 2; 3, 3, 2; 1, 1, 2; 1, 3, 1; 1, 1, 2];
-
+    
 % The pitch of the vehicle is assumed as zero
 PITCH_vehicle_ENU = zeros(size(GPSLeft_ENU,1),1);
 

@@ -46,7 +46,10 @@ Search for this, and you will find!
         <ul>
           <li><a href="#fcn_transform_predictwheelvelocity">fcn_transform_predictWheelVelocity - Predicts wheel velocity given the vehicle's angular velocity</li>
           <li><a href="#fcn_transform_encodercounts">fcn_transform_encoderCounts - Calculates encoder counts given the wheel's velocity</li>
-          <li><a href="#fcn_transform_determinesensor">fcn_Transform_determineSensor - Used for determining snesor type.</li>
+          <li><a href="#fcn_transform_determinesensortypeorvehicle">fcn_Transform_determineSensorTypeOrVehicle - Used for determining sensor type.</li>
+          <li><a href="#fcn_transform_setperturbationtosensorpose">fcn_Transform_setPerturbationToSensorPose - Used to set the perturbations to sensor pose.</li>
+          <li><a href="#fcn_transform_determinetransformmatrix">fcn_Transform_determineTransformMatrix - Used to determine the transform matrix.</li>
+          <li><a href="#fcn_transform_findvehicleposeinenu">fcn_Transform_findVehiclePoseinENU - Used to find the vehicle pose in ENU coordinates.</li>
           <li><a href="#fcn_transform_sensorcoordtoenu">fcn_Transform_SensorCoordToENU - Transforms sensor readings from sensor coordinates to ENU coordinates</li>
           <li><a href="#fcn_transform_enutosensorcoord">fcn_Transform_ENUToSensorCoord - Transforms the coordinates of a point from ENU coordinates to the sesnor's coordinates </li>
         </ul>

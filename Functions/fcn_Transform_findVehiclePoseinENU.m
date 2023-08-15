@@ -20,12 +20,10 @@ function vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRi
 %
 % 2 - SensorMount_offset_y_relative_to_VehicleOrigin = 0. 
 %
-% 3 - The GPS Antenna centers are assumed to be 2 meters from the ground. 
-%
-% 4 - The distance between the GPS Antennas mid-point and the Sensor Mount 
+% 3 - The distance between the GPS Antennas mid-point and the Sensor Mount 
 %     is assumed to be zero 
 %
-% 5 - The distance between GPSRight_ENU to GPSLeft_ENU is 2 meters. 
+% 4 - The distance between GPSRight_ENU to GPSLeft_ENU is 2 meters. 
 %
 % METHOD:
 %

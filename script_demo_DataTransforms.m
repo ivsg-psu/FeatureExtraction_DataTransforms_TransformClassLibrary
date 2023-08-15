@@ -33,6 +33,12 @@ library_name{ith_library}    = 'DebugTools_v2023_04_22';
 library_folders{ith_library} = {'Functions','Data'};
 library_url{ith_library}     = 'https://github.com/ivsg-psu/Errata_Tutorials_DebugTools/archive/refs/tags/DebugTools_v2023_04_22.zip';
 
+ith_library = ith_library+1;
+library_name{ith_library}    = 'GPSClass_v2023_06_29';
+library_folders{ith_library} = {'Functions'};
+library_url{ith_library}     = 'https://github.com/ivsg-psu/FieldDataCollection_GPSRelatedCodes_GPSClass/archive/refs/tags/GPSClass_v2023_06_29.zip';
+
+
 %% Clear paths and folders, if needed
 if 1==0
     
@@ -46,6 +52,39 @@ if ~exist('flag_DataTransforms_Folders_Initialized','var')
     fcn_INTERNAL_initializeUtilities(library_name,library_folders,library_url,this_project_folders);
     flag_DataTransforms_Folders_Initialized = 1;
 end
+
+
+%% Test
+
+
+GPS_LeftLLA = [rawdata.GPS_SparkFun_LeftRear_GGA.Latitude, rawdata.GPS_SparkFun_LeftRear_GGA.Longitude, rawdata.GPS_SparkFun_LeftRear_GGA.Altitude];
+
+GPS_RightLLA = [rawdata.GPS_SparkFun_RightRear_GGA.Latitude, rawdata.GPS_SparkFun_RightRear_GGA.Longitude, rawdata.GPS_SparkFun_RightRear_GGA.Altitude]; 
+
+reference_LLA = [40.7934, -77.8600, 351.7392];
+fig_num1 = 12345;
+GPSLeft_ENU = fcn_GPS_lla2enu(GPS_LeftLLA, reference_LLA);
+
+fig_num2 = 1234;
+GPSRight_ENU = fcn_GPS_lla2enu(GPS_RightLLA, reference_LLA);
+
+% GPSLeft_ENU = fcn_GPS_enu2xyz(GPS_LeftENU, reference_LLA);
+% 
+% GPSRight_ENU = fcn_GPS_enu2xyz(GPS_RightENU, reference_LLA);
+
+
+% The pitch of the vehicle is assumed as zero
+PITCH_vehicle_ENU = zeros(size(GPSLeft_ENU,1),1);
+
+% The sensor mount offset relative to vehicle origin = 
+% [-X_SensorMount_center, 0, +Z_SensorMount_center] in meters
+SensorMount_offset_relative_to_VehicleOrigin = [-1 0 1.6]; 
+
+% The POSE of the vehicle in ENU coordinates is in the form [X_vehicle_ENU, 
+% Y_vehicle_ENU, Z_vehicle_ENU, 0, 0, YAW_vehicle_ENU]
+
+vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin);
+
 
 %% fcn_Transform_determineSensorTypeOrVehicle
 
