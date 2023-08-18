@@ -1127,7 +1127,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor___platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1166,7 +1166,7 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1204,7 +1204,7 @@ vehiclePose_ENU = [0,-4,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1242,7 +1242,7 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1281,7 +1281,7 @@ vehiclePose_ENU = [-8,1,-6,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1321,7 +1321,7 @@ vehiclePose_ENU = [5,-9,1,0,0,90];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1361,7 +1361,7 @@ vehiclePose_ENU = [1,7,-4,0,90,0];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1401,7 +1401,7 @@ vehiclePose_ENU = [-9,-7,3,90,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1441,7 +1441,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1479,7 +1479,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor___platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1518,7 +1518,7 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1556,7 +1556,7 @@ vehiclePose_ENU = [0,-4,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1594,7 +1594,7 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1633,7 +1633,7 @@ vehiclePose_ENU = [-8,1,-6,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1672,7 +1672,7 @@ vehiclePose_ENU = [5,-9,1,0,0,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1711,7 +1711,7 @@ vehiclePose_ENU = [1,7,-4,0,90,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1751,7 +1751,7 @@ vehiclePose_ENU = [-9,-7,3,90,0,0];
 % sensorReading_ENU in sensor platform coordinates will be [15, 2.6, 8]
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1790,7 +1790,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sensor_platform';  
+from_dashCoord = 'GPS_Hemisphere_SensorPlatform_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the sensor platform relative to vehicle body 
@@ -1834,7 +1834,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sickLidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -1872,7 +1872,7 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sickLidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -1910,7 +1910,7 @@ vehiclePose_ENU = [0,-4,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -1948,7 +1948,7 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -1987,7 +1987,7 @@ vehiclePose_ENU = [-8,1,-6,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2027,7 +2027,7 @@ vehiclePose_ENU = [5,-9,1,0,0,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2068,7 +2068,7 @@ vehiclePose_ENU = [1,7,-4,0,90,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2109,7 +2109,7 @@ vehiclePose_ENU = [-9,-7,3,90,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2150,7 +2150,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2187,7 +2187,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sickLidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2225,7 +2225,7 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sickLidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2263,7 +2263,7 @@ vehiclePose_ENU = [0,-4,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2301,7 +2301,7 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2340,7 +2340,7 @@ vehiclePose_ENU = [-8,1,-6,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2380,7 +2380,7 @@ vehiclePose_ENU = [5,-9,1,0,0,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2419,7 +2419,7 @@ vehiclePose_ENU = [1,7,-4,0,90,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2459,7 +2459,7 @@ vehiclePose_ENU = [-9,-7,3,90,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2499,7 +2499,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'sick_lidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2533,7 +2533,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % sensorReading_ENU in sick lidar coordinates will be [1.5, 0, 0.4]
 
 % Transforms sensorReading_ENU into this coordinates
-from_dashCoord = 'sickLidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2567,7 +2567,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % sensorReading_ENU in sick lidar coordinates will be [1.7, -0.05, 0.4]
 
 % Transforms sensorReading_ENU into this coordinates
-from_dashCoord = 'sickLidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform
@@ -2601,7 +2601,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % sensorReading_ENU in sick lidar coordinates will be [1.4, 0, -1.5]
 
 % Transforms sensorReading_ENU into this coordinates
-from_dashCoord = 'sickLidar';  
+from_dashCoord = 'Lidar_Sick_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear sick lidar relative to rear GPS hemisphere sensor platform 
@@ -2646,7 +2646,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'velodyne';  
+from_dashCoord = 'Lidar_Velodyne_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the velodyne lidar relative to sensor platform. 
@@ -2684,7 +2684,7 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'velodyne_lidar';  
+from_dashCoord = 'Lidar_Velodyne_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the velodyne lidar relative to sensor platform. 
@@ -2722,7 +2722,7 @@ vehiclePose_ENU = [0,-4,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'velodyneLidar';  
+from_dashCoord = 'Lidar_Velodyne_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the velodyne lidar relative to sensor platform. 
@@ -2760,7 +2760,7 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'velodynelidar';  
+from_dashCoord = 'Lidar_Velodyne_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the velodyne lidar relative to sensor platform. 
@@ -2799,7 +2799,7 @@ vehiclePose_ENU = [-8,1,-6,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'velodynelidar';  
+from_dashCoord = 'Lidar_Velodyne_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the velodyne lidar relative to sensor platform. 
@@ -2839,7 +2839,7 @@ vehiclePose_ENU = [5,-9,1,0,0,90];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'velodynelidar';  
+from_dashCoord = 'Lidar_Velodyne_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the velodyne lidar relative to sensor platform. 
@@ -2879,7 +2879,7 @@ vehiclePose_ENU = [1,7,-4,0,90,0];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'velodynelidar';  
+from_dashCoord = 'Lidar_Velodyne_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the velodyne lidar relative to sensor platform. 
@@ -2919,7 +2919,7 @@ vehiclePose_ENU = [-9,-7,3,90,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'velodynelidar';  
+from_dashCoord = 'Lidar_Velodyne_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the velodyne lidar relative to sensor platform. 
@@ -2959,7 +2959,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 % "fcn_Transform_ENUToSensorCoord" cases. 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'velodynelidar';  
+from_dashCoord = 'Lidar_Velodyne_Rear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the velodyne lidar relative to sensor platform. 
@@ -3002,7 +3002,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftGPS';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3040,7 +3040,7 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'left GPS';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3078,7 +3078,7 @@ vehiclePose_ENU = [0,-4,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'left_GPS';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3116,7 +3116,7 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftgps';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3155,7 +3155,7 @@ vehiclePose_ENU = [-8,1,-6,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftgps';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3195,7 +3195,7 @@ vehiclePose_ENU = [5,-9,1,0,0,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftgps';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3235,7 +3235,7 @@ vehiclePose_ENU = [1,7,-4,0,90,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftgps';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3275,7 +3275,7 @@ vehiclePose_ENU = [-9,-7,3,90,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftgps';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3315,7 +3315,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftgps';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3352,7 +3352,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftGPS';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3390,7 +3390,7 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'left GPS';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3428,7 +3428,7 @@ vehiclePose_ENU = [0,-4,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'left_GPS';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3466,7 +3466,7 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftgps';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3505,7 +3505,7 @@ vehiclePose_ENU = [-8,1,-6,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftgps';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3545,7 +3545,7 @@ vehiclePose_ENU = [5,-9,1,0,0,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'leftgps';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3585,7 +3585,7 @@ vehiclePose_ENU = [1,7,-4,0,90,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = '4leftgps4';  
+from_dashCoord = 'GPS_SparkFun_LeftRear323';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3625,7 +3625,7 @@ vehiclePose_ENU = [-9,-7,3,90,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'left123gps';  
+from_dashCoord = 'GPS_aw344SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3665,7 +3665,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'left - gps';  
+from_dashCoord = 'GPS_SparkFun_LeftRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear left GPS relative to sensor platform. 
@@ -3709,7 +3709,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightGPS';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -3747,7 +3747,7 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'right GPS';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -3785,7 +3785,7 @@ vehiclePose_ENU = [0,-4,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'right_GPS';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -3823,7 +3823,7 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -3862,7 +3862,7 @@ vehiclePose_ENU = [-8,1,-6,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -3902,7 +3902,7 @@ vehiclePose_ENU = [5,-9,1,0,0,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -3942,7 +3942,7 @@ vehiclePose_ENU = [1,7,-4,0,90,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -3982,7 +3982,7 @@ vehiclePose_ENU = [-9,-7,3,90,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4022,7 +4022,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 % "fcn_Transform_ENUToSensorCoord" cases.
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4060,7 +4060,7 @@ vehiclePose_ENU = [0,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightGPS';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4098,7 +4098,7 @@ vehiclePose_ENU = [5,0,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'right GPS';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4136,7 +4136,7 @@ vehiclePose_ENU = [0,-4,0,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'right_GPS';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4174,7 +4174,7 @@ vehiclePose_ENU = [0,0,2,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4213,7 +4213,7 @@ vehiclePose_ENU = [-8,1,-6,0,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4253,7 +4253,7 @@ vehiclePose_ENU = [5,-9,1,0,0,90];
 % "fcn_Transform_ENUToSensorCoord" cases
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4292,7 +4292,7 @@ vehiclePose_ENU = [1,7,-4,0,90,0];
 % "fcn_Transform_ENUToSensorCoord" cases
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4331,7 +4331,7 @@ vehiclePose_ENU = [-9,-7,3,90,0,0];
 % "fcn_Transform_ENUToSensorCoord" cases
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4370,7 +4370,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 % "fcn_Transform_ENUToSensorCoord" cases
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 % Perturbation in the position (in cm) and orientation (in deg) of 
 % the rear right GPS relative to sensor platform. 
@@ -4397,7 +4397,7 @@ sensorReading_SensorCoord = [NaN, 0, 0];
 vehiclePose_ENU = [3,4,-3,NaN,270,90];
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 transformed_ENUPoint_from_dashCoord = fcn_Transform_SensorCoordToENU(sensorReading_SensorCoord, vehiclePose_ENU, from_dashCoord);
 expected_transformed_ENUPoint_from_dashCoord = [0.9, -2.3, -3.238];
@@ -4419,7 +4419,7 @@ sensorReading_SensorCoord = [0, 0, 0];
 vehiclePose_ENU = [0,4,-3,0,270,inf];
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 transformed_ENUPoint_from_dashCoord = fcn_Transform_SensorCoordToENU(sensorReading_SensorCoord, vehiclePose_ENU, from_dashCoord);
 expected_transformed_ENUPoint_from_dashCoord = [0.9, -2.3, -3.238];
@@ -4441,7 +4441,7 @@ sensorReading_SensorCoord = [0, NaN, 0];
 vehiclePose_ENU = [inf,4,-3,0,NaN,0];
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 transformed_ENUPoint_from_dashCoord = fcn_Transform_SensorCoordToENU(sensorReading_SensorCoord, vehiclePose_ENU, from_dashCoord);
 expected_transformed_ENUPoint_from_dashCoord = [0.9, -2.3, -3.238];
@@ -4464,7 +4464,7 @@ vehiclePose_ENU = [3,4,-3,180,270,90];
 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 transformed_ENUPoint_from_dashCoord = fcn_Transform_SensorCoordToENU(sensorReading_SensorCoord, vehiclePose_ENU, from_dashCoord);
 expected_transformed_ENUPoint_from_dashCoord = [0.9, -2.3, -3.238];
@@ -4487,7 +4487,7 @@ vehiclePose_ENU = [3,4,-3,180,270];
 
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 transformed_ENUPoint_from_dashCoord = fcn_Transform_SensorCoordToENU(sensorReading_SensorCoord, vehiclePose_ENU, from_dashCoord);
 expected_transformed_ENUPoint_from_dashCoord = [0.9, -2.3, -3.238];
@@ -4511,7 +4511,7 @@ vehiclePose_ENU = [3,4,-3,180,270];
 SensorVals = [3, 4, 6];
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 transformed_ENUPoint_from_dashCoord = fcn_Transform_SensorCoordToENU(sensorReading_SensorCoord, vehiclePose_ENU, from_dashCoord, SensorVals);
 expected_transformed_ENUPoint_from_dashCoord = [0.9, -2.3, -3.238];
@@ -4530,7 +4530,7 @@ if 1 == 0
 sensorReading_SensorCoord = [0, 0, 0];
 
 % Transforms this coordinates into ENU coordinates
-from_dashCoord = 'rightgps';  
+from_dashCoord = 'GPS_SparkFun_RightRear';  
 
 transformed_ENUPoint_from_dashCoord = fcn_Transform_SensorCoordToENU(sensorReading_SensorCoord, from_dashCoord);
 expected_transformed_ENUPoint_from_dashCoord = [0.9, -2.3, -3.238];

@@ -84,16 +84,16 @@ end
 
 
 type_of_sensor_lower = lower(type_of_sensor_or_vehicle);
-if contains(type_of_sensor_lower,'sick') 
-    sensor = 'sicklidar';
-elseif contains(type_of_sensor_lower,'velodyne')
-    sensor = 'velodynelidar';
-elseif contains(type_of_sensor_lower,'right') && contains(type_of_sensor_lower,'gps')
-    sensor = 'rightGPS';
-elseif contains(type_of_sensor_lower,'left') && contains(type_of_sensor_lower,'gps')
-    sensor = 'leftGPS';
-elseif contains(type_of_sensor_lower,'sensor') && contains(type_of_sensor_lower,'platform')
-    sensor = 'sensorplatform';
+if contains(type_of_sensor_lower,'sick') && contains(type_of_sensor_lower,'rear')
+    sensor = 'sicklidarrear';
+elseif contains(type_of_sensor_lower,'velodyne') && contains(type_of_sensor_lower,'rear')
+    sensor = 'velodynelidarrear';
+elseif contains(type_of_sensor_lower,'right') && contains(type_of_sensor_lower,'gps') && contains(type_of_sensor_lower,'rear')
+    sensor = 'gpssparkfunrightrear';
+elseif contains(type_of_sensor_lower,'left') && contains(type_of_sensor_lower,'gps') && contains(type_of_sensor_lower,'rear')
+    sensor = 'gpssparkfunleftrear';
+elseif contains(type_of_sensor_lower,'sensor') && contains(type_of_sensor_lower,'platform') && contains(type_of_sensor_lower,'rear') && contains(type_of_sensor_lower,'gps')
+    sensor = 'gpssensorplatformrear';
 elseif contains(type_of_sensor_lower,'vehicle')
     sensor = 'vehicle';
 elseif contains(type_of_sensor_lower,'all')

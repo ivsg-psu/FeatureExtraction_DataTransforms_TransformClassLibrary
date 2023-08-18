@@ -54,24 +54,36 @@ if ~exist('flag_DataTransforms_Folders_Initialized','var')
 end
 
 
-%% Test
+%% Test Case:
 
+% In this case, the vehicle pose is determined using the centers Rear GPS 
+% Antenna centers. Later, the vehicle pose is used to transform the sick
+% lidar readings to ENU coordinates. Finally, the ENU coordinates of rear
+% sick lidar are converted to vehicle coordinates. 
 
 GPS_LeftLLA = [rawdata.GPS_SparkFun_LeftRear_GGA.Latitude, rawdata.GPS_SparkFun_LeftRear_GGA.Longitude, rawdata.GPS_SparkFun_LeftRear_GGA.Altitude];
 
 GPS_RightLLA = [rawdata.GPS_SparkFun_RightRear_GGA.Latitude, rawdata.GPS_SparkFun_RightRear_GGA.Longitude, rawdata.GPS_SparkFun_RightRear_GGA.Altitude]; 
 
-reference_LLA = [40.7934, -77.8600, 351.7392];
-fig_num1 = 12345;
-GPSLeft_ENU = fcn_GPS_lla2enu(GPS_LeftLLA, reference_LLA);
+% Plot the LLA coordinates on the Earth
+figure(121212)
+geoplot(GPS_LeftLLA(:,1), GPS_LeftLLA(:,2), '.-','Linewidth',3,'Markersize',15)
+hold on
+geoplot(GPS_RightLLA(:,1), GPS_RightLLA(:,2), '.-','Linewidth',3,'Markersize',15)
+geobasemap satellite
 
-fig_num2 = 1234;
+% Basestation LLA coordinates
+reference_LLA = [40.7934, -77.8600, 351.7392];
+
+% Convert the Rear GPS Left and Right LLA coordinates to ENU coordinates
+GPSLeft_ENU = fcn_GPS_lla2enu(GPS_LeftLLA, reference_LLA);
 GPSRight_ENU = fcn_GPS_lla2enu(GPS_RightLLA, reference_LLA);
 
-% GPSLeft_ENU = fcn_GPS_enu2xyz(GPS_LeftENU, reference_LLA);
-% 
-% GPSRight_ENU = fcn_GPS_enu2xyz(GPS_RightENU, reference_LLA);
-
+% Plot the converted ENU coordinates
+figure(343434)
+plot(GPSLeft_ENU(:,1),GPSLeft_ENU(:,2),'-','Linewidth',3);
+hold on
+plot(GPSRight_ENU(:,1),GPSRight_ENU(:,2),'-','Linewidth',3);
 
 % The pitch of the vehicle is assumed as zero
 PITCH_vehicle_ENU = zeros(size(GPSLeft_ENU,1),1);
@@ -85,6 +97,27 @@ SensorMount_offset_relative_to_VehicleOrigin = [-1 0 1.6];
 
 vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin);
 
+% The coordinates of sick lidar are converted to ENU coordinates
+from_dashCoord = 'sicklidarrear';
+
+% The perturbation of the sensor pose is zero 
+perturbation_in_sensorPose = [];
+
+% The sensor reading from Rear Sick Lidar
+X_sensorReading_SensorCoord = XYI{1}(1,1:184)';
+Y_sensorReading_SensorCoord = XYI{1}(2,1:184)';
+Z_sensorReading_SensorCoord = zeros(size(X_sensorReading_SensorCoord,1),1);
+
+sensorReading_SensorCoord = [X_sensorReading_SensorCoord Y_sensorReading_SensorCoord Z_sensorReading_SensorCoord];
+
+% The ENU coordinates of the Rear Sick Lidar Readings
+transformed_ENUPoint_from_dashCoord = fcn_Transform_SensorCoordToENU(vehicleParameters, sensorPoseParameters, from_dashCoord, vehiclePose_ENU, sensorReading_SensorCoord, perturbation_in_sensorPose);
+
+in_dashCoord = 'vehicle';
+
+% The ENU coordinates of the Rear Sick Lidar Readings are converted to
+% vehicle coordinates
+transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, transformed_ENUPoint_from_dashCoord, perturbation_in_sensorPose);
 
 %% fcn_Transform_determineSensorTypeOrVehicle
 

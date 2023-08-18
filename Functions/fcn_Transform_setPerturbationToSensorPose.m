@@ -121,7 +121,7 @@ switch lower(sensor_or_vehicle_string)
         sensorPose_Perturbation.GPS_SparkFun_RightRear = [0, 0, 0, 0, 0, 0];
         sensorPose_Perturbation.Lidar_Velodyne_Rear = [0, 0, 0, 0, 0, 0];
 
-    case 'sensorplatform'
+    case 'gpssensorplatformrear'
 
         % fprintf(fileID,'\n The perturbation cannot be given to the sensor platform. The GPS Hemisphere SensorPlatform is assumed to be placed at the exact location. \n');
 
@@ -130,7 +130,7 @@ switch lower(sensor_or_vehicle_string)
         sensorPose_Perturbation.GPS_SparkFun_RightRear = [0, 0, 0, 0, 0, 0];
         sensorPose_Perturbation.Lidar_Velodyne_Rear = [0, 0, 0, 0, 0, 0];
 
-    case 'sicklidar'
+    case 'sicklidarrear'
 
         % The perturbation values of sick lidar
 
@@ -146,7 +146,7 @@ switch lower(sensor_or_vehicle_string)
         sensorPose_Perturbation.GPS_SparkFun_RightRear = [0, 0, 0, 0, 0, 0];
         sensorPose_Perturbation.Lidar_Velodyne_Rear = [0, 0, 0, 0, 0, 0];
 
-    case 'leftgps'
+    case 'gpssparkfunleftrear'
 
         % The perturbation values of left GPS
 
@@ -162,7 +162,7 @@ switch lower(sensor_or_vehicle_string)
         sensorPose_Perturbation.GPS_SparkFun_RightRear = [0, 0, 0, 0, 0, 0];
         sensorPose_Perturbation.Lidar_Velodyne_Rear = [0, 0, 0, 0, 0, 0];
 
-    case 'rightgps'
+    case 'gpssparkfunrightrear'
 
         % The perturbation values of right GPS
 
@@ -178,7 +178,7 @@ switch lower(sensor_or_vehicle_string)
         sensorPose_Perturbation.GPS_SparkFun_RightRear = perturbation_in_sensorPose_relative_to_SensorPlatform;
         sensorPose_Perturbation.Lidar_Velodyne_Rear = [0, 0, 0, 0, 0, 0];
 
-    case 'velodynelidar'
+    case 'velodynelidarrear'
 
         % The perturbation values of velodyne lidar
 

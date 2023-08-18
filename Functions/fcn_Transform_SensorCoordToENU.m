@@ -216,12 +216,14 @@ onesColumn = ones(size(sensorReading_SensorCoord, 1),1);
 sensorReading_SensorCoord_homogenous_measurement = [sensorReading_SensorCoord, onesColumn]';
 fprintf(fileID,'\nThe points are located at:\n');
 
+transformed_SensorCoord_in_ENU = zeros(size(vehiclePose_ENU,1),3);
+
 for i = 1:size(vehiclePose_ENU,1)
     transformed_SensorCoordPoint_in_ENU_homogeneous = transform_Matrix(:,:,i)*sensorReading_SensorCoord_homogenous_measurement(:,i);
-    transformed_SensorCoord_in_ENU = transformed_SensorCoordPoint_in_ENU_homogeneous(1:3,:)';
-    disp(transformed_SensorCoord_in_ENU);
+    transformed_SensorCoord_in_ENU(i,:) = transformed_SensorCoordPoint_in_ENU_homogeneous(1:3,:)';  
 end
 
+disp(transformed_SensorCoord_in_ENU);
 %% Plot the results (for debugging)?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   _____       _
