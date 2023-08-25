@@ -123,7 +123,7 @@ transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParame
 
 % This function determines the sensor type or vehicle based on user inputs 
 
-type_of_sensor_or_vehicle = 'sICk';
+type_of_sensor_or_vehicle = 'sICkLidarRear';
 sensor_or_vehicle_1 = fcn_Transform_determineSensorTypeOrVehicle(type_of_sensor_or_vehicle);
 disp(sensor_or_vehicle_1)
 
@@ -136,7 +136,7 @@ disp(sensor_or_vehicle_2)
 % This functon sets the perturbations to the sensor pose of the  sensors
 
 % Set Perturbations to the sensor Pose of the following sensor
-sensor_or_vehicle = 'velodyne';
+sensor_or_vehicle = 'RearvelodyneLidar';
 
 
 % Perturbation in the sensor position and orientation. The units of the 

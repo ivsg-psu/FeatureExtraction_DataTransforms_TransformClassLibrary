@@ -70,7 +70,9 @@ disp(vehiclePose_ENU)
 
 % This case has the inputs as per the assumptions 
 
-figure(1);
+fig_num = 3434;
+
+figure(fig_num);
 clf;
 grid on
 hold on
@@ -97,7 +99,7 @@ PITCH_vehicle_ENU = 0;
 
 % The POSE of the vehicle in ENU coordinates is in the form [X_vehicle_ENU, 
 % Y_vehicle_ENU, Z_vehicle_ENU, 0, 0, YAW_vehicle_ENU]
-vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin);
+vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin, fig_num);
 
 % This is the hand calculated result 
 HandCalculatedValue_ENU = [2-(1/sqrt(2)), 2+(1/sqrt(2)), 2-1.6, 0, 0, 135];
@@ -108,7 +110,9 @@ assert(isequal(vehiclePose_ENU, HandCalculatedValue_ENU));
 
 %% Case 2
 
-figure(2);
+fig_num = 3435546;
+
+figure(fig_num);
 clf;
 grid on
 hold on
@@ -138,7 +142,7 @@ PITCH_vehicle_ENU = 0;
 
 % The POSE of the vehicle in ENU coordinates is in the form [X_vehicle_ENU, 
 % Y_vehicle_ENU, Z_vehicle_ENU, 0, 0, YAW_vehicle_ENU]
-vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin);
+vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin, fig_num);
 
 % This is the hand calculated result 
 HandCalculatedValue_ENU = [2-(2/sqrt(2)), 2+(2/sqrt(2)), 2-1.6, 0, 0, 135];
@@ -152,7 +156,9 @@ assert(isequal(vehiclePose_ENU, HandCalculatedValue_ENU));
 % This case has a different SensorMount_offset_z_relative_to_VehicleOrigin
 % compared to case 1.
 
-figure(3);
+fig_num = 23445;
+
+figure(fig_num);
 clf;
 grid on
 hold on
@@ -179,7 +185,7 @@ PITCH_vehicle_ENU = 0;
 
 % The POSE of the vehicle in ENU coordinates is in the form [X_vehicle_ENU, 
 % Y_vehicle_ENU, Z_vehicle_ENU, 0, 0, YAW_vehicle_ENU]
-vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin);
+vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin, fig_num);
 
 % This is the hand calculated result 
 HandCalculatedValue_ENU = [2-(1/sqrt(2)), 2+(1/sqrt(2)), 2-1.9, 0, 0, 135];
@@ -190,7 +196,9 @@ assert(isequal(vehiclePose_ENU, HandCalculatedValue_ENU));
 
 %% Case 4
 
-figure(4);
+fig_num = 155;
+
+figure(fig_num);
 clf;
 grid on
 hold on
@@ -220,7 +228,7 @@ PITCH_vehicle_ENU = 0;
 
 % The POSE of the vehicle in ENU coordinates is in the form [X_vehicle_ENU, 
 % Y_vehicle_ENU, Z_vehicle_ENU, 0, 0, YAW_vehicle_ENU]
-vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin);
+vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin, fig_num);
 
 % This is the hand calculated result 
 HandCalculatedValue_ENU = [2-(2.3/sqrt(2)), 2+(2.3/sqrt(2)), 2-1.45, 0, 0, 135];
@@ -232,8 +240,9 @@ assert(isequal(vehiclePose_ENU, HandCalculatedValue_ENU));
 %% Case 5
 
 % This case has a different GPSRight_ENU compared to case 1
+fig_num = 2112;
 
-figure(5);
+figure(fig_num);
 clf;
 grid on
 hold on
@@ -260,7 +269,7 @@ PITCH_vehicle_ENU = 0;
 
 % The POSE of the vehicle in ENU coordinates is in the form [X_vehicle_ENU, 
 % Y_vehicle_ENU, Z_vehicle_ENU, 0, 0, YAW_vehicle_ENU]
-vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin);
+vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin, fig_num);
 
 % This is the hand calculated result 
 HandCalculatedValue_ENU = [3-(1/sqrt(2)), 3+(1/sqrt(2)), 2-1.6, 0, 0, 135];
