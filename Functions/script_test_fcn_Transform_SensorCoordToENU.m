@@ -24,6 +24,12 @@ clc
 %                                                    
 % See: https://patorjk.com/software/taag/#p=display&f=Big&t=Assertions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Load the example data
+
+run('Example_vehicleParameters_and_sensorPoseParameters_Struct.m')
+
+
 %% The following cases were written to test the accuracy of vehicle coordinates 
 
 % when a point(sensorReading_SensorCoord) in vehicle coordinates is 

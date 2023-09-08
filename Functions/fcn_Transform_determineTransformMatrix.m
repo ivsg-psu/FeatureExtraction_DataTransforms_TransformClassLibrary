@@ -156,6 +156,9 @@ function transform_Matrix = fcn_Transform_determineTransformMatrix(vehicleParame
 % 2023_07_25:Aneesh Batchu
 % -- organized the code and added vehicle and sensor pose parameters as the
 % inputs
+% 2023_09_08: Aneesh Batchu
+% -- Bug Fix: All the translations are done before rotating the sensors and
+% vehicle. 
 
 flag_do_debug = 0;  % Flag to show the results for debugging
 flag_do_plots = 0;  % % Flag to plot the final results
@@ -347,23 +350,23 @@ for i = 1:Nrows
 
         case 'sicklidarrear'          % Sick Lidar Rear
 
-            transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Sick_Rear_translate*Mtransform_Lidar_Sick_Rear_zrotate*...
-                                      Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate*transform_Matrix_vehicleCase;
+            transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Sick_Rear_translate*transform_Matrix_vehicleCase*...
+                                      Mtransform_Lidar_Sick_Rear_zrotate*Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate;
 
         case 'gpssparkfunleftrear'    % GPS SparkFun Left Rear 
 
-            transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_GPS_SparkFun_LeftRear_translate*Mtransform_GPS_SparkFun_LeftRear_zrotate*...
-                                      Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate*transform_Matrix_vehicleCase;
+            transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_GPS_SparkFun_LeftRear_translate*transform_Matrix_vehicleCase*...
+                                      Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate;
  
         case 'gpssparkfunrightrear'   % GPS SparkFun Right Rear 
 
-            transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_GPS_SparkFun_RightRear_translate*Mtransform_GPS_SparkFun_RightRear_zrotate*...
-                                      Mtransform_GPS_SparkFun_RightRear_yrotate*Mtransform_GPS_SparkFun_RightRear_xrotate*transform_Matrix_vehicleCase;
+            transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_GPS_SparkFun_RightRear_translate*transform_Matrix_vehicleCase*...
+                                      Mtransform_GPS_SparkFun_RightRear_zrotate*Mtransform_GPS_SparkFun_RightRear_yrotate*Mtransform_GPS_SparkFun_RightRear_xrotate;
 
         case 'velodynelidarrear'      % Velodyne Lidar Rear
 
-            transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Lidar_Velodyne_Rear_zrotate*...
-                                      Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Lidar_Velodyne_Rear_xrotate*transform_Matrix_vehicleCase;
+            transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Velodyne_Rear_translate*transform_Matrix_vehicleCase*...
+                                      Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;
                                           
 
         case 'other'
@@ -470,8 +473,8 @@ if flag_do_plots
                                                              Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate);
     
     % Move the GPS_SparkFun_RightRear to its correct location
-    set(handles.transform_sensorplatform_to_rightGPS,'Matrix',Mtransform_rightgps_translate*Mtransform_SparkFun_RightRear_zrotate*Mtransform_SparkFun_RightRear_yrotate* ...
-                                                              Mtransform_SparkFun_RightRear_xrotate);
+    set(handles.transform_sensorplatform_to_rightGPS,'Matrix',Mtransform_GPS_SparkFun_RightRear_translate*Mtransform_GPS_SparkFun_RightRear_zrotate*Mtransform_GPS_SparkFun_RightRear_yrotate* ...
+                                                              Mtransform_GPS_SparkFun_RightRear_xrotate);
 
     % Move the Lidar_Velodyne_Rear to its correct location
     set(handles.transform_sensorplatform_to_velodyneLIDAR,'Matrix',Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Lidar_Velodyne_Rear_zrotate* ...
@@ -564,9 +567,9 @@ ylim([-15 15]);
 xticks(-15:1:15);
 yticks(-15:1:15);
 %zlim([-15 15]);
-xlabel('East','FontSize',15,'FontWeight','bold');
-ylabel('North','FontSize',15,'FontWeight','bold');
-zlabel('Up','FontSize',15,'FontWeight','bold');
+xlabel('xEast','FontSize',15,'FontWeight','bold');
+ylabel('yNorth','FontSize',15,'FontWeight','bold');
+zlabel('zUp','FontSize',15,'FontWeight','bold');
 
 % Plot the origin
 plot_handles(2) = plot3(cube_points(end,1),cube_points(end,2),cube_points(end,3),'Color',color_plot,'MarkerSize',50);
