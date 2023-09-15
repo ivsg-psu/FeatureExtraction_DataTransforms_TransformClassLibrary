@@ -354,10 +354,13 @@ for i = 1:Nrows
                                       Mtransform_Lidar_Sick_Rear_zrotate*Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate;
 
         case 'gpssparkfunleftrear'    % GPS SparkFun Left Rear 
-
+            
             transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_GPS_SparkFun_LeftRear_translate*transform_Matrix_vehicleCase*...
                                       Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate;
- 
+
+            % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_GPS_SparkFun_LeftRear_translate*Mtransform_Vehicle_translate*...
+            %                           Mtransform_Vehicle_zrotate*Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_Vehicle_yrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_Vehicle_xrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate;
+            
         case 'gpssparkfunrightrear'   % GPS SparkFun Right Rear 
 
             transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_GPS_SparkFun_RightRear_translate*transform_Matrix_vehicleCase*...
@@ -367,7 +370,10 @@ for i = 1:Nrows
 
             transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Velodyne_Rear_translate*transform_Matrix_vehicleCase*...
                                       Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;
-                                          
+
+            % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Vehicle_translate*...
+            %                           Mtransform_Vehicle_zrotate*Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Vehicle_xrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;
+            
 
         case 'other'
 
