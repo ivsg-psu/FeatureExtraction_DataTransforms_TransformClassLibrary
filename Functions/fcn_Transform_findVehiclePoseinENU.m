@@ -224,7 +224,10 @@ vehicleOrigin_ENU = zeros(Nelems_yaw_to_zero_ENU,1);
 for i = 1:Nelems_yaw_to_zero_ENU
 
     % Transform matrix to zrotate "YAW" in negative Yaw_in_rad_ENU
-    Mtr_yaw_to_zero = [cos(yaw_to_zero_ENU(1,i)), -sin(yaw_to_zero_ENU(1,i)), 0, 0; sin(yaw_to_zero_ENU(1,i)), cos(yaw_to_zero_ENU(1,i)), 0, 0; 0, 0, 1, 0; 0, 0, 0, 1];
+    Mtr_yaw_to_zero = [cos(yaw_to_zero_ENU(1,i)), -sin(yaw_to_zero_ENU(1,i)), 0, 0;
+                       sin(yaw_to_zero_ENU(1,i)), cos(yaw_to_zero_ENU(1,i)), 0, 0;
+                       0, 0, 1, 0;
+                       0, 0, 0, 1];
 
     % Rotate the unit vector in the direction, where YAW of the vehicle is zero
     % in ENU
@@ -237,7 +240,10 @@ for i = 1:Nelems_yaw_to_zero_ENU
 
     % Transform matrix to yrotate "PITCH" in negative PITCH_vehicle_ENU
     pitch_to_zero_ENU = -pitch_in_rad_ENU;
-    Mtr_pitch_to_zero = [cos(pitch_to_zero_ENU), 0, sin(pitch_to_zero_ENU), 0; 0, 1, 0, 0; sin(pitch_to_zero_ENU), 0, cos(pitch_to_zero_ENU), 0; 0, 0, 0, 1]; 
+    Mtr_pitch_to_zero = [cos(pitch_to_zero_ENU), 0, sin(pitch_to_zero_ENU), 0;
+                         0, 1, 0, 0;
+                         sin(pitch_to_zero_ENU), 0, cos(pitch_to_zero_ENU), 0;
+                         0, 0, 0, 1]; 
     
     % Rotate the unit vector in the direction, where YAW and PITCH of the 
     % vehicle are zero in ENU

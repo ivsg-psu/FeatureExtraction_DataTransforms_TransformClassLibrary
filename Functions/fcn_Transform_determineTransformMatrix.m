@@ -314,7 +314,7 @@ for i = 1:Nrows
     Vehicle_x_relative_to_ENUCoord = vehiclePose_ENU(i,1);
     Vehicle_y_relative_to_ENUCoord = vehiclePose_ENU(i,2);
     Vehicle_z_relative_to_ENUCoord = vehiclePose_ENU(i,3);
-    Vehicle_roll_relative_to_own_axis = -vehiclePose_ENU(i,4);
+    Vehicle_roll_relative_to_own_axis = vehiclePose_ENU(i,4);
     Vehicle_pitch_relative_to_own_axis = vehiclePose_ENU(i,5);
     Vehicle_yaw_relative_to_own_axis = vehiclePose_ENU(i,6);
 
@@ -332,8 +332,8 @@ for i = 1:Nrows
 
     transform_Matrix_vehicleCase = Mtransform_Vehicle_translate*Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate;
 
-    % transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear = Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
-    %             Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate;
+    transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear = Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+                Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate;
     % Find the transform matrix
 
     sensor_or_vehicle_string = fcn_Transform_determineSensorTypeOrVehicle(sensor_or_vehicle);
@@ -345,57 +345,26 @@ for i = 1:Nrows
             transform_Matrix(:,:,i) = transform_Matrix_vehicleCase;
 
         case 'gpssensorplatformrear'  % GPS Sensor Platform Rear
-
-            % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*transform_Matrix_vehicleCase;
-
-            transform_Matrix(:,:,i) = Mtransform_Vehicle_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*...
-                                      Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate*...
-                                      Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate;
-                                      
+            
+            transform_Matrix(:,:,i) = transform_Matrix_vehicleCase*transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear;
 
         case 'sicklidarrear'          % Sick Lidar Rear
-
-            % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Sick_Rear_translate*transform_Matrix_vehicleCase*...
-            %                           Mtransform_Lidar_Sick_Rear_zrotate*Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate;
-
-            transform_Matrix(:,:,i) = Mtransform_Vehicle_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_Lidar_Sick_Rear_translate*...
-                                      Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate*...
-                                      Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
-                                      Mtransform_Lidar_Sick_Rear_zrotate*Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate;
+            transform_Matrix_Lidar_Sick_Rear = Mtransform_Lidar_Sick_Rear_translate*Mtransform_Lidar_Sick_Rear_zrotate*Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate;
+            transform_Matrix(:,:,i) = transform_Matrix_vehicleCase*transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*transform_Matrix_Lidar_Sick_Rear;
 
         case 'gpssparkfunleftrear'    % GPS SparkFun Left Rear 
-            
-            % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_GPS_SparkFun_LeftRear_translate*transform_Matrix_vehicleCase*...
-            %                           Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate;
+            transform_Matrix_GPS_SparkFun_LeftRear = Mtransform_GPS_SparkFun_LeftRear_translate*Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate;
+            transform_Matrix(:,:,i) = transform_Matrix_vehicleCase*transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*transform_Matrix_GPS_SparkFun_LeftRear;
 
-            transform_Matrix(:,:,i) = Mtransform_Vehicle_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_SparkFun_LeftRear_translate*...
-                                      Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate*...
-                                      Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
-                                      Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate;
-
-            % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_GPS_SparkFun_LeftRear_translate*Mtransform_Vehicle_translate*...
-            %                           Mtransform_Vehicle_zrotate*Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_Vehicle_yrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_Vehicle_xrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate;
+  
             
         case 'gpssparkfunrightrear'   % GPS SparkFun Right Rear 
-
-            % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_GPS_SparkFun_RightRear_translate*transform_Matrix_vehicleCase*...
-            %                           Mtransform_GPS_SparkFun_RightRear_zrotate*Mtransform_GPS_SparkFun_RightRear_yrotate*Mtransform_GPS_SparkFun_RightRear_xrotate;
-
-            transform_Matrix(:,:,i) = Mtransform_Vehicle_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_SparkFun_RightRear_translate*...
-                                      Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate*...
-                                      Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
-                                      Mtransform_GPS_SparkFun_RightRear_zrotate*Mtransform_GPS_SparkFun_RightRear_yrotate*Mtransform_GPS_SparkFun_RightRear_xrotate;
-
+            transform_Matrix_GPS_SparkFun_RightRear = Mtransform_GPS_SparkFun_RightRear_translate*Mtransform_GPS_SparkFun_RightRear_zrotate*Mtransform_GPS_SparkFun_RightRear_yrotate*Mtransform_GPS_SparkFun_RightRear_xrotate;
+            transform_Matrix(:,:,i) = transform_Matrix_vehicleCase*transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*transform_Matrix_GPS_SparkFun_RightRear;
 
         case 'velodynelidarrear'      % Velodyne Lidar Rear
-
-            % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Velodyne_Rear_translate*transform_Matrix_vehicleCase*...
-            %                           Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;
-
-            transform_Matrix(:,:,i) = Mtransform_Vehicle_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_Lidar_Velodyne_Rear_translate*...
-                                      Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate*...
-                                      Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate*...
-                                      Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;
+            transform_Matrix_Lidar_Velodyne_Rear = Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;
+            transform_Matrix(:,:,i) = transform_Matrix_vehicleCase*transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*transform_Matrix_Lidar_Velodyne_Rear;
 
             % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Vehicle_translate*...
             %                           Mtransform_Vehicle_zrotate*Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Vehicle_xrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;

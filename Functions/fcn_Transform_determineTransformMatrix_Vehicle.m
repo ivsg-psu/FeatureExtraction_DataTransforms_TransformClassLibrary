@@ -314,7 +314,7 @@ for i = 1:Nrows
     Vehicle_x_relative_to_ENUCoord = vehiclePose_ENU(i,1);
     Vehicle_y_relative_to_ENUCoord = vehiclePose_ENU(i,2);
     Vehicle_z_relative_to_ENUCoord = vehiclePose_ENU(i,3);
-    Vehicle_roll_relative_to_own_axis = -vehiclePose_ENU(i,4);
+    Vehicle_roll_relative_to_own_axis = vehiclePose_ENU(i,4);
     Vehicle_pitch_relative_to_own_axis = vehiclePose_ENU(i,5);
     Vehicle_yaw_relative_to_own_axis = vehiclePose_ENU(i,6);
 
