@@ -159,6 +159,9 @@ function transform_Matrix = fcn_Transform_determineTransformMatrix(vehicleParame
 % 2023_09_08: Aneesh Batchu
 % -- Bug Fix: All the translations are done before rotating the sensors and
 % vehicle. 
+% 2023_09_25: Xinyu Cao
+% -- Bug Fix: Corrected the order of the matrix multiplications to
+% perform the transforms correctly. 
 
 flag_do_debug = 0;  % Flag to show the results for debugging
 flag_do_plots = 0;  % % Flag to plot the final results

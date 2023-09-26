@@ -41,7 +41,7 @@ run('Example_vehicleParameters_and_sensorPoseParameters_Struct.m')
 % Antennas's sensor readings(in ENU coordinates) are transformed into
 % vehicle coordinates. 
 
-load PoseData.mat
+load PoseData_1.mat
 
 % ENU coordinates of the rear Left Spark Fun GPS 
 sensorReading_ENU = GPS_SparkFun_LeftRear_ENU_interp;
