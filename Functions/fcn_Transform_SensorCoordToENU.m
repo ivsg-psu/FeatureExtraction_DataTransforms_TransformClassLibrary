@@ -214,7 +214,7 @@ transform_Matrix = fcn_Transform_determineTransformMatrix(vehicleParameters, sen
 % Convert sensorReading_ENU to homogenous coordinates
 onesColumn = ones(size(sensorReading_SensorCoord, 1),1);
 sensorReading_SensorCoord_homogenous_measurement = [sensorReading_SensorCoord, onesColumn]';
-fprintf(fileID,'\nThe points are located at:\n');
+% fprintf(fileID,'\nThe points are located at:\n');
 
 transformed_SensorCoord_in_ENU = zeros(size(vehiclePose_ENU,1),3);
 
@@ -223,7 +223,7 @@ for i = 1:size(vehiclePose_ENU,1)
     transformed_SensorCoord_in_ENU(i,:) = transformed_SensorCoordPoint_in_ENU_homogeneous(1:3,:)';  
 end
 
-disp(transformed_SensorCoord_in_ENU);
+% disp(transformed_SensorCoord_in_ENU);
 %% Plot the results (for debugging)?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   _____       _

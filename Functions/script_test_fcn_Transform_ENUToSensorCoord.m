@@ -2480,6 +2480,7 @@ perturbation_in_sensorPose = [];
 fig_num = 134;
 
 transformed_ENUPoint_in_dashCoord = fcn_Transform_ENUToSensorCoord(vehicleParameters, sensorPoseParameters, in_dashCoord, vehiclePose_ENU, sensorReading_ENU, perturbation_in_sensorPose, fig_num);
+disp(transformed_ENUPoint_in_dashCoord)
 % expected_transformed_ENUPoint_in_dashCoord = [8.5575, 5, -3.7936];
 % 
 % assert(isequal(round(transformed_ENUPoint_in_dashCoord,4), round(expected_transformed_ENUPoint_in_dashCoord,4)));
