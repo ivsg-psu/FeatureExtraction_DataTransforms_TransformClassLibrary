@@ -204,6 +204,13 @@ end
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Check the sizes of sensorReading_SensorCoord and vehiclePose_ENU, and
+% duplicate the vehiclePose_ENU based on the size(,1) of
+% sensorReading_SensorCoord.
+if max(size(sensorReading_SensorCoord)) > max(size(vehiclePose_ENU))
+    vehiclePose_ENU = fcn_Transform_generateVehiclePoseDuplicates(vehiclePose_ENU, sensorReading_SensorCoord);
+end
+
 % This function outputs the transform matrix based on the input parameters
 transform_Matrix = fcn_Transform_determineTransformMatrix(vehicleParameters, sensorPoseParameters, sensor_or_vehicle, vehiclePose_ENU, ...
                                                              perturbation_in_sensorPose_relative_to_SensorPlatform, fig_num);

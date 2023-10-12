@@ -53,8 +53,29 @@ if ~exist('flag_DataTransforms_Folders_Initialized','var')
     flag_DataTransforms_Folders_Initialized = 1;
 end
 
+%% Test 
 
-%% Test Case:
+figure(456456)
+
+geoplot(LeftGPS_LLA(:,1), LeftGPS_LLA(:,2), '.-','Linewidth',3,'Markersize',15)
+hold on
+geoplot(RightGPS_LLA(:,1), RightGPS_LLA(:,2), '.-','Linewidth',3,'Markersize',15)
+geoplot(FrontGPS_LLA(:,1), FrontGPS_LLA(:,2), '.-','Linewidth',3,'Markersize',15)
+geobasemap satellite
+
+% Basestation LLA coordinates
+reference_LLA = [40.7934, -77.8600, 351.7392];
+
+% Convert the Rear GPS Left and Right LLA coordinates to ENU coordinates
+LeftGPS_ENU = fcn_GPS_lla2enu(LeftGPS_LLA, reference_LLA);
+RightGPS_ENU = fcn_GPS_lla2enu(RightGPS_LLA, reference_LLA);
+FrontGPS_ENU = fcn_GPS_lla2enu(FrontGPS_LLA, reference_LLA);
+
+save("GPSData_ENU.mat", 'FrontGPS_ENU',"LeftGPS_ENU", "RightGPS_ENU")
+
+
+
+%% Test Case: 1:
 
 % In this case, the vehicle pose is determined using the centers Rear GPS 
 % Antenna centers. Later, the vehicle pose is used to transform the sick
