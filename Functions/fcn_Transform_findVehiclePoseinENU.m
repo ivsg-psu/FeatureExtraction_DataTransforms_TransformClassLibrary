@@ -1,4 +1,4 @@
-function vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin, varargin)
+function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, GPSFront_ENU, SensorMount_offset_relative_to_VehicleOrigin, varargin)
 % fcn_Transform_findVehiclePoseinENU
 %
 % This function takes two GPS Antenna centers, GPSLeft_ENU and 
@@ -129,10 +129,18 @@ function vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRi
 % -- wrote the code originally
 % 2023_08_07: Aneesh Batchu
 % Vectorized the code
+% 2023_10_12: Xinyu Cao
+% Fixed several errors in roll, pitch and yaw angle calculation, the angle
+% calcialtion is incorrect from the begining
+% Fixed the transformation matrix and vector transformation
+% Deleted useless code, cleaned the function to speed up
+% The original code was saved to fcn_Transform_findVehiclePoseinENU_OLD
 
-% TO DO
-% Should be able to find the Roll and Pitch of the vehicle in ENU
-% coordinates - This is the later task. 
+% To do list:
+% Edit the comments
+% Fixed fcn_Transform_determineTransformMatrix function and other related
+% functions
+% Add comments to some new created functions
 
 flag_do_debug = 0;  % Flag to show the results for debugging
 flag_do_plots = 0;  % % Flag to plot the final results
@@ -185,133 +193,30 @@ end
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Step 1 - Finding the YAW of the vehicle relative to ENU coordinates
+%% Step 1 - Finding the Roll, Pitch and Yaw angle of the vehicle relative to ENU coordinates
 
-% Find the unit vector from GPSLeft_ENU --> GPSRight_ENU
+[roll,pitch,yaw] = fcn_Transform_CalculateAnglesofRotation(GPSLeft_ENU,GPSRight_ENU,GPSFront_ENU);
 
-unitVector_from_GPSLeft_to_GPSRight = (GPSRight_ENU - GPSLeft_ENU)./(sum((GPSLeft_ENU - GPSRight_ENU).^2,2).^0.5);
+%% Step 2 - Find the Position of the Sensor Mount and find the transormation matrix from vehicle origin to sensor mount
 
-% Find the orthogonal (Rotate the unit vector by -90 degrees)
+sensorMount_center = (GPSLeft_ENU+GPSRight_ENU)/2;
+sensorMount_PoseENU = [sensorMount_center,roll,pitch, yaw];
+VehicleOrigin_offset_relative_to_SensorMount = -SensorMount_offset_relative_to_VehicleOrigin;
+N_points = size(sensorMount_PoseENU,1);
+Mtransform_VehicleOrigin_to_SensorMount = makehgtform('translate',VehicleOrigin_offset_relative_to_SensorMount);
 
-% Convert unit vector to homogeneous coordinates
-onesColumn = ones(size(unitVector_from_GPSLeft_to_GPSRight, 1),1);
-unitVector_from_GPSLeft_to_GPSRight = [unitVector_from_GPSLeft_to_GPSRight, onesColumn]';
-
-
-% transform matrix to rotate the unit vector by -90 degrees
-Mtr_rotate_negative90 = [0 -1 0 0; 1 0 0 0; 0 0 1 0; 0 0 0 1];
-
-rotated_unitVector_from_1to2 = Mtr_rotate_negative90*(unitVector_from_GPSLeft_to_GPSRight);
-
-% Find yaw - by finding arc tangent of the orthogonal of the unit vector
-
-yaw_in_rad_ENU = atan2(rotated_unitVector_from_1to2(2,:), rotated_unitVector_from_1to2(1,:));
-yaw_in_deg_ENU = rad2deg(yaw_in_rad_ENU);
-
-% fprintf('The YAW of the vehicle in ENU coordinates is %.4f \n',yaw_in_deg_ENU);
-
-%% Step 2 - Finding the ROLL of the vehicle relative to ENU coordinates
-
-% Rotate the vehicle based on the YAW_vehicle_ENU found in the previous step. 
-% The vehicle is rotated in a way that the YAW is zero.
-yaw_to_zero_ENU = -yaw_in_rad_ENU;
-
-% No. of elements in yaw_to_zero_ENU
-Nelems_yaw_to_zero_ENU = size(yaw_to_zero_ENU, 2); 
-ISO_roll_in_deg_ENU = zeros(Nelems_yaw_to_zero_ENU,1);
-vehicleOrigin_ENU = zeros(Nelems_yaw_to_zero_ENU,1);
-
-for i = 1:Nelems_yaw_to_zero_ENU
-
-    % Transform matrix to zrotate "YAW" in negative Yaw_in_rad_ENU
-    Mtr_yaw_to_zero = [cos(yaw_to_zero_ENU(1,i)), -sin(yaw_to_zero_ENU(1,i)), 0, 0;
-                       sin(yaw_to_zero_ENU(1,i)), cos(yaw_to_zero_ENU(1,i)), 0, 0;
-                       0, 0, 1, 0;
-                       0, 0, 0, 1];
-
-    % Rotate the unit vector in the direction, where YAW of the vehicle is zero
-    % in ENU
-    yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight = Mtr_yaw_to_zero*unitVector_from_GPSLeft_to_GPSRight(:,i);
-
-    % Rotate the vehicle based on the PITCH_vehicle_ENU given in the input.
-    % The vehicle is rotated in a way that the PITCH is zero.
-
-    pitch_in_rad_ENU = deg2rad(PITCH_vehicle_ENU(i,1));
-
-    % Transform matrix to yrotate "PITCH" in negative PITCH_vehicle_ENU
-    pitch_to_zero_ENU = -pitch_in_rad_ENU;
-    Mtr_pitch_to_zero = [cos(pitch_to_zero_ENU), 0, sin(pitch_to_zero_ENU), 0;
-                         0, 1, 0, 0;
-                         sin(pitch_to_zero_ENU), 0, cos(pitch_to_zero_ENU), 0;
-                         0, 0, 0, 1]; 
-    
-    % Rotate the unit vector in the direction, where YAW and PITCH of the 
-    % vehicle are zero in ENU
-    pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight = Mtr_pitch_to_zero*yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight;
-
-    % The homogeneous horizontal unitvector from GPSLeft_ENU --> GPSRight_ENU 
-    % when YAW and PITCH are zero
-    horizontal_unitVector_left_to_right_yaw_pitch_zero = [0; -1; 0; 1];
-
-    % Dot product of the pitch_to_zero unit vector and horizontal unit vector
-   dot_product = dot(pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight(1:3),horizontal_unitVector_left_to_right_yaw_pitch_zero(1:3));
-
-   % Magnitudes of the pitch_to_zero unit vector and horizontal unit vector
-   norm_true_vector_from_GPSLeft_to_GPSRight = norm(pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight(1:3));
-   norm_horizontal_vector_from_GPSLeft_to_GPSRight = norm(horizontal_unitVector_left_to_right_yaw_pitch_zero(1:3));
-
-   % Finding the ROLL (theta value) using inverse cosine
-   mag_roll_in_rad_ENU = acos(dot_product/(norm_true_vector_from_GPSLeft_to_GPSRight*norm_horizontal_vector_from_GPSLeft_to_GPSRight));
-
-   % Find the cross product to determine the direction of the ROLL
-   cross_product = cross(horizontal_unitVector_left_to_right_yaw_pitch_zero(1:3),pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight(1:3));
-
-   % The direction of the roll depends on the X - coordinate of the cross
-   % product
-   direction_of_ROLL = sign(cross_product(1));
-
-   % Roll of the vehicle in ENU coordinates in radians
-   roll_in_rad_ENU = direction_of_ROLL*mag_roll_in_rad_ENU;
-
-   % Roll of the vehicle in ENU coordinates in degrees
-   roll_in_deg_ENU = rad2deg(roll_in_rad_ENU);
-
-   % -1 is multiplied as the orientation of the vehicle follows the ISO
-   % convention
-   ISO_roll_in_deg_ENU(i,1) = -1*roll_in_deg_ENU;
-
-   roll_to_zero_ENU = -roll_in_rad_ENU;
-
-   % Roll transform matrix
-   Mtr_roll_to_zero = [1, 0, 0, 0; 0 cos(roll_to_zero_ENU), -sin(roll_to_zero_ENU), 0; 0, sin(roll_to_zero_ENU), cos(roll_to_zero_ENU), 0; 0, 0, 0, 1];
-
-   % Rotate the unit vector in the direction, where YAW, PITCH and ROLL of the
-   % vehicle are zero in ENU
-   roll_to_zero_unitVector_from_GPSLeft_to_GPSRight = Mtr_roll_to_zero*pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight;
-
-   %% Step 3 - Find the Vehicle Origin, in ENU coordinates based on YAW
-
-   % Find the center of the sensor mount
-   SensorMount_center = (GPSLeft_ENU(i,:) + GPSRight_ENU(i,:))/2;
-
-   % Find the vehicle offset relative to sensor mount
-   VehicleOrigin_offset_relative_to_SensorMount = -SensorMount_offset_relative_to_VehicleOrigin;
-
-
-   Translate_midPoint_of_SensorMount_to_VehicleOrigin = VehicleOrigin_offset_relative_to_SensorMount(1)*rotated_unitVector_from_1to2(1:3,i)';
-
-   vehicleOrigin_ENU(i,1) = SensorMount_center(1) + Translate_midPoint_of_SensorMount_to_VehicleOrigin(1);
-   vehicleOrigin_ENU(i,2) = SensorMount_center(2) + Translate_midPoint_of_SensorMount_to_VehicleOrigin(2);
-   vehicleOrigin_ENU(i,3) = SensorMount_center(3) + Translate_midPoint_of_SensorMount_to_VehicleOrigin(3) + VehicleOrigin_offset_relative_to_SensorMount(3);
+%% Step 3 - Calculate the Vehicle Position
+for n = 1:N_points
+    Mtransform_SensorMount_to_ENU = fcn_Transform_createTransformMatrix(sensorMount_PoseENU(n,:));
+    Mtransform_VehicleOrigin_to_ENU = Mtransform_SensorMount_to_ENU*Mtransform_VehicleOrigin_to_SensorMount;
+    VehiclePose_ENU_Homo = Mtransform_VehicleOrigin_to_ENU*[0;0;0;1];
+    % VehiclePose_ENU_array(n,:) = VehiclePose_ENU_Homo(1:3).';
+    VehiclePose(n,:) = [VehiclePose_ENU_Homo(1:3).',sensorMount_PoseENU(n,4:6)];
 
 end
 
-%% Step 4 - Find the Vehicle POSE in ENU coordinates
-
-vehiclePose_ENU = [vehicleOrigin_ENU, ISO_roll_in_deg_ENU, PITCH_vehicle_ENU, yaw_in_deg_ENU'];
-
 fprintf(1,'\nThe POSE of the vehicle in ENU coordinates is :\n');
-disp(vehiclePose_ENU);
+% disp(VehiclePose);
 
 %% Plot the results (for debugging)?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

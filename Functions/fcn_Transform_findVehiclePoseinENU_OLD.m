@@ -1,4 +1,4 @@
-function vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU_PITCH(GPSLeft_ENU, GPSRight_ENU, SensorMount_offset_relative_to_VehicleOrigin, varargin)
+function vehiclePose_ENU = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, PITCH_vehicle_ENU, SensorMount_offset_relative_to_VehicleOrigin, varargin)
 % fcn_Transform_findVehiclePoseinENU
 %
 % This function takes two GPS Antenna centers, GPSLeft_ENU and 
@@ -191,7 +191,7 @@ end
 
 unitVector_from_GPSLeft_to_GPSRight = (GPSRight_ENU - GPSLeft_ENU)./(sum((GPSLeft_ENU - GPSRight_ENU).^2,2).^0.5);
 
-% Find the orthogonal (Rotate the unit vector by 90 degrees)
+% Find the orthogonal (Rotate the unit vector by -90 degrees)
 
 % Convert unit vector to homogeneous coordinates
 onesColumn = ones(size(unitVector_from_GPSLeft_to_GPSRight, 1),1);
@@ -219,7 +219,6 @@ yaw_to_zero_ENU = -yaw_in_rad_ENU;
 % No. of elements in yaw_to_zero_ENU
 Nelems_yaw_to_zero_ENU = size(yaw_to_zero_ENU, 2); 
 ISO_roll_in_deg_ENU = zeros(Nelems_yaw_to_zero_ENU,1);
-pitch_in_deg_ENU = zeros(Nelems_yaw_to_zero_ENU,1);
 vehicleOrigin_ENU = zeros(Nelems_yaw_to_zero_ENU,1);
 
 for i = 1:Nelems_yaw_to_zero_ENU
@@ -234,22 +233,38 @@ for i = 1:Nelems_yaw_to_zero_ENU
     % in ENU
     yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight = Mtr_yaw_to_zero*unitVector_from_GPSLeft_to_GPSRight(:,i);
 
+    % Rotate the vehicle based on the PITCH_vehicle_ENU given in the input.
+    % The vehicle is rotated in a way that the PITCH is zero.
+
+    pitch_in_rad_ENU = deg2rad(PITCH_vehicle_ENU(i,1));
+
+    % Transform matrix to yrotate "PITCH" in negative PITCH_vehicle_ENU
+    pitch_to_zero_ENU = -pitch_in_rad_ENU;
+    Mtr_pitch_to_zero = [cos(pitch_to_zero_ENU), 0, sin(pitch_to_zero_ENU), 0;
+                         0, 1, 0, 0;
+                         sin(pitch_to_zero_ENU), 0, cos(pitch_to_zero_ENU), 0;
+                         0, 0, 0, 1]; 
+    
+    % Rotate the unit vector in the direction, where YAW and PITCH of the 
+    % vehicle are zero in ENU
+    pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight = Mtr_pitch_to_zero*yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight;
+
     % The homogeneous horizontal unitvector from GPSLeft_ENU --> GPSRight_ENU 
-    % when YAW is zero
-    horizontal_unitVector_left_to_right_yaw_zero = [0; -1; 0; 1];
+    % when YAW and PITCH are zero
+    horizontal_unitVector_left_to_right_yaw_pitch_zero = [0; -1; 0; 1];
 
     % Dot product of the pitch_to_zero unit vector and horizontal unit vector
-   dot_product = dot(yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(1:3),horizontal_unitVector_left_to_right_yaw_zero(1:3));
+   dot_product = dot(pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight(1:3),horizontal_unitVector_left_to_right_yaw_pitch_zero(1:3));
 
    % Magnitudes of the pitch_to_zero unit vector and horizontal unit vector
-   norm_true_vector_from_GPSLeft_to_GPSRight = norm(yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(1:3));
-   norm_horizontal_vector_from_GPSLeft_to_GPSRight = norm(horizontal_unitVector_left_to_right_yaw_zero(1:3));
+   norm_true_vector_from_GPSLeft_to_GPSRight = norm(pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight(1:3));
+   norm_horizontal_vector_from_GPSLeft_to_GPSRight = norm(horizontal_unitVector_left_to_right_yaw_pitch_zero(1:3));
 
    % Finding the ROLL (theta value) using inverse cosine
    mag_roll_in_rad_ENU = acos(dot_product/(norm_true_vector_from_GPSLeft_to_GPSRight*norm_horizontal_vector_from_GPSLeft_to_GPSRight));
 
    % Find the cross product to determine the direction of the ROLL
-   cross_product = cross(horizontal_unitVector_left_to_right_yaw_zero(1:3),yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(1:3));
+   cross_product = cross(horizontal_unitVector_left_to_right_yaw_pitch_zero(1:3),pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight(1:3));
 
    % The direction of the roll depends on the X - coordinate of the cross
    % product
@@ -270,56 +285,14 @@ for i = 1:Nelems_yaw_to_zero_ENU
    % Roll transform matrix
    Mtr_roll_to_zero = [1, 0, 0, 0; 0 cos(roll_to_zero_ENU), -sin(roll_to_zero_ENU), 0; 0, sin(roll_to_zero_ENU), cos(roll_to_zero_ENU), 0; 0, 0, 0, 1];
 
-   % Rotate the unit vector in the direction, where YAW and ROLL of the
+   % Rotate the unit vector in the direction, where YAW, PITCH and ROLL of the
    % vehicle are zero in ENU
-   roll_to_zero_unitVector_from_GPSLeft_to_GPSRight = Mtr_roll_to_zero*yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight;
-   
-
-   if sign(rotated_unitVector_from_1to2(1,1)) == 1
-       % transform matrix to rotate the unit vector by -90 degrees
-       Mtr_rotate_90_roll_to_zero = [0 -1 0 0; 1 0 0 0; 0 0 1 0; 0 0 0 1];
-   else
-       Mtr_rotate_90_roll_to_zero = [0 1 0 0; -1 0 0 0; 0 0 1 0; 0 0 0 1];
-   end
-
-   rotated_roll_yaw_to_zero_unitVector = Mtr_rotate_90_roll_to_zero*roll_to_zero_unitVector_from_GPSLeft_to_GPSRight;
-
-   % The homogeneous horizontal unitvector from GPSCenter_ENU --> GPSFront_ENU
-   % when orientation is zero
-   % This not correct vectoe. This unit vector 
-   horizontal_unitVector_from_GPSCenter_to_Front_Orientation_Zero = [1*sign(rotated_unitVector_from_1to2(1,1)); 0; 0; 1]; % This needs to be changed
-
-   % Dot product of the pitch_to_zero unit vector and horizontal unit vector
-   dot_product = dot(rotated_roll_yaw_to_zero_unitVector(1:3),horizontal_unitVector_from_GPSCenter_to_Front_Orientation_Zero(1:3));
-
-   % Magnitudes of the pitch_to_zero unit vector and horizontal unit vector
-   norm_unitVector_from_GPSCenter_to_GPSFront_roll_yaw_zero = norm(rotated_roll_yaw_to_zero_unitVector(1:3));
-   norm_horizontal_unitVector_from_GPSCenter_to_Front_OrientZero = norm(horizontal_unitVector_from_GPSCenter_to_Front_Orientation_Zero(1:3));
-
-   % Finding the PITCH (theta value) using inverse cosine
-   mag_pitch_in_rad_ENU = acos(dot_product/(norm_unitVector_from_GPSCenter_to_GPSFront_roll_yaw_zero*norm_horizontal_unitVector_from_GPSCenter_to_Front_OrientZero));
-
-   % Find the cross product to determine the direction of the PITCH
-   cross_product = cross(rotated_roll_yaw_to_zero_unitVector(1:3),horizontal_unitVector_from_GPSCenter_to_Front_Orientation_Zero(1:3));
-
-   % The direction of the pitch depends on the Y - coordinate of the cross
-   % product
-   direction_of_PITCH = sign(cross_product(2));
-
-   % Pitch of the vehicle in ENU coordinates in radians
-   pitch_in_rad_ENU = direction_of_PITCH*mag_pitch_in_rad_ENU;
-
-   % Roll of the vehicle in ENU coordinates in degrees
-   pitch_in_deg_ENU(i,1) = rad2deg(pitch_in_rad_ENU);
-
-
-
-
+   roll_to_zero_unitVector_from_GPSLeft_to_GPSRight = Mtr_roll_to_zero*pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight;
 
    %% Step 3 - Find the Vehicle Origin, in ENU coordinates based on YAW
 
    % Find the center of the sensor mount
-   GPS_center = (GPSLeft_ENU(i,:) + GPSRight_ENU(i,:))/2;
+   SensorMount_center = (GPSLeft_ENU(i,:) + GPSRight_ENU(i,:))/2;
 
    % Find the vehicle offset relative to sensor mount
    VehicleOrigin_offset_relative_to_SensorMount = -SensorMount_offset_relative_to_VehicleOrigin;
@@ -327,15 +300,15 @@ for i = 1:Nelems_yaw_to_zero_ENU
 
    Translate_midPoint_of_SensorMount_to_VehicleOrigin = VehicleOrigin_offset_relative_to_SensorMount(1)*rotated_unitVector_from_1to2(1:3,i)';
 
-   vehicleOrigin_ENU(i,1) = GPS_center(1) + Translate_midPoint_of_SensorMount_to_VehicleOrigin(1);
-   vehicleOrigin_ENU(i,2) = GPS_center(2) + Translate_midPoint_of_SensorMount_to_VehicleOrigin(2);
-   vehicleOrigin_ENU(i,3) = GPS_center(3) + Translate_midPoint_of_SensorMount_to_VehicleOrigin(3) + VehicleOrigin_offset_relative_to_SensorMount(3);
+   vehicleOrigin_ENU(i,1) = SensorMount_center(1) + Translate_midPoint_of_SensorMount_to_VehicleOrigin(1);
+   vehicleOrigin_ENU(i,2) = SensorMount_center(2) + Translate_midPoint_of_SensorMount_to_VehicleOrigin(2);
+   vehicleOrigin_ENU(i,3) = SensorMount_center(3) + Translate_midPoint_of_SensorMount_to_VehicleOrigin(3) + VehicleOrigin_offset_relative_to_SensorMount(3);
 
 end
 
 %% Step 4 - Find the Vehicle POSE in ENU coordinates
 
-vehiclePose_ENU = [vehicleOrigin_ENU, ISO_roll_in_deg_ENU, pitch_in_deg_ENU, yaw_in_deg_ENU'];
+vehiclePose_ENU = [vehicleOrigin_ENU, ISO_roll_in_deg_ENU, PITCH_vehicle_ENU, yaw_in_deg_ENU'];
 
 fprintf(1,'\nThe POSE of the vehicle in ENU coordinates is :\n');
 disp(vehiclePose_ENU);
@@ -366,7 +339,24 @@ if flag_do_plots
     % Connecting Left GPS center and Left GPS center with a line
     line_data = [GPSLeft_ENU; GPSRight_ENU];
     plot3(line_data(:,1), line_data(:,2), line_data(:,3), 'r-', 'LineWidth', 3);
+    
+    % Plot the unitvector from GPSLeft_to_GPSRight when YAW is zero
+    quiver3(oriGin(1), oriGin(2), oriGin(3), yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(1), yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(3), 'Color', 'green', 'LineWidth', 2);
 
+    % Plot the unitvector from GPSLeft_to_GPSRight when YAW and PITCH are zero
+    quiver3(oriGin(1), oriGin(2), oriGin(3), pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight(1), pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), pitch_to_zero_unitVector_from_GPSLeft_to_GPSRight(3), 'Color', 'magenta', 'LineWidth', 2);
+
+    % Direction of the unit horizontal vector when YAW, PITCH and ROLL are zero
+    quiver3(oriGin(1), oriGin(2), oriGin(3), horizontal_unitVector_left_to_right_yaw_pitch_zero(1), horizontal_unitVector_left_to_right_yaw_pitch_zero(2), horizontal_unitVector_left_to_right_yaw_pitch_zero(3), 'Color', 'red', 'LineWidth', 2);
+
+    % Plot the unitvector from GPSLeft_to_GPSRight when YAW is zero
+    quiver3(oriGin(1), oriGin(2), oriGin(3), roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(1), roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(3), 'Color', 'c', 'LineWidth', 2);
+    
+    % Find the GPSRight_ENU such that YAW of the vehicle is zero
+    GPSRight_ENU_orient_to_zero = [GPSLeft_ENU(1), GPSLeft_ENU(2) + 2*roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), GPSLeft_ENU(3)];
+    plot3(GPSRight_ENU_orient_to_zero(1), GPSRight_ENU_orient_to_zero(2), GPSRight_ENU_orient_to_zero(3), 'c.', 'MarkerSize', 50);
+        
+    
     % Plot the direction of the unit vector 
     quiver3(oriGin(1,1), oriGin(1,2), oriGin(1,3), unitVector_from_GPSLeft_to_GPSRight(1,1), unitVector_from_GPSLeft_to_GPSRight(2,1), unitVector_from_GPSLeft_to_GPSRight(3,1), 'Color', 'k', 'LineWidth', 1);
     
@@ -374,24 +364,7 @@ if flag_do_plots
     quiver3(oriGin(1,1), oriGin(1,2), oriGin(1,3), rotated_unitVector_from_1to2(1,1), rotated_unitVector_from_1to2(2,1), rotated_unitVector_from_1to2(3,1), 'Color', 'r', 'LineWidth', 1);
     
     % Plot the Sensor Mount origin
-    plot3(GPS_center(1,1), GPS_center(1,2), GPS_center(1,3), 'b.', 'MarkerSize', 50);
-    
-    % Plot the unitvector from GPSLeft_to_GPSRight when YAW is zero
-    quiver3(oriGin(1,1), oriGin(1,2), oriGin(1,3), yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(1), yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(3), 'Color', 'green', 'LineWidth', 2);
-
-    % Plot the unitvector from GPSLeft_to_GPSRight when YAW and PITCH are zero
-    % quiver3(oriGin(1,1), oriGin(1,2), oriGin(1,3), yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(1), yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), yaw_to_zero_unitVector_from_GPSLeft_to_GPSRight(3), 'Color', 'magenta', 'LineWidth', 2);
-
-    % Direction of the unit horizontal vector when YAW, PITCH and ROLL are zero
-    quiver3(oriGin(1,1), oriGin(1,2), oriGin(1,3), horizontal_unitVector_left_to_right_yaw_zero(1), horizontal_unitVector_left_to_right_yaw_zero(2), horizontal_unitVector_left_to_right_yaw_zero(3), 'Color', 'red', 'LineWidth', 2);
-
-    % Plot the unitvector from GPSLeft_to_GPSRight when YAW is zero
-    quiver3(oriGin(1,1), oriGin(1,2), oriGin(1,3), roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(1), roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(3), 'Color', 'c', 'LineWidth', 2);
-    
-    % Find the GPSRight_ENU such that YAW of the vehicle is zero
-    GPSRight_ENU_orient_to_zero = [GPSLeft_ENU(1), GPSLeft_ENU(2) + 2*roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), GPSLeft_ENU(3)];
-    plot3(GPSRight_ENU_orient_to_zero(1), GPSRight_ENU_orient_to_zero(2), GPSRight_ENU_orient_to_zero(3), 'c.', 'MarkerSize', 50);
-        
+    plot3(SensorMount_center(1,1), SensorMount_center(1,2), SensorMount_center(1,3), 'b.', 'MarkerSize', 50);
     
     % Plot the Vehicle origin 
     plot3(vehicleOrigin_ENU(1,1), vehicleOrigin_ENU(1,2), vehicleOrigin_ENU(1,3), 'g.', 'MarkerSize', 50);
