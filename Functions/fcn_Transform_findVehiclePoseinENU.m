@@ -1,4 +1,4 @@
-function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, GPSFront_ENU, SensorMount_offset_relative_to_VehicleOrigin, varargin)
+function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, GPSFront_ENU, SensorMount_offset_relative_to_VehicleOrigin,calibrate_matrix, varargin)
 % fcn_Transform_findVehiclePoseinENU
 %
 % This function takes two GPS Antenna centers, GPSLeft_ENU and 
@@ -129,8 +129,9 @@ function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_
 % -- wrote the code originally
 % 2023_08_07: Aneesh Batchu
 % Vectorized the code
+
 % 2023_10_12: Xinyu Cao
-% Fixed several errors in roll, pitch and yaw angle calculation, the angle
+% Fixed several errors in roll, pitch and yaw angle calculations, the angle
 % calcialtion is incorrect from the begining
 % Fixed the transformation matrix and vector transformation
 % Deleted useless code, cleaned the function to speed up
@@ -164,12 +165,12 @@ end
 
 if flag_check_inputs
     % Are there the right number of inputs?
-    narginchk(4,5);
+    narginchk(5,6);
 
 end
 
 % Does user want to show the plots?
-if 5 == nargin
+if 6 == nargin
     temp = varargin{end};
     if ~isempty(temp)
         fig_num = temp;
@@ -195,20 +196,20 @@ end
 
 %% Step 1 - Finding the Roll, Pitch and Yaw angle of the vehicle relative to ENU coordinates
 
-[roll,pitch,yaw] = fcn_Transform_CalculateAnglesofRotation(GPSLeft_ENU,GPSRight_ENU,GPSFront_ENU);
+[roll,pitch,yaw] = fcn_Transform_CalculateAnglesofRotation(GPSLeft_ENU,GPSRight_ENU,GPSFront_ENU,calibrate_matrix);
 
 %% Step 2 - Find the Position of the Sensor Mount and find the transormation matrix from vehicle origin to sensor mount
 
 sensorMount_center = (GPSLeft_ENU+GPSRight_ENU)/2;
 sensorMount_PoseENU = [sensorMount_center,roll,pitch, yaw];
-VehicleOrigin_offset_relative_to_SensorMount = -SensorMount_offset_relative_to_VehicleOrigin;
+VehicleOrigin_offset_relative_to_RearGPSCenter = -SensorMount_offset_relative_to_VehicleOrigin;
 N_points = size(sensorMount_PoseENU,1);
-Mtransform_VehicleOrigin_to_SensorMount = makehgtform('translate',VehicleOrigin_offset_relative_to_SensorMount);
+Mtransform_RearGPSCenter_to_Vehicle = makehgtform('translate',VehicleOrigin_offset_relative_to_RearGPSCenter);
 
 %% Step 3 - Calculate the Vehicle Position
 for n = 1:N_points
-    Mtransform_SensorMount_to_ENU = fcn_Transform_createTransformMatrix(sensorMount_PoseENU(n,:));
-    Mtransform_VehicleOrigin_to_ENU = Mtransform_SensorMount_to_ENU*Mtransform_VehicleOrigin_to_SensorMount;
+    Mtransform_ENU_to_RearGPSCenter = fcn_Transform_CalculateTransformation_RearGPSCenter(sensorMount_PoseENU(n,:));
+    Mtransform_VehicleOrigin_to_ENU = Mtransform_ENU_to_RearGPSCenter*Mtransform_RearGPSCenter_to_Vehicle;
     VehiclePose_ENU_Homo = Mtransform_VehicleOrigin_to_ENU*[0;0;0;1];
     % VehiclePose_ENU_array(n,:) = VehiclePose_ENU_Homo(1:3).';
     VehiclePose(n,:) = [VehiclePose_ENU_Homo(1:3).',sensorMount_PoseENU(n,4:6)];

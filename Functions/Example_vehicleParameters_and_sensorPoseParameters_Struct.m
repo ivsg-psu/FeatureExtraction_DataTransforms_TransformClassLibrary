@@ -91,10 +91,10 @@ sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.yaw_relative_to_own_axis
 % Lidar Sick Rear 
 sensorPoseParameters.Lidar_Sick_Rear.offset_x_relative_to_sensorplatform = -0.3831;
 sensorPoseParameters.Lidar_Sick_Rear.offset_y_relative_to_sensorplatform =  0;
-sensorPoseParameters.Lidar_Sick_Rear.offset_z_relative_to_sensorplatform = 0.0139;
+sensorPoseParameters.Lidar_Sick_Rear.offset_z_relative_to_sensorplatform = -0.0982;
 sensorPoseParameters.Lidar_Sick_Rear.roll_relative_to_own_axis = -90;
 sensorPoseParameters.Lidar_Sick_Rear.pitch_relative_to_own_axis = 0;
-sensorPoseParameters.Lidar_Sick_Rear.yaw_relative_to_own_axis = -90;
+sensorPoseParameters.Lidar_Sick_Rear.yaw_relative_to_own_axis = 90;
 
 
 % GPS SparkFun LeftRear
@@ -120,7 +120,7 @@ sensorPoseParameters.Lidar_Velodyne_Rear.offset_x_relative_to_sensorplatform = -
 sensorPoseParameters.Lidar_Velodyne_Rear.offset_y_relative_to_sensorplatform =  0.0056;
 sensorPoseParameters.Lidar_Velodyne_Rear.offset_z_relative_to_sensorplatform = 0.1457;
 sensorPoseParameters.Lidar_Velodyne_Rear.roll_relative_to_own_axis = 0;
-sensorPoseParameters.Lidar_Velodyne_Rear.pitch_relative_to_own_axis = 36;
-sensorPoseParameters.Lidar_Velodyne_Rear.yaw_relative_to_own_axis = 180;
+sensorPoseParameters.Lidar_Velodyne_Rear.pitch_relative_to_own_axis = 45;
+sensorPoseParameters.Lidar_Velodyne_Rear.yaw_relative_to_own_axis = 145;
 
 
