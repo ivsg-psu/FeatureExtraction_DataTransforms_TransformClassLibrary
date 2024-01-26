@@ -129,7 +129,6 @@ function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_
 % -- wrote the code originally
 % 2023_08_07: Aneesh Batchu
 % Vectorized the code
-
 % 2023_10_12: Xinyu Cao
 % Fixed several errors in roll, pitch and yaw angle calculations, the angle
 % calcialtion is incorrect from the begining
