@@ -17,7 +17,6 @@ Lidar_Sick_Rear_offset_z_relative_to_sensorplatform = sensorPoseParameters.Lidar
 Mtransform_Lidar_Sick_Rear_translate = makehgtform('translate',[Lidar_Sick_Rear_offset_x_relative_to_sensorplatform, ...
                                                                 Lidar_Sick_Rear_offset_y_relative_to_sensorplatform, ...
                                                                 Lidar_Sick_Rear_offset_z_relative_to_sensorplatform]);
-
 Mtransform_Lidar_Sick_Rear_zrotate = makehgtform('zrotate',deg2rad(sensorPoseParameters.Lidar_Sick_Rear.yaw_relative_to_own_axis));
 Mtransform_Lidar_Sick_Rear_yrotate = makehgtform('yrotate',deg2rad(sensorPoseParameters.Lidar_Sick_Rear.pitch_relative_to_own_axis));
 Mtransform_Lidar_Sick_Rear_xrotate = makehgtform('xrotate',deg2rad(sensorPoseParameters.Lidar_Sick_Rear.roll_relative_to_own_axis));
