@@ -226,17 +226,16 @@ sensorPose_Perturbation = fcn_Transform_setPerturbationToSensorPose(sensor_or_ve
 
 %% Now, find the transform matrices to move items to their correct locations
 
-%-------------------- GPS_Hemisphere_Center ----------------------|
+%-------------------- GPS_Hemisphere_SensorPlatform ----------------------|
 % Transform matrices to move the GPS_Hemisphere_SensorPlatform to its correct
 % location
-% GPS_Hemisphere_SensorPlatform_Rear = GPS_Hemisphere_Center
-Mtransform_GPS_Hemisphere_Center_Rear_translate = makehgtform('translate',[sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.offset_x_relative_to_vehicle, ...
+Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate = makehgtform('translate',[sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.offset_x_relative_to_vehicle, ...
                                                                                    sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.offset_y_relative_to_vehicle, ...
                                                                                    sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.offset_z_relative_to_vehicle]);
 
-Mtransform_GPS_Hemisphere_Center_Rear_zrotate = makehgtform('zrotate',sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.yaw_relative_to_own_axis * pi/180);
-Mtransform_GPS_Hemisphere_Center_Rear_yrotate = makehgtform('yrotate',sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.pitch_relative_to_own_axis * pi/180);
-Mtransform_GPS_Hemisphere_Center_Rear_xrotate = makehgtform('xrotate',sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.roll_relative_to_own_axis * pi/180);
+Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate = makehgtform('zrotate',sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.yaw_relative_to_own_axis * pi/180);
+Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate = makehgtform('yrotate',sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.pitch_relative_to_own_axis * pi/180);
+Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate = makehgtform('xrotate',sensorPoseParameters.GPS_Hemisphere_SensorPlatform_Rear.roll_relative_to_own_axis * pi/180);
 
 
 %--------------------------- Lidar_Sick_Rear ----------------------------|
@@ -336,8 +335,8 @@ for i = 1:Nrows
 
     transform_Matrix_vehicleCase = Mtransform_Vehicle_translate*Mtransform_Vehicle_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Vehicle_xrotate;
 
-    transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear = Mtransform_GPS_Hemisphere_Center_Rear_translate*Mtransform_GPS_Hemisphere_Center_Rear_zrotate*...
-                Mtransform_GPS_Hemisphere_Center_Rear_yrotate*Mtransform_GPS_Hemisphere_Center_Rear_xrotate;
+    transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear = Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate*...
+                Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate;
 
     transform_Matrix_GPS_SensorPlatform_Rear = transform_Matrix_vehicleCase*transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear;
     % Find the transform matrix
@@ -356,21 +355,21 @@ for i = 1:Nrows
 
         case 'sicklidarrear'          % Sick Lidar Rear
             transform_Matrix_Lidar_Sick_Rear = Mtransform_Lidar_Sick_Rear_translate*Mtransform_Lidar_Sick_Rear_zrotate*Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate;
-            transform_Matrix(:,:,i) = transform_Matrix_GPS_SensorPlatform_Rear*transform_Matrix_Lidar_Sick_Rear;
+            transform_Matrix(:,:,i) = transform_Matrix_vehicleCase*transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*transform_Matrix_Lidar_Sick_Rear;
 
         case 'gpssparkfunleftrear'    % GPS SparkFun Left Rear 
             transform_Matrix_GPS_SparkFun_LeftRear = Mtransform_GPS_SparkFun_LeftRear_translate*Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate;
-            transform_Matrix(:,:,i) = transform_Matrix_GPS_SensorPlatform_Rear*transform_Matrix_GPS_SparkFun_LeftRear;
+            transform_Matrix(:,:,i) = transform_Matrix_vehicleCase*transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*transform_Matrix_GPS_SparkFun_LeftRear;
 
   
             
         case 'gpssparkfunrightrear'   % GPS SparkFun Right Rear 
             transform_Matrix_GPS_SparkFun_RightRear = Mtransform_GPS_SparkFun_RightRear_translate*Mtransform_GPS_SparkFun_RightRear_zrotate*Mtransform_GPS_SparkFun_RightRear_yrotate*Mtransform_GPS_SparkFun_RightRear_xrotate;
-            transform_Matrix(:,:,i) = transform_Matrix_GPS_SensorPlatform_Rear*transform_Matrix_GPS_SparkFun_RightRear;
+            transform_Matrix(:,:,i) = transform_Matrix_vehicleCase*transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*transform_Matrix_GPS_SparkFun_RightRear;
 
         case 'velodynelidarrear'      % Velodyne Lidar Rear
             transform_Matrix_Lidar_Velodyne_Rear = Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;
-            transform_Matrix(:,:,i) = transform_Matrix_GPS_SensorPlatform_Rear*transform_Matrix_Lidar_Velodyne_Rear;
+            transform_Matrix(:,:,i) = transform_Matrix_vehicleCase*transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*transform_Matrix_Lidar_Velodyne_Rear;
 
             % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Vehicle_translate*...
             %                           Mtransform_Vehicle_zrotate*Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Vehicle_xrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;
@@ -467,8 +466,8 @@ if flag_do_plots
     % Now, start moving items to their correct locations
 
     % Move GPS_Hemisphere_SensorPlatform to its correct location
-    set(handles.transform_body_to_sensorplatform,'Matrix',Mtransform_GPS_Hemisphere_Center_Rear_translate*Mtransform_GPS_Hemisphere_Center_Rear_zrotate* ...
-                                                          Mtransform_GPS_Hemisphere_Center_Rear_yrotate*Mtransform_GPS_Hemisphere_Center_Rear_xrotate);
+    set(handles.transform_body_to_sensorplatform,'Matrix',Mtransform_GPS_Hemisphere_SensorPlatform_Rear_translate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_zrotate* ...
+                                                          Mtransform_GPS_Hemisphere_SensorPlatform_Rear_yrotate*Mtransform_GPS_Hemisphere_SensorPlatform_Rear_xrotate);
 
 
     % Move the Lidar_Sick_Rear to its correct location
