@@ -10,12 +10,13 @@
 %
 % If you have questions or comments, please contact Sean Brennan at
 % sbrennan@psu.edu or Aneesh Batchu, abb6486@psu.edu
-%
+% Xinyu Cao: xfc5113@psu.edu
 % Revision history:
 %     
 % 2023_08_08: Aneesh Batchu
 % -- wrote the script originally
-
+% 2023_01_29: Xinyu Cao
+% -- update test cases
 %% Prep the workspace
 close all
 clc
@@ -25,6 +26,8 @@ clc
 %
 % * DebugTools - the repo can be found at: https://github.com/ivsg-psu/Errata_Tutorials_DebugTools
 % * GPS - this is the library that converts from ENU to/from LLA
+% * DataClean - the repo can be found at: https://github.com/ivsg-psu/FeatureExtraction_DataCleanClassLibrary
+% * 
 % List what libraries we need, and where to find the codes for each
 clear library_name library_folders library_url
 

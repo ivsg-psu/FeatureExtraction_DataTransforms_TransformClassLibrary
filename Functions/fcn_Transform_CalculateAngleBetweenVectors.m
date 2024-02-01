@@ -1,4 +1,4 @@
-function [angle, angle_deg] = fcn_Transform_CalculateAngleBetweenVectors(V_1, V_2, varargin)
+function angle = fcn_Transform_CalculateAngleBetweenVectors(V_1, V_2, varargin)
 % fcn_Transform_CalculateAngleBetweenVectors calculates the angle in rad
 % between two vectors
 % two vectors given as V_1 and V_2
@@ -48,14 +48,9 @@ function [angle, angle_deg] = fcn_Transform_CalculateAngleBetweenVectors(V_1, V_
 
 %% Debugging and Input checks
 
-% Check if flag_max_speed set. This occurs if the fig_num variable input
-% argument (varargin) is given a number of -1, which is not a valid figure
-% number.
-flag_max_speed = 0;
-if (nargin==4 && isequal(varargin{3},-1)) || (nargin==2 && isequal(varargin{1},-1))
+if (nargin==2)
     flag_do_debug = 0; % Flag to plot the results for debugging
     flag_check_inputs = 0; % Flag to perform input checking
-    flag_max_speed = 1;
 else
     % Check to see if we are externally setting debug mode to be "on"
     flag_do_debug = 0; % Flag to plot the results for debugging
@@ -67,6 +62,7 @@ else
         flag_check_inputs  = str2double(MATLABFLAG_GEOMETRY_FLAG_CHECK_INPUTS);
     end
 end
+
 
 if flag_do_debug
     st = dbstack; %#ok<*UNRCH>
@@ -87,64 +83,18 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-if flag_max_speed==0
-    if flag_check_inputs
-        % Are there the right number of inputs?
-        narginchk(1,4);
-
-        % Check the points input
-        fcn_DebugTools_checkInputsToFunctions(...
-            points1, '2column_of_numbers');
-    end
-end
-
-% Is the user giving separated input point vectors?
-flag_use_separated_point_inputs = 0;
-if nargin>2
-    flag_use_separated_point_inputs = 1;
-    temp = varargin{1};
-    if ~isempty(temp)
-        points2 = temp;
-    else
-        error('Expected 2nd input to be a point type')
-    end
-
-    if nargin>=3
-        temp = varargin{2};
-        if ~isempty(temp)
-            points3 = temp;
-        else
-            error('Expected 3rd input to be a point type')
-        end
-    end
-
-    N_points = length(points1(:,1));
-
-    if flag_check_inputs
-        % Check the points2 input
-        fcn_DebugTools_checkInputsToFunctions(...
-            points2, '2column_of_numbers',[N_points N_points]);
-
-        % Check the points3 input
-        fcn_DebugTools_checkInputsToFunctions(...
-            points3, '2column_of_numbers',[N_points N_points]);
-    end
-end
-
 % Does user want to show the plots?
 flag_do_plots = 0;
-if 0==flag_max_speed
-    if (2 == nargin || 4 == nargin)
-        temp = varargin{end};
-        if ~isempty(temp)
-            fig_num = temp;
-            flag_do_plots = 1;
-        end
+if 3 == nargin
+    temp = varargin{end};
+    if ~isempty(temp)
+        fig_num = temp;
+        flag_do_plots = 1;
     end
 end
 
 
-%% Solve for the circle
+%% Solve for the angle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   __  __       _       
 %  |  \/  |     (_)      
@@ -163,4 +113,44 @@ V_2_mag = vecnorm(V_2,2,2);
 V_2_unit = V_2./V_2_mag;
 % Use the cross product to calculate the angle from V_1_unit to V_2_unit
 angle = (asin(vecnorm(cross(V_1_unit,V_2_unit,2),2,2)));
-angle_deg = rad2deg(angle);
+
+%% Plot the results (for debugging)?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   _____       _                 
+%  |  __ \     | |                
+%  | |  | | ___| |__  _   _  __ _ 
+%  | |  | |/ _ \ '_ \| | | |/ _` |
+%  | |__| |  __/ |_) | |_| | (_| |
+%  |_____/ \___|_.__/ \__,_|\__, |
+%                            __/ |
+%                           |___/ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if flag_do_plots
+    figure(fig_num)
+    plot3(V_1_unit(1),V_1_unit(2),V_1_unit(3),'b-','lineWidth',2)
+    hold on
+    plot3(V_2_unit(1),V_2_unit(2),V_2_unit(3),'r-','lineWidth',2)
+    xlabel('X','FontSize',16)
+    ylabel('Y','FontSize',16)
+    zlabel('Z','FontSize',16)
+    legend('Unit Vector 1','Unit Vector 2')
+   
+end
+
+if flag_do_debug
+    fprintf(1,'ENDING function: %s, in file: %s\n\n',st(1).name,st(1).file);
+end
+
+end % Ends main function
+
+%% Functions follow
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   ______                _   _
+%  |  ____|              | | (_)
+%  | |__ _   _ _ __   ___| |_ _  ___  _ __  ___
+%  |  __| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+%  | |  | |_| | | | | (__| |_| | (_) | | | \__ \
+%  |_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
+%
+% See: https://patorjk.com/software/taag/#p=display&f=Big&t=Functions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
