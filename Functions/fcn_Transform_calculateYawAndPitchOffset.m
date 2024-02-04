@@ -1,4 +1,63 @@
-function [yaw_offset_array, pitch_offset_array,V_virtual_frame] = fcn_Transform_calculateYawAndPitchOffset(rawdata,process_range)
+function [yaw_offset_array, pitch_offset_array,V_virtual_frame] = fcn_Transform_calculateYawAndPitchOffset(GPS_data_struct,process_range)
+% fcn_Transform_calculateYawAndPitchOffset takes GPS_data_struct as input 
+% to calculates the yaw and pitch offsets in rad between the vehicle frame
+% and virtual GPS frame
+%
+% FORMAT:
+%
+%      [yaw_offset_array, pitch_offset_array,V_virtual_frame] = fcn_Transform_calculateYawAndPitchOffset(GPS_data_struct,process_range)
+%
+% INPUTS:
+%
+%      GPS_data_struct: a structure array containing Front, Rear Left, and
+%      Rear Right GPS data
+%
+%      process_range: a array containing the indexs range to process, [12:
+%      33] ,[24:67], [1,2,3,4,5,6,7,8,9,10] e.g.
+%
+%      (OPTIONAL INPUTS)
+%
+%      fig_num: a figure number to plot results. If set to -1, skips any
+%      input checking or debugging, no figures will be generated, and sets
+%      up code to maximize speed.
+%
+% OUTPUTS:
+%
+%      yaw_offset_array: an array containing the yaw offsets in
+%      rad between the vehicle frame and the virtual GPS frame
+%
+%      pitch_offset_array: an array containing the the pitch offsets in
+%      rad between the vehicle frame and the virtual GPS frame
+%
+%      V_virtual_frame: an array containing the vectors composed the
+%      virtual GPS frame
+%
+% DEPENDENCIES:
+%
+%      fcn_DebugTools_checkInputsToFunctions
+%      fcn_geometry_plotCircle
+%      fcn_Calibration_CalculateGPSTrajectory
+%      fcn_GPSDataPreprocess
+%      fcn_Transform_VectorProjection
+%      fcn_Transform_CalculateAngleBetweenVectors
+%
+% EXAMPLES:
+%      
+%      % BASIC example
+%
+%      [yaw_offset_array, pitch_offset_array,V_virtual_frame] = fcn_Transform_calculateYawAndPitchOffset(GPS_data_struct,process_range)
+% 
+% See the script: script_test_fcn_Transform_calculateYawAndPitchOffset
+% for a full test suite.
+%
+% This function was written on 2023_10_20 by X.Cao
+% Questions or comments? xfc5113@psu.edu
+
+% Revision history:
+% 2023_10_20 - wrote the code
+% 2024_02_22 - added more comments, particularly to explain inputs more
+% clearly
+
 % Note: This function is very abstract, containing a virtual frame
 % that do not exist, will add figures to explain the function
 % Vehicle Coordinate Frame： X-Y-Z
@@ -6,12 +65,12 @@ function [yaw_offset_array, pitch_offset_array,V_virtual_frame] = fcn_Transform_
 % V_y_vehicle: Y-axis of Vehicle Coordinate Frame
 % V_z_vehicle: Z-axis of Vehicle Coordinate Frame
 
-% Virtual Coordinate Frame： X'-Y'-Z'
+% Virtual GPS Coordinate Frame： X'-Y'-Z'
 % V_x_virtual = V_x_vehicle;
 % V_y_virtual: Y-axis of a virtual frame used to calculate offset
 % V_z_virtual: Z-axis of a virtual frame used to calculate offset
 %% Step 1 - Preprocess the GPS data, all unlocked data will be removed and time will be synchronized (Temp version, will update later)
-[GPS_SparkFun_Front_ENU_interp, GPS_SparkFun_LeftRear_ENU_interp,GPS_SparkFun_RightRear_ENU_interp,TimeAligned] = fcn_GPSDataPreprocess(rawdata);
+[GPS_SparkFun_Front_ENU_interp, GPS_SparkFun_LeftRear_ENU_interp,GPS_SparkFun_RightRear_ENU_interp,TimeAligned] = fcn_GPSDataPreprocess(GPS_data_struct);
 
 %% Step 2 - Select the process range
 GPS_SparkFun_Front_ENU_selected = GPS_SparkFun_Front_ENU_interp(process_range,:);

@@ -1,20 +1,26 @@
-function GPS_Locked_data_struct = fcn_DataPreprocessing_RemoveUnlockedData(GPS_rawdata_struct)
+function extracted_data_struct = fcn_DataPreprocessing_extractDataByTimeLength(data_struct,time_length, direction)
 
-% fcn_DataPreprocessing_RemoveUnlockedData removes unlocked GPS data from
-% the single GPS_data_struct
+% fcn_DataPreprocessing_extractDataByTimeLength extracts the data given by
+% the time length, if the total time length is shorted than the specified
+% time length, extract all data.
 %
 % FORMAT:
 %
-% GPS_Locked = fcn_DataPreprocessing_RemoveUnlockedData(GPS_rawdata_struct)
+% extracted_data_struct = fcn_DataPreprocessing_extractDataByTimeLength(data_struct,time_length, direction)
 %
 % INPUTS:
 %
-%      GPS_rawdata_struct: a structure array containing raw GPS data
+%      data_struct: a structure array containing data of one sensor
 %
+%      time_length: a scalar indicates the length of time that will be
+%      extracted, unit: second [s]
+%
+%      direction: a scalar indicates the direction of extraction, 1 from
+%      the first element, -1 from the last element
 %
 % OUTPUTS:
 %
-%      GPS_Locked_data_struct: a structure array containing locked GPS data
+%      extracted_data_struct: a structure array containing extracted data
 %
 %
 % DEPENDENCIES:
@@ -61,7 +67,7 @@ end
 flag_check_inputs = 1; % Flag to perform input checking
 
 if flag_check_inputs == 1
-    if ~isstruct(GPS_rawdata_struct)
+    if ~isstruct(data_struct)
         error('The input of the function should be a structure array')
     end
 
@@ -78,25 +84,34 @@ end
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Create a new structure array has the same fields with GPS_rawdata_struct
-GPS_Locked_data_struct = GPS_rawdata_struct;
-% Grab the lock status from the rawdata
-LockStatus = GPS_rawdata_struct.DGPS_mode;
-% Find the locked data indexs
-idxs_locked = find(LockStatus>5);
-fns = fieldnames(GPS_Locked_data_struct);
-N_fields = length(fns);
-for i_field = 1:N_fields
-    current_field_array = GPS_rawdata_struct.(fns{i_field});
+extracted_data_struct = data_struct;
+% Grab number of points in the data struct
+Npoints = data_struct.Npoints;
+centiSeconds = data_struct.centiSeconds;
+N_extracted_points = time_length*centiSeconds;
+% If the required number of data is smaller than the total number of data
+% points, extract the required data in the data structure
+if N_extracted_points<=Npoints
+    fns = fieldnames(extracted_data_struct);
+    N_fields = length(fns);
+    if direction == 1
+        idxs_extraction = 1:N_extracted_points;
+
+    elseif direction == -1
+        idxs_extraction = (Npoints-N_extracted_points+1):N_points;
+    end
+    for i_field = 1:N_fields
+        current_field_array = data_struct.(fns{i_field});
     % Fill the fields with arrays
-    if ~isscalar(current_field_array)
-        GPS_Locked_data_struct.(fns{i_field}) = current_field_array(idxs_locked,:);
+        if ~isscalar(current_field_array)
+            extracted_data_struct.(fns{i_field}) = current_field_array(idxs_extraction,:);
+        else
+            if any(contains(fns{i_field},'Npoints'))
+                extracted_data_struct.Npoints = N_extracted_points;
+            end
+        end
+
     end
 end
-if ~isempty(idxs_locked)
-    GPS_Locked_data_struct.centiSeconds = GPS_rawdata_struct.centiSeconds;
-    GPS_Locked_data_struct.Npoints = length(GPS_Locked_data_struct.Latitude);
-else
-    GPS_Locked_data_struct.centiSeconds = [];
-    GPS_Locked_data_struct.Npoints = [];
-end
+
 end
