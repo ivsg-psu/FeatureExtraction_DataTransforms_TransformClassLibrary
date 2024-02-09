@@ -53,30 +53,37 @@ function [roll_array,pitch_array, yaw_array] = fcn_Transform_CalculateAnglesofRo
 
 
 % Input
-
-[~, ~,V_GPS_virtual_frame] = fcn_Transform_calculateYawAndPitchOffset(rawdata_1);
-
+% The ISO convention is used for vehicle-affixed coordinate system,
+% V_GPS_virtual_frame is the a virtual GPS frame, which will be explained
+% later
+%% Step 1: Aveage three GPS antennas moving trajectories, use the average vector as the X axis of the vehicle frame
+%% Step 2: Find the yaw angle offset
 % The ISO convention is used for vehicle-affixed coordinate system
 % Assume the Rear Left and Rear Right GPS Antennas are perfect aligned
 % along the vehicle y axis
+V_right_left = GPS_SparkFun_LeftRear_ENU - GPS_SparkFun_RightRear_ENU;
+% Calculate and normalize V_right_left vector, ideally, this vector is the Y axis of the
+% vehicle frame, however, instllation error results in roll and yaw offsets
+V_y_virtual = normalizeVector(V_right_left);
 
-V_right_to_left = GPS_SparkFun_LeftRear_ENU - GPS_SparkFun_RightRear_ENU; % Nx3
-V_right_to_left_mag = vecnorm(V_right_to_left,2,2); % Nx3
-V_right_to_left_unit = V_right_to_left./V_right_to_left_mag; % Nx3
+% Project V_right_left on the V_x_vehicle_unit to decompose the vector
+% into two orthogonal vectoris, where V_right_left_x_proj is the vector
+% along V_x_vehicle, while V_y_virtual is a vector perpendicular to
+% V_x_vehicle, which indicates that there is only roll offset between
+% V_y_virtual and V_y_vehicle, and the roll offset will be calculated later
 
 % The front GPS antenna is not aligned with any rear antenna along the
 % vehicle x axis, so we used vector projection to create a new virtual
 % front GPS antenna
-V_right_to_front = GPS_SparkFun_Front_ENU - GPS_SparkFun_RightRear_ENU; % Nx3
-V_projection = fcn_Transform_VectorProjection(V_right_to_front, V_right_to_left_unit); % The projection is along V_y_unit, Nx3
-V_right_to_virtual = V_right_to_front - V_projection; % Nx3
-V_right_to_virtual_mag = vecnorm(V_right_to_virtual,2,2); % Nx3
-V_right_to_virtual_unit = V_right_to_virtual./V_right_to_virtual_mag;
+V_right_front = GPS_SparkFun_Front_ENU - GPS_SparkFun_RightRear_ENU; % Nx3
+V_projection = fcn_Transform_VectorProjection(V_right_front, V_y_virtual); % The projection is along V_y_unit, Nx3
+V_x_virtual_raw = V_right_front - V_projection; % Nx3
+V_x_virtual = normalizeVector(V_x_virtual_raw);
+
 
 %% GPS Frame
-V_x_GPS_frame = V_GPS_virtual_frame.X;
-V_y_GPS_frame = V_GPS_virtual_frame.Y;
-% V_z_GPS_frame = V_GPS_virtual_frame.Z;
+V_x_GPS_frame = V_x_virtual;
+V_y_GPS_frame = V_y_virtual;
 
 
 
@@ -99,4 +106,10 @@ for n = 1:N_points
     yaw_array(n,1) = yaw;
 
 end
+end
 
+
+function V_unit = normalizeVector(V)
+    V_mag = vecnorm(V,2,2);
+    V_unit = V./V_mag;
+end

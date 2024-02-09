@@ -1,4 +1,4 @@
-function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, GPSFront_ENU, SensorMount_offset_relative_to_VehicleOrigin,calibrate_matrix, varargin)
+function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_ENU, GPSFront_ENU, RearGPSCenter_offset_relative_to_VehicleOrigin,calibrate_matrix, varargin)
 % fcn_Transform_findVehiclePoseinENU
 %
 % This function takes two GPS Antenna centers, GPSLeft_ENU and 
@@ -18,7 +18,7 @@ function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU, GPSRight_
 %
 % 1 - The ISO convention is used to output the orientation of the vehicle
 %
-% 2 - SensorMount_offset_y_relative_to_VehicleOrigin = 0. 
+% 2 - RearGPSCenter_offset_relative_to_VehicleOrigin = 0. 
 %
 % 3 - The distance between the GPS Antennas mid-point and the Sensor Mount 
 %     is assumed to be zero 
@@ -200,8 +200,8 @@ end
 %% Step 2 - Find the Position of the Sensor Mount and find the transormation matrix from vehicle origin to sensor mount
 
 sensorMount_center = (GPSLeft_ENU+GPSRight_ENU)/2;
-sensorMount_PoseENU = [sensorMount_center,roll,pitch, yaw];
-VehicleOrigin_offset_relative_to_RearGPSCenter = -SensorMount_offset_relative_to_VehicleOrigin;
+sensorMount_PoseENU = [sensorMount_center,roll,pitch,yaw];
+VehicleOrigin_offset_relative_to_RearGPSCenter = -RearGPSCenter_offset_relative_to_VehicleOrigin;
 N_points = size(sensorMount_PoseENU,1);
 Mtransform_RearGPSCenter_to_Vehicle = makehgtform('translate',VehicleOrigin_offset_relative_to_RearGPSCenter);
 

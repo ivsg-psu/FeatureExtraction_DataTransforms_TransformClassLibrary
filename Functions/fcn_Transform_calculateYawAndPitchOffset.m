@@ -73,10 +73,17 @@ function [yaw_offset_array, pitch_offset_array,V_virtual_frame] = fcn_Transform_
 [GPS_SparkFun_Front_ENU_interp, GPS_SparkFun_LeftRear_ENU_interp,GPS_SparkFun_RightRear_ENU_interp,TimeAligned] = fcn_GPSDataPreprocess(GPS_data_struct);
 
 %% Step 2 - Select the process range
-GPS_SparkFun_Front_ENU_selected = GPS_SparkFun_Front_ENU_interp(process_range,:);
-GPS_SparkFun_LeftRear_ENU_selected = GPS_SparkFun_LeftRear_ENU_interp(process_range,:);
-GPS_SparkFun_RightRear_ENU_selected = GPS_SparkFun_RightRear_ENU_interp(process_range,:);
-traj_range = 1:(length(process_range)+1);
+if process_range == 'all'
+    GPS_SparkFun_Front_ENU_selected = GPS_SparkFun_Front_ENU_interp;
+    GPS_SparkFun_LeftRear_ENU_selected = GPS_SparkFun_LeftRear_ENU_interp;
+    GPS_SparkFun_RightRear_ENU_selected = GPS_SparkFun_RightRear_ENU_interp;
+    traj_range = 1:(length(GPS_SparkFun_Front_ENU_selected)+1);
+else
+    GPS_SparkFun_Front_ENU_selected = GPS_SparkFun_Front_ENU_interp(process_range,:);
+    GPS_SparkFun_LeftRear_ENU_selected = GPS_SparkFun_LeftRear_ENU_interp(process_range,:);
+    GPS_SparkFun_RightRear_ENU_selected = GPS_SparkFun_RightRear_ENU_interp(process_range,:);
+    traj_range = 1:(length(process_range)+1);
+end
 
 %% Step 1: Aveage three GPS antennas moving trajectories, use the average vector as the X axis of the vehicle frame
 V_front_traj = fcn_Calibration_CalculateGPSTrajectory(GPS_SparkFun_Front_ENU_interp,traj_range);
