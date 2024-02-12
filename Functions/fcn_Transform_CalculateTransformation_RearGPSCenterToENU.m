@@ -1,4 +1,5 @@
-function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU_array, GPSRight_ENU_array, GPSFront_ENU_array, RearGPSCenter_offset_relative_to_VehicleOrigin,calibrate_matrix, varargin)
+function Mtransform_RearGPSCenter_to_ENU = fcn_Transform_CalculateTransformation_RearGPSCenterToENU(GPSLeft_ENU, GPSRight_ENU, GPSFront_ENU,calibrate_matrix)
+
 % fcn_Transform_findVehiclePoseinENU
 %
 % This function takes two GPS Antenna centers, GPSLeft_ENU and 
@@ -88,26 +89,20 @@ function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU_array, GPS
 %
 % INPUTS:
 %      
-%      GPSLeft_ENU_array: the center of the left GPS Antenna [xLeft, yLeft, 
+%      GPSLeft_ENU: the center of the left GPS Antenna [xLeft, yLeft, 
 %      zLeft] in meters
 %
-%      GPSRight_ENU_array: the center of the right GPS Antenna [xRight, yRight, 
+%      GPSRight_ENU: the center of the right GPS Antenna [xRight, yRight, 
 %      zRight] in meters
 %
-%      GPSFront_ENU_array: the PITCH of the vehicle in ENU coordinates in
+%      PITCH_vehicle_ENU: the PITCH of the vehicle in ENU coordinates in
 %      degrees
 %
 %      SensorMount_offset_relative_to_VehicleOrigin: the position of the
 %      sensor mount relative to the vehicle origin [-X_SensorMount_center,
 %      0, +Z_SensorMount_center]
-%
-%      calibrate_matrix: a 4x4 transformation matrix that correct the
-%      angle error
 %                      
 %
-% (OPTIONAL INPUTS)   
-%           
-%     fig_num: The figure is plotted if fig_num is entered as the input. 
 % 
 % OUTPUTS:
 %      
@@ -140,10 +135,6 @@ function VehiclePose = fcn_Transform_findVehiclePoseinENU(GPSLeft_ENU_array, GPS
 % The original code was saved to fcn_Transform_findVehiclePoseinENU_OLD
 % 2024_02_11: Xinyu Cao
 % Add comments, and clean the function
-% 2024_02_12: Xinyu Cao
-% Rename the transformation matrices
-% 
-
 
 % To do list:
 % Edit the comments
@@ -173,23 +164,10 @@ end
 
 if flag_check_inputs
     % Are there the right number of inputs?
-    narginchk(5,6);
+    narginchk(4,4);
 
 end
 
-% Does user want to show the plots?
-if 6 == nargin
-    temp = varargin{end};
-    if ~isempty(temp)
-        fig_num = temp;
-        figure(fig_num);
-        flag_do_plots = 1; 
-    end
-else
-    if flag_do_debug
-        flag_do_plots = 1;
-    end
-end
 
 %% Main code starts here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -202,30 +180,26 @@ end
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% Step 1 - Finding the Roll, Pitch and Yaw angle of the vehicle relative to ENU coordinates
+
+[roll,pitch,yaw] = fcn_Transform_CalculateAnglesofRotation(GPSLeft_ENU,GPSRight_ENU,GPSFront_ENU,calibrate_matrix);
+
+%% Step 2 - Find the Position of the Sensor Mount and find the transormation matrix from vehicle origin to sensor mount
+
+sensorMount_center = (GPSLeft_ENU+GPSRight_ENU)/2;
+sensorMount_PoseENU = [sensorMount_center,roll,pitch,yaw];
 
 
-%% Step 1 - Find the transormation matrix from vehicle origin to Rear GPS Center
-VehicleOrigin_offset_relative_to_RearGPSCenter = -RearGPSCenter_offset_relative_to_VehicleOrigin;
+%% Step 3 - Calculate transformation from Rear GPS Center to ENU coordinate
+% for idx_point = 1:N_points
+translation_sensorMount = sensorMount_PoseENU(:,1:3);
+roll_sensorMount = sensorMount_PoseENU(:,4);
+pitch_sensorMount = sensorMount_PoseENU(:,5);
+yaw_sensorMount = sensorMount_PoseENU(:,6);
+Mtransform_RearGPSCenter_to_ENU = fcn_Transform_CreateTransformationMatrix(translation_sensorMount, roll_sensorMount,pitch_sensorMount,yaw_sensorMount);
+% end
 
-% Create the transformation matrix from vehicle origin to Rear GPS Center
-Mtransform_Vehicle_to_RearGPSCenter = makehgtform('translate',VehicleOrigin_offset_relative_to_RearGPSCenter);
 
-%% Step 2 - Calculate the Vehicle Position
-N_points = size(GPSLeft_ENU_array,1);
-for idx_point = 1:N_points
-    GPSLeft_ENU = GPSLeft_ENU_array(idx_point,:);
-    GPSRight_ENU = GPSRight_ENU_array(idx_point,:);
-    GPSFront_ENU = GPSFront_ENU_array(idx_point,:);
-    [roll,pitch,yaw] = fcn_Transform_CalculateAnglesofRotation(GPSLeft_ENU,GPSRight_ENU,GPSFront_ENU,calibrate_matrix);
-    Mtransform_RearGPSCenter_to_ENU = fcn_Transform_CalculateTransformation_RearGPSCenterToENU(GPSLeft_ENU, GPSRight_ENU, GPSFront_ENU,calibrate_matrix);
-    % % Mtransform_RearGPSCenter_to_ENU = fcn_Transform_CreateTransformationMatrix(translation_sensorMount, roll_sensorMount,pitch_sensorMount,yaw_sensorMount);
-    Mtransform_VehicleOrigin_to_ENU = Mtransform_RearGPSCenter_to_ENU*Mtransform_Vehicle_to_RearGPSCenter;
-    % Mtransform_VehicleOrigin_to_ENU = Mtransform_Vehicle_to_RearGPSCenter*Mtransform_RearGPSCenter_to_ENU;
-    VehiclePose_ENU_Homo = Mtransform_VehicleOrigin_to_ENU*[0;0;0;1];
-    VehiclePose(idx_point,:) = [VehiclePose_ENU_Homo(1:3).',[roll,pitch,yaw]];
-end
-
-fprintf(1,'\nThe POSE of the vehicle in ENU coordinates is :\n');
 % disp(VehiclePose);
 
 %% Plot the results (for debugging)?
@@ -244,15 +218,15 @@ if flag_do_plots
     oriGin = [0, 0, 0];
     
     % Plot the Left GPS center
-    quiver3(oriGin(1,1), oriGin(1,2), oriGin(1,3), GPSLeft_ENU_array(1,1), GPSLeft_ENU_array(1,2), GPSLeft_ENU_array(1,3), 'Color', 'b', 'LineWidth', 1);
-    plot3(GPSLeft_ENU_array(1,1), GPSLeft_ENU_array(1,2), GPSLeft_ENU_array(1,3), 'r.', 'MarkerSize', 50);
+    quiver3(oriGin(1,1), oriGin(1,2), oriGin(1,3), GPSLeft_ENU(1,1), GPSLeft_ENU(1,2), GPSLeft_ENU(1,3), 'Color', 'b', 'LineWidth', 1);
+    plot3(GPSLeft_ENU(1,1), GPSLeft_ENU(1,2), GPSLeft_ENU(1,3), 'r.', 'MarkerSize', 50);
     
     % Plot the Right GPS center 
-    quiver3(oriGin(1,1), oriGin(1,2), oriGin(1,3), GPSRight_ENU_array(1,1), GPSRight_ENU_array(1,2), GPSRight_ENU_array(1,3), 'Color', 'g', 'LineWidth', 1);
-    plot3(GPSRight_ENU_array(1,1), GPSRight_ENU_array(1,2), GPSRight_ENU_array(1,3), 'r.', 'MarkerSize', 50);
+    quiver3(oriGin(1,1), oriGin(1,2), oriGin(1,3), GPSRight_ENU(1,1), GPSRight_ENU(1,2), GPSRight_ENU(1,3), 'Color', 'g', 'LineWidth', 1);
+    plot3(GPSRight_ENU(1,1), GPSRight_ENU(1,2), GPSRight_ENU(1,3), 'r.', 'MarkerSize', 50);
 
     % Connecting Left GPS center and Left GPS center with a line
-    line_data = [GPSLeft_ENU_array; GPSRight_ENU_array];
+    line_data = [GPSLeft_ENU; GPSRight_ENU];
     plot3(line_data(:,1), line_data(:,2), line_data(:,3), 'r-', 'LineWidth', 3);
     
     % Plot the unitvector from GPSLeft_to_GPSRight when YAW is zero
@@ -268,7 +242,7 @@ if flag_do_plots
     quiver3(oriGin(1), oriGin(2), oriGin(3), roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(1), roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(3), 'Color', 'c', 'LineWidth', 2);
     
     % Find the GPSRight_ENU such that YAW of the vehicle is zero
-    GPSRight_ENU_orient_to_zero = [GPSLeft_ENU_array(1), GPSLeft_ENU_array(2) + 2*roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), GPSLeft_ENU_array(3)];
+    GPSRight_ENU_orient_to_zero = [GPSLeft_ENU(1), GPSLeft_ENU(2) + 2*roll_to_zero_unitVector_from_GPSLeft_to_GPSRight(2), GPSLeft_ENU(3)];
     plot3(GPSRight_ENU_orient_to_zero(1), GPSRight_ENU_orient_to_zero(2), GPSRight_ENU_orient_to_zero(3), 'c.', 'MarkerSize', 50);
         
     

@@ -18,30 +18,21 @@ function [roll_array,pitch_array, yaw_array] = fcn_Transform_CalculateAnglesofRo
 %       GPS_SparkFun_Front_ENU: a Nx3 vectors of points containing the
 %       ENU coordinates of the Front SparkFun GPS
 %
-%      (OPTIONAL INPUTS)
+%       calibrate_matrix: a 4x4 transformation matrix
 %
-%      fig_num: a figure number to plot results. If set to -1, skips any
-%      input checking or debugging, no figures will be generated, and sets
-%      up code to maximize speed.
 %
 % OUTPUTS:
 %
-%      angle: the angle between two vectors, as a scaler, from V_1 to V_2
+%      roll_array: the rotation angle around x-axis
 %
+%      pitch_array: the rotation angle around y-axis
+%
+%      yaw_array: the rotation angle around z-axis
 %
 % DEPENDENCIES:
 %
 %      fcn_DebugTools_checkInputsToFunctions
-%      fcn_geometry_plotCircle
 %
-% EXAMPLES:
-%      
-%      % BASIC example
-%      points = [0 0; 1 4; 0.5 -1];
-%      [centers,radii] = fcn_geometry_circleCenterFrom3Points(points,1)
-% 
-% See the script: script_test_fcn_Transform_CalculateAngleBetweenVectors
-% for a full test suite.
 %
 % This function was written on 2023_10_20 by X.Cao
 % Questions or comments? xfc5113@psu.edu
@@ -52,11 +43,34 @@ function [roll_array,pitch_array, yaw_array] = fcn_Transform_CalculateAnglesofRo
 % clearly
 
 
-% Input
-% The ISO convention is used for vehicle-affixed coordinate system,
-% V_GPS_virtual_frame is the a virtual GPS frame, which will be explained
-% later
-%% Step 1: Aveage three GPS antennas moving trajectories, use the average vector as the X axis of the vehicle frame
+
+
+%% check input arguments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   _____                   _       
+%  |_   _|                 | |      
+%    | |  _ __  _ __  _   _| |_ ___ 
+%    | | | '_ \| '_ \| | | | __/ __|
+%   _| |_| | | | |_) | |_| | |_\__ \
+%  |_____|_| |_| .__/ \__,_|\__|___/
+%              | |                  
+%              |_| 
+% See: http://patorjk.com/software/taag/#p=display&f=Big&t=Inputs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%% Solve for the sphere
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   __  __       _       
+%  |  \/  |     (_)      
+%  | \  / | __ _ _ _ __  
+%  | |\/| |/ _` | | '_ \ 
+%  | |  | | (_| | | | | |
+%  |_|  |_|\__,_|_|_| |_|
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %% Step 2: Find the yaw angle offset
 % The ISO convention is used for vehicle-affixed coordinate system
 % Assume the Rear Left and Rear Right GPS Antennas are perfect aligned
@@ -85,8 +99,6 @@ V_x_virtual = normalizeVector(V_x_virtual_raw);
 V_x_GPS_frame = V_x_virtual;
 V_y_GPS_frame = V_y_virtual;
 
-
-
 %% Correct the angel
 V_x_unit_transpose = calibrate_matrix\V_x_GPS_frame.';
 V_y_unit_transpose = calibrate_matrix\V_y_GPS_frame.';
@@ -95,19 +107,30 @@ V_y_unit = V_y_unit_transpose.';
 V_z_unit = cross(V_x_unit,V_y_unit,2);
 % angle_90 = rad2deg(asin(vecnorm(cross(V_x_unit,V_right_to_left_unit,2),2,2)));
 
-N_points = length(V_x_unit);
-for n = 1:N_points
-    R = [V_x_unit(n,:).' V_y_unit(n,:).' V_z_unit(n,:).'];
+N_points = size(V_x_unit,1);
+for idx_point = 1:N_points
+    R = [V_x_unit(idx_point,:).' V_y_unit(idx_point,:).' V_z_unit(idx_point,:).'];
     roll = atan2(R(3,2),R(3,3));
     pitch = atan2(-R(3,1),sqrt(R(3,2)^2+R(3,3)^2));
     yaw = atan2(R(2,1), R(1,1));
-    roll_array(n,1) = roll;
-    pitch_array(n,1) = pitch;
-    yaw_array(n,1) = yaw;
+    roll_array(idx_point,1) = roll;
+    pitch_array(idx_point,1) = pitch;
+    yaw_array(idx_point,1) = yaw;
 
 end
 end
 
+%% Functions follow
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   ______                _   _
+%  |  ____|              | | (_)
+%  | |__ _   _ _ __   ___| |_ _  ___  _ __  ___
+%  |  __| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+%  | |  | |_| | | | | (__| |_| | (_) | | | \__ \
+%  |_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
+%
+% See: https://patorjk.com/software/taag/#p=display&f=Big&t=Functions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
 
 function V_unit = normalizeVector(V)
     V_mag = vecnorm(V,2,2);

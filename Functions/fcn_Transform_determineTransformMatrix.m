@@ -1,4 +1,4 @@
-function transform_Matrix = fcn_Transform_determineTransformMatrix(vehicleParameters, sensorPoseParameters, sensor_or_vehicle, vehiclePose_ENU, perturbation_in_sensorPose_relative_to_SensorPlatform, varargin)
+function transform_Matrix = fcn_Transform_determineTransformMatrix(vehicleParameters, sensorPoseParameters, sensor_or_vehicle, vehiclePose_ENU_array, perturbation_in_sensorPose_relative_to_SensorPlatform, varargin)
 % fcn_Transform_determineTransformMatrix
 %
 % This function takes vehicle parameters, sensor pose parameters,
@@ -162,6 +162,9 @@ function transform_Matrix = fcn_Transform_determineTransformMatrix(vehicleParame
 % 2023_09_25: Xinyu Cao
 % -- Bug Fix: Corrected the order of the matrix multiplications to
 % perform the transforms correctly. 
+% 2023_02_12: Xinyu Cao
+% -- Bug Fix: Corrected the order of the matrix multiplications to
+% perform the transforms correctly. 
 
 flag_do_debug = 0;  % Flag to show the results for debugging
 flag_do_plots = 0;  % % Flag to plot the final results
@@ -226,6 +229,64 @@ sensorPose_Perturbation = fcn_Transform_setPerturbationToSensorPose(sensor_or_ve
 
 %% Now, find the transform matrices to move items to their correct locations
 
+sensor_or_vehicle_string = fcn_Transform_determineSensorTypeOrVehicle(sensor_or_vehicle);
+N_pose = size(vehiclePose_ENU_array,1);
+translation_Vehicle = vehiclePose_ENU_array(:,1:3);
+for idx_pose = 1:N_pose
+    translation_Vehicle = vehiclePose_ENU_array(idx_pose,1:3);
+    x_angle_Vehicle = vehiclePose_ENU_array(idx_pose,4);
+    y_angle_Vehicle = vehiclePose_ENU_array(idx_pose,5);
+    z_angle_Vehicle = vehiclePose_ENU_array(idx_pose,6);
+    T_Vehicle2ENU = fcn_Transform_CreateTransformationMatrix(translation_Vehicle, x_angle_Vehicle,y_angle_Vehicle,z_angle_Vehicle);
+    T_Vehicle2ENU_cell{idx_pose,1} = T_Vehicle2ENU;
+end
+
+switch lower(sensor_or_vehicle_string)
+
+    case 'vehicle'
+        transform_Matrix_vehicleCase = T_Vehicle2ENU_cell;
+        transform_Matrix = transform_Matrix_vehicleCase;
+    
+    case 'reargpscenter' % The middle point of two rear gps antenna
+
+
+    case 'gpssensorplatformrear'  % GPS Sensor Platform Rear
+
+        transform_Matrix(:,:,i) =transform_Matrix_GPS_SensorPlatform_Rear;
+
+    case 'sicklidarrear'          % Sick Lidar Rear
+        transform_Matrix_Lidar_Sick_Rear = Mtransform_Lidar_Sick_Rear_translate*Mtransform_Lidar_Sick_Rear_zrotate*Mtransform_Lidar_Sick_Rear_yrotate*Mtransform_Lidar_Sick_Rear_xrotate;
+        transform_Matrix(:,:,i) = transform_Matrix_GPS_SensorPlatform_Rear*transform_Matrix_Lidar_Sick_Rear;
+    % 
+    % case 'gpssparkfunleftrear'    % GPS SparkFun Left Rear
+    %     transform_Matrix_GPS_SparkFun_LeftRear = Mtransform_GPS_SparkFun_LeftRear_translate*Mtransform_GPS_SparkFun_LeftRear_zrotate*Mtransform_GPS_SparkFun_LeftRear_yrotate*Mtransform_GPS_SparkFun_LeftRear_xrotate;
+    %     transform_Matrix(:,:,i) = transform_Matrix_GPS_SensorPlatform_Rear*transform_Matrix_GPS_SparkFun_LeftRear;
+    % 
+    % 
+    % 
+    % case 'gpssparkfunrightrear'   % GPS SparkFun Right Rear
+    %     transform_Matrix_GPS_SparkFun_RightRear = Mtransform_GPS_SparkFun_RightRear_translate*Mtransform_GPS_SparkFun_RightRear_zrotate*Mtransform_GPS_SparkFun_RightRear_yrotate*Mtransform_GPS_SparkFun_RightRear_xrotate;
+    %     transform_Matrix(:,:,i) = transform_Matrix_GPS_SensorPlatform_Rear*transform_Matrix_GPS_SparkFun_RightRear;
+
+       
+
+    case 'velodynelidarrear'      % Velodyne Lidar Rear
+        transform_Matrix_Lidar_Velodyne_Rear = Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;
+        transform_Matrix(:,:,i) = transform_Matrix_GPS_SensorPlatform_Rear*transform_Matrix_Lidar_Velodyne_Rear;
+
+        % transform_Matrix(:,:,i) = transform_Matrix_GPS_Hemisphere_SensorPlatform_Rear*Mtransform_Lidar_Velodyne_Rear_translate*Mtransform_Vehicle_translate*...
+        %                           Mtransform_Vehicle_zrotate*Mtransform_Lidar_Velodyne_Rear_zrotate*Mtransform_Vehicle_yrotate*Mtransform_Lidar_Velodyne_Rear_yrotate*Mtransform_Vehicle_xrotate*Mtransform_Lidar_Velodyne_Rear_xrotate;
+
+
+    case 'other'
+
+        fprintf(fileID, "The sensor type is not defined yet. The sensor type will be updated soon. \n");
+
+    otherwise
+
+        error('Unrecognized sensor type requested: %s',sensor_or_vehicle);
+
+end
 %-------------------- GPS_Hemisphere_Center ----------------------|
 % Transform matrices to move the GPS_Hemisphere_SensorPlatform to its correct
 % location
@@ -309,18 +370,18 @@ Mtransform_Lidar_Velodyne_Rear_xrotate = makehgtform('xrotate',(sensorPoseParame
 % Next, rotate the vehicle based on yaw, pitch and roll 
 % The vehicle is rotated based on the ISO convention
 
-Nrows = size(vehiclePose_ENU,1);
+Nrows = size(vehiclePose_ENU_array,1);
 transform_Matrix = zeros(4,4,Nrows);
 % IdenMat = eye(4);
 
 for i = 1:Nrows
 
-    Vehicle_x_relative_to_ENUCoord = vehiclePose_ENU(i,1);
-    Vehicle_y_relative_to_ENUCoord = vehiclePose_ENU(i,2);
-    Vehicle_z_relative_to_ENUCoord = vehiclePose_ENU(i,3);
-    Vehicle_roll_relative_to_own_axis = vehiclePose_ENU(i,4);
-    Vehicle_pitch_relative_to_own_axis = vehiclePose_ENU(i,5);
-    Vehicle_yaw_relative_to_own_axis = vehiclePose_ENU(i,6);
+    Vehicle_x_relative_to_ENUCoord = vehiclePose_ENU_array(i,1);
+    Vehicle_y_relative_to_ENUCoord = vehiclePose_ENU_array(i,2);
+    Vehicle_z_relative_to_ENUCoord = vehiclePose_ENU_array(i,3);
+    Vehicle_roll_relative_to_own_axis = vehiclePose_ENU_array(i,4);
+    Vehicle_pitch_relative_to_own_axis = vehiclePose_ENU_array(i,5);
+    Vehicle_yaw_relative_to_own_axis = vehiclePose_ENU_array(i,6);
 
     % Transform matrices to move the Vehicle in ENU based on vehiclePose_ENU
 
