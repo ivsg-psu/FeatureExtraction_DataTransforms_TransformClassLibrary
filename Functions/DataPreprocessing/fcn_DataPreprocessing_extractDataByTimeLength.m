@@ -46,7 +46,7 @@ function extracted_data_struct = fcn_DataPreprocessing_extractDataByTimeLength(d
 % clearly
 
 %% Debugging and Input checks
-
+flag_do_debug = 0;
 if flag_do_debug
     st = dbstack; %#ok<*UNRCH>
     fprintf(1,'STARTING function: %s, in file: %s\n',st(1).name,st(1).file);
@@ -98,12 +98,13 @@ if N_extracted_points<=Npoints
         idxs_extraction = 1:N_extracted_points;
 
     elseif direction == -1
-        idxs_extraction = (Npoints-N_extracted_points+1):N_points;
+        idxs_extraction = (Npoints-N_extracted_points+1):Npoints;
     end
     for i_field = 1:N_fields
         current_field_array = data_struct.(fns{i_field});
     % Fill the fields with arrays
-        if ~isscalar(current_field_array)
+    
+        if ~isscalar(current_field_array)&~isempty(current_field_array)
             extracted_data_struct.(fns{i_field}) = current_field_array(idxs_extraction,:);
         else
             if any(contains(fns{i_field},'Npoints'))

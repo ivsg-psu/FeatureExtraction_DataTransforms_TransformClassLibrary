@@ -119,6 +119,10 @@ else
     I_3 = eye(3);
 
     R = I_3+sin(angle_rot)*K+(1-cos(angle_rot))*K^2;
+
+    % cross_product_vec_rot = cross(vec_rot,vec_rot);
+    % 1
+    % R = [cos(angle_rot)+vec_rot_x^2*(1-cos(angle_rot)) ]
 end
 
 

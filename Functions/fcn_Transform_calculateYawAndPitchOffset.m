@@ -85,7 +85,7 @@ else
     traj_range = 1:(length(process_range)+1);
 end
 
-%% Step 1: Aveage three GPS antennas moving trajectories, use the average vector as the X axis of the vehicle frame
+%% Step 1: Average three GPS antennas moving trajectories, use the average vector as the X axis of the vehicle frame
 V_front_traj = fcn_Calibration_CalculateGPSTrajectory(GPS_SparkFun_Front_ENU_interp,traj_range);
 V_left_traj = fcn_Calibration_CalculateGPSTrajectory(GPS_SparkFun_LeftRear_ENU_interp,traj_range);
 V_right_traj = fcn_Calibration_CalculateGPSTrajectory(GPS_SparkFun_RightRear_ENU_interp,traj_range);

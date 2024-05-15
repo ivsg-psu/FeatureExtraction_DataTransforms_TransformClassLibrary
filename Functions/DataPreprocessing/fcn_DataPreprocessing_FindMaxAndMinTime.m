@@ -40,7 +40,7 @@ function [time_range] = fcn_DataPreprocessing_FindMaxAndMinTime(rawDataLocked)
 % clearly
 
 %% Debugging and Input checks
-
+flag_do_debug = 1;
 if flag_do_debug
     st = dbstack; %#ok<*UNRCH>
     fprintf(1,'STARTING function: %s, in file: %s\n',st(1).name,st(1).file);
@@ -61,7 +61,7 @@ end
 flag_check_inputs = 1; % Flag to perform input checking
 
 if flag_check_inputs == 1
-    if ~isstruct(GPS_rawdata_struct)
+    if ~isstruct(rawDataLocked)
         error('The input of the function should be a structure array')
     end
 
@@ -84,10 +84,12 @@ end
     time_end = Inf;
     for idx_field = 1:length(fields)
         current_field_struct = rawDataLocked.(fields{idx_field});
-        if contains(fields{idx_field},"GPS")
-            current_field_struct_time = current_field_struct.ROS_Time*(10^-9);
-        else
-            current_field_struct_time = current_field_struct.ROS_Time;
+        if ~isempty(current_field_struct)
+            if contains(fields{idx_field},"GPS")
+                current_field_struct_time = current_field_struct.ROS_Time*(10^-9);
+            else
+                current_field_struct_time = current_field_struct.ROS_Time;
+            end
         end
         time_start = max([min(current_field_struct_time),time_start]);
         time_end = min([max(current_field_struct_time),time_end]);

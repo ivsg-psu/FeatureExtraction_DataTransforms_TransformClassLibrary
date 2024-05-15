@@ -1,4 +1,4 @@
-function XYZ_Lidar_ENU = fcn_Transform_SickLidarCoordToENU(GPSLeft_ENU_array, GPSRight_ENU_array, GPSFront_ENU_array,XYZ_Lidar, sensorPoseParameters,calibrate_matrix)
+function XYZ_Lidar_in_ENU_array = fcn_Transform_SickLidarCoordToENU(GPSLeft_ENU_array, GPSRight_ENU_array, GPSFront_ENU_array,XYZ_Lidar_array, sensorPoseParameters,calibrate_matrix)
 
 % fcn_Transform_findVehiclePoseinENU
 %
@@ -185,33 +185,17 @@ end
 
 N_points = size(sensorMount_PoseENU,1);
 
-Lidar_Sick_Rear_offset_x_relative_to_sensorplatform = sensorPoseParameters.Lidar_Sick_Rear.offset_x_relative_to_sensorplatform; % Meters - GUESS!!
-Lidar_Sick_Rear_offset_y_relative_to_sensorplatform = sensorPoseParameters.Lidar_Sick_Rear.offset_y_relative_to_sensorplatform; % Meters - GUESS!!
-Lidar_Sick_Rear_offset_z_relative_to_sensorplatform = sensorPoseParameters.Lidar_Sick_Rear.offset_z_relative_to_sensorplatform; % Meters - GUESS!!
-
-
-%% Step 1 - Find the transormation matrix from vehicle origin to Rear GPS Center
-
-Lidar_Sick_Rear_offset_relative_to_RearGPSCenter = [Lidar_Sick_Rear_offset_x_relative_to_sensorplatform, ...
-                                                                Lidar_Sick_Rear_offset_y_relative_to_sensorplatform, ...
-                                                                Lidar_Sick_Rear_offset_z_relative_to_sensorplatform];
-translation_LidarSickRear = Lidar_Sick_Rear_offset_relative_to_RearGPSCenter;
-roll_Lidar_Sick_Rear = deg2rad(sensorPoseParameters.Lidar_Sick_Rear.roll_relative_to_own_axis);
-pitch_Lidar_Sick_Rear = deg2rad(sensorPoseParameters.Lidar_Sick_Rear.pitch_relative_to_own_axis);
-yaw_Lidar_Sick_Rear = deg2rad(sensorPoseParameters.Lidar_Sick_Rear.yaw_relative_to_own_axis);
-% Create the transformation matrix from vehicle origin to Rear GPS Center
-Mtransform_LidarSickRear_to_RearGPSCenter = fcn_Transform_CreateTransformationMatrix(translation_LidarSickRear, roll_Lidar_Sick_Rear,pitch_Lidar_Sick_Rear,yaw_Lidar_Sick_Rear);
 %% Step 2 - Calculate the Vehicle Position
 for idx_point = 1:N_points
-    GPSLeft_ENU_array = GPSLeft_ENU_array(idx_point,:);
-    GPSRight_ENU_array = GPSRight_ENU_array(idx_point,:);
-    GPSFront_ENU_array = GPSFront_ENU_array(idx_point,:);
-    Mtransform_LidarSickRear_to_ENU = fcn_Transform_CalculateTransformation_RearSickLidarToENU(GPSLeft_ENU_array, GPSRight_ENU_array, GPSFront_ENU_array,calibrate_matrix);
-    % % Mtransform_RearGPSCenter_to_ENU = fcn_Transform_CreateTransformationMatrix(translation_sensorMount, roll_sensorMount,pitch_sensorMount,yaw_sensorMount);
-    Mtransform_VehicleOrigin_to_ENU = Mtransform_LidarSickRear_to_ENU*Mtransform_Vehicle_to_RearGPSCenter;
-    % Mtransform_VehicleOrigin_to_ENU = Mtransform_Vehicle_to_RearGPSCenter*Mtransform_RearGPSCenter_to_ENU;
-    VehiclePose_ENU_Homo = Mtransform_VehicleOrigin_to_ENU*[0;0;0;1];
-    VehiclePose(idx_point,:) = [VehiclePose_ENU_Homo(1:3).',[roll,pitch,yaw]];
+    GPSLeft_ENU = GPSLeft_ENU_array(idx_point,:);
+    GPSRight_ENU = GPSRight_ENU_array(idx_point,:);
+    GPSFront_ENU = GPSFront_ENU_array(idx_point,:);
+    XYZ_Lidar = XYZ_Lidar_array(idx_point,:);
+    Mtransform_LidarSickRear_to_ENU = fcn_Transform_CalculateTransformation_RearSickLidarToENU(GPSLeft_ENU, GPSRight_ENU, GPSFront_ENU,calibrate_matrix);
+    XYZ_Lidar_in_ENU_homo = Mtransform_LidarSickRear_to_ENU*[XYZ_Lidar.';1];
+    XYZ_Lidar_in_ENU = XYZ_Lidar_in_ENU_homo(1:3).';
+    XYZ_Lidar_in_ENU_array(idx_point,:) = XYZ_Lidar_in_ENU;
+    % VehiclePose(idx_point,:) = [VehiclePose_ENU_Homo(1:3).',[roll,pitch,yaw]];
 end
 fprintf(1,'\nThe POSE of the vehicle in ENU coordinates is :\n');
 % disp(VehiclePose);

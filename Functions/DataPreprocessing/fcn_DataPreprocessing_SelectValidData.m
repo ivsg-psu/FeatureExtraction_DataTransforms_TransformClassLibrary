@@ -1,5 +1,5 @@
 function valid_struct = fcn_DataPreprocessing_SelectValidData(data_struct,time_range,datatype)
-    if isempty(data_struct.ROS_Time)||isempty(time_range)
+    if isempty(data_struct)||isempty(time_range)
         valid_struct = [];
     else
         if datatype == "gps"
