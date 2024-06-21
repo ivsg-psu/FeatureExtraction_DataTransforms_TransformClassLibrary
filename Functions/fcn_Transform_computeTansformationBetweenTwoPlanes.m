@@ -1,4 +1,4 @@
-function R = fcn_Transform_computeTansformationBetweenTwoPlanes(V_1, V_2)
+function [T_correction,M_correction] = fcn_Transform_computeTansformationBetweenTwoPlanes(scan_plane, ref_plane)
 
 % fcn_Transform_computeTansformationBetweenTwoPlanes computes the
 % rotation matrix that aligned plane 2 two plane 1 with given normal
@@ -92,40 +92,37 @@ end
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+[~, ~, ~, V_ref, ~, ~, ref_plane_distances] = fcn_geometry_fitPlaneLinearRegression(ref_plane);
+[~, ~, ~, V_scan, ~, ~, ~] = fcn_geometry_fitPlaneLinearRegression(scan_plane);
 
-% Normalize the first vector, find the unit vector
-V_1_mag = vecnorm(V_1,2,2);
-V_1_unit = V_1./V_1_mag;
-% Normalize the second vector, find the unit vector
-V_2_mag = vecnorm(V_2,2,2);
-V_2_unit = V_2./V_2_mag;
-
-angle_rot = fcn_Transform_CalculateAngleBetweenVectors(V_1_unit, V_2_unit);
-
-if angle_rot == 0 % two planes are aligned and same direction
-    R = eye(3);
-elseif angle_rot == pi % two planes are aligned and opposite direction
-    R = -eye(3);
-else
-    vec_rot = cross(V_2_unit,V_1_unit);
-    vec_rot_mag = vecnorm(vec_rot,2,2);
-    vec_rot_unit = vec_rot./vec_rot_mag;
-    vec_rot_x = vec_rot_unit(1);
-    vec_rot_y = vec_rot_unit(2);
-    vec_rot_z = vec_rot_unit(3);
-    K = [0 -vec_rot_z vec_rot_y;
-        vec_rot_z, 0, -vec_rot_x;
-        -vec_rot_y, vec_rot_x, 0];
-    I_3 = eye(3);
-
-    R = I_3+sin(angle_rot)*K+(1-cos(angle_rot))*K^2;
-
-    % cross_product_vec_rot = cross(vec_rot,vec_rot);
-    % 1
-    % R = [cos(angle_rot)+vec_rot_x^2*(1-cos(angle_rot)) ]
-end
-
-
+T_rotation = fcn_Transform_computeRotationBetweenTwoPlanes(V_ref, V_scan);
+T_rotation_obj = se3(T_rotation);
+scan_plane_rotated = T_rotation_obj.transform(scan_plane);
+t_trans = ref_plane - scan_plane_rotated;
+t_trans_ave = mean(t_trans,1);
+% [~, ~, ~, V_rotated, ~, ~, scan_plane_rotated_distances] = fcn_geometry_fitPlaneLinearRegression(scan_plane_rotated);
+% ref_plane_distances_ave = mean(ref_plane_distances);
+% scan_plane_rotated_distances_ave = mean(scan_plane_rotated_distances);
+% dist_trans = ref_plane_distances_ave - scan_plane_rotated_distances_ave;
+% 
+% for idx_pts = 1:size(ref_plane,1)
+%     currentPoint = ref_plane(idx_pts,:);
+%     diff_pts = scan_plane_rotated - currentPoint;
+%     dist_pts = vecnorm(diff_pts,2,2);
+%     [~,idx_closest] = min(dist_pts);
+%     corresponding_pts(idx_pts,:) = scan_plane(idx_closest,:);
+%     corresponding_pts_rotated(idx_pts,:) = scan_plane_rotated(idx_closest,:);
+% end
+% 
+% translation_dist = V_rotated.*dist_trans;
+T_translate = makehgtform('translate',t_trans_ave);
+% 
+% % T_correction = T_translate*T_rotation;
+W_array = ones(size(ref_plane,1),1);
+% 
+[M_correction,~,~] = fcn_Transform_FitTransformationSVD(scan_plane,ref_plane,W_array);
+T_correction = T_translate*T_rotation;
+% T_correction
 
 
 end
