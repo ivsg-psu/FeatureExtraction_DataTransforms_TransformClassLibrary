@@ -1,29 +1,9 @@
-% script_test_fcn_findVehiclePoseinENU.m
-% tests fcn_findVehiclePoseinENU.m
-
+%% script_test_fcn_Transform_extractENUCoordinatesFromGPS
+% This test script is used to test
+% fun_Transform_extractENUCoordinatesFromGPS
 % Revision history
-% 2023_06_29 - Aneesh Batchu
+% 2024_11_05 - Xinyu Cao, xfc5113@psu.edu
 % -- wrote the code originally
-% 2024_11_05 - Xinyu Cao
-% -- rewrite the code
-
-%% Set up the workspace
-clc
-close all
-
-%% Check assertions for basic path operations and function testing
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                              _   _                 
-%      /\                     | | (_)                
-%     /  \   ___ ___  ___ _ __| |_ _  ___  _ __  ___ 
-%    / /\ \ / __/ __|/ _ \ '__| __| |/ _ \| '_ \/ __|
-%   / ____ \\__ \__ \  __/ |  | |_| | (_) | | | \__ \
-%  /_/    \_\___/___/\___|_|   \__|_|\___/|_| |_|___/
-%                                                    
-%                                                    
-% See: https://patorjk.com/software/taag/#p=display&f=Big&t=Assertions
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%
 Flags.flag_do_load_SICK = 0;
 Flags.flag_do_load_Velodyne = 1;
@@ -65,15 +45,4 @@ for idx_dataset = 1:1
     % clean_dataset{idx_dataset} = clean_rawdata;
 end
 %% Grab ENU data from GPS units
-[GPS_SparkFun_Front_ENU_array, GPS_SparkFun_LeftRear_ENU_array, GPS_SparkFun_RightRear_ENU_array] = fun_DataClean_extractENUCoordinatesFromGPS(filled_dataStructure);
-% M_transform_RearRightGPS_to_ENU = fcn_Transform_CalculateTransformation_RearRightGPSToENU(GPSFront_ENU,GPSLeft_ENU, GPSRight_ENU, varargin);
-GPSFront_ENU = GPS_SparkFun_Front_ENU_array(end,:);
-GPSLeft_ENU = GPS_SparkFun_LeftRear_ENU_array(end,:);
-GPSRight_ENU = GPS_SparkFun_RightRear_ENU_array(end,:);
-
-%% Test Case 1 - No plot
-[VehiclePose,M_transform_Vehicle_to_ENU_matrix] = fcn_Transform_estimateVehiclePoseinENU(GPS_SparkFun_Front_ENU_array, GPS_SparkFun_LeftRear_ENU_array, GPS_SparkFun_RightRear_ENU_array);
-%% Test Case 2 -Plot for debug
-fig_num = 104;
-fid = 1;
-[VehiclePose,M_transform_Vehicle_to_ENU_matrix] = fcn_Transform_estimateVehiclePoseinENU(GPS_SparkFun_Front_ENU_array, GPS_SparkFun_LeftRear_ENU_array, GPS_SparkFun_RightRear_ENU_array,[],[],fid,fig_num);
+[GPS_SparkFun_Front_ENU_array, GPS_SparkFun_LeftRear_ENU_array, GPS_SparkFun_RightRear_ENU_array] = fun_Transform_extractENUCoordinatesFromGPS(filled_dataStructure);

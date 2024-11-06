@@ -1,11 +1,12 @@
-% script_test_fcn_findVehiclePoseinENU.m
-% tests fcn_findVehiclePoseinENU.m
+% script_test_fcn_estimateVehiclePoseinENU.m
+% tests fcn_estimateVehiclePoseinENU.m
 
 % Revision history
 % 2023_06_29 - Aneesh Batchu
 % -- wrote the code originally
 % 2024_11_05 - Xinyu Cao
-% -- rewrite the code
+% -- rewrite the code, rename the code from
+% script_test_fcn_findVehiclePoseinENU to script_test_fcn_estimateVehiclePoseinENU
 
 %% Set up the workspace
 clc
@@ -65,11 +66,8 @@ for idx_dataset = 1:1
     % clean_dataset{idx_dataset} = clean_rawdata;
 end
 %% Grab ENU data from GPS units
-[GPS_SparkFun_Front_ENU_array, GPS_SparkFun_LeftRear_ENU_array, GPS_SparkFun_RightRear_ENU_array] = fun_DataClean_extractENUCoordinatesFromGPS(filled_dataStructure);
+[GPS_SparkFun_Front_ENU_array, GPS_SparkFun_LeftRear_ENU_array, GPS_SparkFun_RightRear_ENU_array] = fun_Transform_extractENUCoordinatesFromGPS(filled_dataStructure);
 % M_transform_RearRightGPS_to_ENU = fcn_Transform_CalculateTransformation_RearRightGPSToENU(GPSFront_ENU,GPSLeft_ENU, GPSRight_ENU, varargin);
-GPSFront_ENU = GPS_SparkFun_Front_ENU_array(end,:);
-GPSLeft_ENU = GPS_SparkFun_LeftRear_ENU_array(end,:);
-GPSRight_ENU = GPS_SparkFun_RightRear_ENU_array(end,:);
 
 %% Test Case 1 - No plot
 [VehiclePose,M_transform_Vehicle_to_ENU_matrix] = fcn_Transform_estimateVehiclePoseinENU(GPS_SparkFun_Front_ENU_array, GPS_SparkFun_LeftRear_ENU_array, GPS_SparkFun_RightRear_ENU_array);

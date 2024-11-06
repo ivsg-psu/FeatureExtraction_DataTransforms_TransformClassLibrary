@@ -1,6 +1,7 @@
 function angle = fcn_Transform_CalculateAngleBetweenVectors(V_1, V_2, varargin)
 % fcn_Transform_CalculateAngleBetweenVectors calculates the angle in rad
-% between two vectors V_1 and V_2
+% between two vectors
+% two vectors given as V_1 and V_2
 %
 % FORMAT:
 %
@@ -110,17 +111,9 @@ V_1_unit = V_1./V_1_mag;
 % Normalize the second vector, find the unit vector
 V_2_mag = vecnorm(V_2,2,2);
 V_2_unit = V_2./V_2_mag;
-% Use the cross product to calculate the angle from V_2_unit to V_1_unit
-angle_mag = (asin(vecnorm(cross(V_1_unit,V_2_unit,2),2,2)));
-vector_dot_product = dot(V_1_unit,V_2_unit);
-
-if vector_dot_product>=0
-    angle = angle_mag;
-else
-    angle = pi - angle_mag;
-end
-
-
+% Use the cross product to calculate the angle from V_1_unit to V_2_unit
+% angle = (asin(vecnorm(cross(V_1_unit,V_2_unit,2),2,2)));
+angle = acos(dot(V_1_unit, V_2_unit));
 %% Plot the results (for debugging)?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   _____       _                 
