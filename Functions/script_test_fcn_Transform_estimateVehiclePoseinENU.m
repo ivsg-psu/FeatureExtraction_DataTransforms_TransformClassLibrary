@@ -61,7 +61,7 @@ for idx_dataset = 1:1
     rawdata_current = OneLoopCell{idx_dataset};
     cleanDataStruct = fcn_DataClean_cleanData(rawdata_current,ref_basestation_TestTrack,fid);
     converted_dataStructure = fcn_Transform_convertLLA2ENU(cleanDataStruct);
-    filled_dataStructure = fcn_DataClean_fillGPSMissingData(converted_dataStructure);
+    filled_dataStructure = fcn_DataClean_fillMissingGPSENU(converted_dataStructure);
     CleanOneLoopCell{idx_dataset,1} = filled_dataStructure;
     % clean_dataset{idx_dataset} = clean_rawdata;
 end

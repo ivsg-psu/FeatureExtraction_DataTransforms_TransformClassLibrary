@@ -1,16 +1,16 @@
 function M_transform_LiDARVelodyne_to_ENU = fcn_Transform_CalculateTransformation_LiDARVelodyneToENU(GPSFront_ENU, GPSLeft_ENU, GPSRight_ENU, varargin)
 
 
-% fcn_Transform_CalculateTransformation_VehicleToENU
+% fcn_Transform_CalculateTransformation_LiDARVelodyneToENU
 % This function takes three GPS Antenna centers, GPSFront_ENU, GPSLeft_ENU and 
 % GPSRight_ENU, in ENU coordinates as a (1 x 3) vector representing 
 % [x, y, z] in meters as the inputs and outputs the transformation matrix
-% from vehicle coordiante system to ENU coordinate system
+% from LiDAR coordiante system to ENU coordinate system
 %
 %
 % FORMAT:
 %
-%      M_transform_Vehicle_to_ENU = fcn_Transform_CalculateTransformation_LiDARVelodyneToENU(GPSFront_ENU,GPSLeft_ENU, GPSRight_ENU, (M_transform_LiDARVelodyne_to_RearRightGPS), (fid), (fig_num))
+%      M_transform_LiDARVelodyne_to_ENU = fcn_Transform_CalculateTransformation_LiDARVelodyneToENU(GPSFront_ENU,GPSLeft_ENU, GPSRight_ENU, (M_transform_LiDARVelodyne_to_RearRightGPS), (fid), (fig_num))
 %
 % INPUTS:
 %
