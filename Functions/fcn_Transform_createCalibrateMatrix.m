@@ -105,8 +105,10 @@ M_rotation_Vehicle_to_ENU = [v_x_unit_vehicle_1.', v_y_unit_vehicle_1.', v_z_uni
 M_rotation_Vehicle_to_ENU_opposite = [v_x_unit_vehicle_2.', v_y_unit_vehicle_2.', v_z_unit_vehicle_2.'];
 % Calculate the rotation matrix from GPS to vehicle coordinate system and
 % then calculate the roll, pitch and yaw angle in rad
+
 M_rotation_GPS_to_Vehicle = (M_rotation_Vehicle_to_ENU\M_rotation_GPS_to_ENU);
 [roll, pitch, yaw] = fcn_GPS_Calibration_calculateRollPitchYaw(M_rotation_GPS_to_Vehicle);
+% M_G->V = M_G->E*M_E->V    R_EV^-1*R_EG = R_VE*R_EG
 M_rotation_GPS_to_Vehicle_opposite = M_rotation_Vehicle_to_ENU_opposite\M_rotation_GPS_to_ENU_opposite;
 [roll_opposite, pitch_opposite, yaw_opposite] = fcn_GPS_Calibration_calculateRollPitchYaw(M_rotation_GPS_to_Vehicle_opposite);
 roll_ave = (roll+roll_opposite)/2;

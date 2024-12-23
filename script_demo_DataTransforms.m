@@ -98,6 +98,7 @@ rootdirs{1} = fullfile(cd,'LargeData','2024-10-21','One Loop');
 bagQueryString = 'mapping_van_2024-10-2*';
 OneLoopCell = fcn_DataClean_loadRawDataFromDirectories(rootdirs, Identifiers,bagQueryString, fid,Flags);
 
+%%
 
 %% Apply Data Clean LiDAR scan
 num_datasets = length(OneLoopCell);
