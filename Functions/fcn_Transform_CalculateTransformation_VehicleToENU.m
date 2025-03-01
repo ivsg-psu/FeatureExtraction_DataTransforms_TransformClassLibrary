@@ -144,8 +144,9 @@ M_transform_RearRightGPS_to_ENU = fcn_Transform_CalculateTransformation_RearRigh
 M_translation_RearRightGPS_to_Vehicle = makehgtform('translate',RearRightGPS_offset_relative_to_VehicleOrigin);
 
 %% Step 3 - Calculate the transformation matrix       
-M_rotation_RearRightGPS_to_VirtualGPS = M_calibration_GPS_to_Vehicle;
-M_transform_RearRightGPS_to_Vehicle = M_translation_RearRightGPS_to_Vehicle*M_rotation_RearRightGPS_to_VirtualGPS;
+% M_rotation_RearRightGPS_to_VirtualGPS = M_calibration_GPS_to_Vehicle;
+% M_transform_RearRightGPS_to_Vehicle = M_translation_RearRightGPS_to_Vehicle*M_rotation_RearRightGPS_to_VirtualGPS;
+M_transform_RearRightGPS_to_Vehicle = se3(M_calibration_GPS_to_Vehicle(1:3,1:3),RearRightGPS_offset_relative_to_VehicleOrigin);
 M_transform_Vehicle_to_ENU = M_transform_RearRightGPS_to_ENU/M_transform_RearRightGPS_to_Vehicle;
 
 

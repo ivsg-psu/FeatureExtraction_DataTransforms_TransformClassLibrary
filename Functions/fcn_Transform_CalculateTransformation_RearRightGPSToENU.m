@@ -137,12 +137,10 @@ Rotation_GPS_to_ENU = [g_x_unit_gps.' g_y_unit_gps.' g_z_unit_gps.'];
 
 origin_GPS_cooridnate_system = GPSRight_ENU;
 translation_GPS_to_ENU = origin_GPS_cooridnate_system;
-M_translation_GPS_to_ENU = makehgtform('translate',translation_GPS_to_ENU);
-M_rotation_GPS_to_ENU = [Rotation_GPS_to_ENU, zeros(3,1);0 0 0 1];
 
 %% Step 3 - Calculate transformation from rear right GPS to ENU coordinate
 
-M_transform_RearRightGPS_to_ENU = M_translation_GPS_to_ENU*M_rotation_GPS_to_ENU;
+M_transform_RearRightGPS_to_ENU = se3(Rotation_GPS_to_ENU, translation_GPS_to_ENU);
 
 %% Plot the results (for debugging)?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -99,7 +99,7 @@ end
 % Does user want to specify RearRightGPS_offset_relative_to_VehicleOrigin?
 RearRightGPS_offset_relative_to_VehicleOrigin = load("Data\RearRightGPS_offset_relative_to_VehicleOrigin.mat");;
 if 4 <= nargin
-    temp = varargin{2};
+    temp = varargin{1};
     if ~isempty(temp)
         RearRightGPS_offset_relative_to_VehicleOrigin = temp;
     end
@@ -115,7 +115,7 @@ end
 % Does user want to specify RearRightGPS_offset_relative_to_VehicleOrigin?
 M_calibration_GPS_to_Vehicle = load("Data\Rotation_GPS2Vehicle_2024-05-15.mat");
 if 5 <= nargin
-    temp = varargin{3};
+    temp = varargin{2};
     if ~isempty(temp)
         M_calibration_GPS_to_Vehicle = temp;
     end
@@ -130,7 +130,7 @@ end
 % Does user want to specify fid?
 fid = 0;
 if 6 <= nargin
-    temp = varargin{1};
+    temp = varargin{3};
     if ~isempty(temp)
         fid = temp;
     end
@@ -188,7 +188,7 @@ for idx_point = 1:N_points
         M_transform_Vehicleto_ENU_obj = se3(M_transform_Vehicle_to_ENU);
         VehiclePose_ENU = M_transform_Vehicleto_ENU_obj.transform([0 0 0]);
         VehiclePose(idx_point,:) = [VehiclePose_ENU,roll,pitch,yaw];
-        M_transform_Vehicle_to_ENU_matrix(:,:,idx_point) = M_transform_Vehicle_to_ENU;
+        M_transform_Vehicle_to_ENU_matrix(:,:,idx_point) = M_transform_Vehicle_to_ENU.tform;
     end
 end
 

@@ -1,4 +1,4 @@
-function M_transform_RearRightGPS_to_Vehicle = fcn_Transform_CalculateTransformation_RearRightGPSToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle, varargin)
+function M_transform_LiDARVelodyne_to_Vehicle = fcn_Transform_CalculateTransformation_LiDARVelodyneToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle,M_transform_LiDARVelodyne_to_RearRightGPS, varargin)
 
 
 % fcn_Transform_CalculateTransformation_VehicleToENU
@@ -84,13 +84,13 @@ end
 
 if flag_check_inputs == 1
     % Are there the right number of inputs?
-    narginchk(2,3);
+    narginchk(3,4);
 end
 
 
 % Does user want to specify fid?
 fid = 0;
-if 3 <= nargin
+if 4 <= nargin
     temp = varargin{1};
     if ~isempty(temp)
         fid = temp;
@@ -117,14 +117,10 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-%% Step 1 - Find the translational transormation matrix from vehicle origin to Rear Right GPS
-% Create the translational transformation matrix from rear right GPS to vehicle
-M_translation_RearRightGPS_to_Vehicle = se3(RearRightGPS_offset_relative_to_VehicleOrigin,'trvec');
-
-%% Step 2 - Calculate the transformation matrix from rear right GPS coordinate system to Vehicle Coordinate System  
-M_rotation_RearRightGPS_to_VirtualGPS = se3(M_calibration_GPS_to_Vehicle);
-M_transform_RearRightGPS_to_Vehicle = M_translation_RearRightGPS_to_Vehicle*M_rotation_RearRightGPS_to_VirtualGPS;
+%% Step 1 - Find the transformation from rear right GPS coordinate system to Vehicle Coordinate System  
+M_transform_RearRightGPS_to_Vehicle = fcn_Transform_CalculateTransformation_RearRightGPSToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle);
+%% Step 2 - Compute the transformation from LiDAR coordinate system to 
+M_transform_LiDARVelodyne_to_Vehicle = M_transform_RearRightGPS_to_Vehicle * se3(M_transform_LiDARVelodyne_to_RearRightGPS);
 
 
 %% Plot the results (for debugging)?
