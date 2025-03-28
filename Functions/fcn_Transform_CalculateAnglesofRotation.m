@@ -121,7 +121,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Step 1: Extract the rotation matrix of the transforamtion
-M_Rotation_VehicleOrigin_to_ENU = M_transform_Vehicle_to_ENU.rotm;
+M_Rotation_VehicleOrigin_to_ENU = se3(M_transform_Vehicle_to_ENU).rotm;
 
 
 %% Step 2: Calculate the roll, pitch, yaw angle

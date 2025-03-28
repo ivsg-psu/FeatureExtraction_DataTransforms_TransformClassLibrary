@@ -97,7 +97,7 @@ end
 
 
 % Does user want to specify RearRightGPS_offset_relative_to_VehicleOrigin?
-RearRightGPS_offset_relative_to_VehicleOrigin = load("Data\RearRightGPS_offset_relative_to_VehicleOrigin.mat");;
+RearRightGPS_offset_relative_to_VehicleOrigin = load("Data\RearRightGPS_offset_relative_to_VehicleOrigin.mat");
 if 4 <= nargin
     temp = varargin{1};
     if ~isempty(temp)
