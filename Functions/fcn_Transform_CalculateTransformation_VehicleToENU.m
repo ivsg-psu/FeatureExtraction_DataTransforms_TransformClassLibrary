@@ -141,7 +141,7 @@ M_transform_RearRightGPS_to_ENU = fcn_Transform_CalculateTransformation_RearRigh
 
 %% Step 2 - Find the translational transformation matrix from vehicle origin to Rear GPS Center
 % Create the translational transformation matrix from rear right GPS to vehicle
-M_translation_RearRightGPS_to_Vehicle = makehgtform('translate',RearRightGPS_offset_relative_to_VehicleOrigin);
+% M_translation_RearRightGPS_to_Vehicle = makehgtform('translate',RearRightGPS_offset_relative_to_VehicleOrigin);
 
 %% Step 3 - Calculate the transformation matrix       
 % M_rotation_RearRightGPS_to_VirtualGPS = M_calibration_GPS_to_Vehicle;

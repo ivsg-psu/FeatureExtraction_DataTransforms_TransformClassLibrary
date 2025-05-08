@@ -38,8 +38,7 @@ function [VehiclePose,M_transform_Vehicle_to_ENU_matrix] = fcn_Transform_estimat
 %      VehiclePose: a Nx6 array contains vehicle pose, format: [x, y, z,
 %      roll, pitch, yaw]
 %
-%      M_transform_Vehicle_to_ENU: a transformation matrix from rear
-%      right GPS coordiante system to ENU coordinate system
+%      M_transform_Vehicle_to_ENU: a transformation matrix from vehicle frame to ENU coordinate system
 %
 % DEPENDENCIES:
 %
@@ -185,8 +184,8 @@ for idx_point = 1:N_points
         M_transform_Vehicle_to_ENU = fcn_Transform_CalculateTransformation_VehicleToENU(GPSFront_ENU, GPSLeft_ENU, GPSRight_ENU,RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle);
    
         [roll,pitch,yaw] = fcn_Transform_CalculateAnglesofRotation(M_transform_Vehicle_to_ENU);
-        M_transform_Vehicleto_ENU_obj = se3(M_transform_Vehicle_to_ENU);
-        VehiclePose_ENU = M_transform_Vehicleto_ENU_obj.transform([0 0 0]);
+        M_transform_Vehicle_to_ENU_obj = se3(M_transform_Vehicle_to_ENU);
+        VehiclePose_ENU = M_transform_Vehicle_to_ENU_obj.transform([0 0 0]);
         VehiclePose(idx_point,:) = [VehiclePose_ENU,roll,pitch,yaw];
         M_transform_Vehicle_to_ENU_matrix(:,:,idx_point) = M_transform_Vehicle_to_ENU.tform;
     end
