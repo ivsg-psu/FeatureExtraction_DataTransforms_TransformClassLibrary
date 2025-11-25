@@ -14,25 +14,62 @@
 
 % 2025_11_23 - Xinyu Cao
 % -- Created based on Laps demo structure
-
+% 2025_11_25 - Xinyu Cao
+% -- Modified NOTE
 %% NOTE: READ BEFORE RUNNING THE SCRIPT
-% This script is a temporary *demo* illustrating Xinyu's point-cloud map-generation
-% pipeline. It is not a finalized or fully released workflow.
+% This script is a temporary *demo* illustrating Xinyu's point-cloud
+% map-generation pipeline. It is not a finalized or publicly released workflow.
 %
 % Several functions used here are still under development, and some utilities
 % belong to the internal DataClean library. Because the DataClean library is
 % not yet released, users must manually add it to the MATLAB path before
 % running this demo.
 %
+% -------------------------------------------------------------------------
+% DATA SOURCES
+% -------------------------------------------------------------------------
 % A pre-loaded dataset has been uploaded to:
 %   F:\OneDrive - The Pennsylvania State University\IVSG\GitHubMirror\
 %   MappingVanDataCollection\MatlabData\BaseMap\2025-09-30
-% Its corresponding raw bag files can be found in:
+%
+% Corresponding raw ROS bag files are stored in:
 %   F:\OneDrive - The Pennsylvania State University\IVSG\GitHubMirror\
 %   MappingVanDataCollection\Bag Files\BaseMap\2025-09-30
-% User can directly download them for test
+%
+% Users can directly download these datasets and run the demo without
+% additional processing.
+%
+% -------------------------------------------------------------------------
+% IF STARTING FROM RAW BAG FILES
+% -------------------------------------------------------------------------
+% If you prefer to begin from the raw bag files instead of the pre-parsed
+% MATLAB data, you *must* first parse the bags using:
+%
+%       script_main_ParseRaw
+%
+% This parsing step converts ROS bag files into the correct directory
+% structure expected by the DataClean loader. Because parsing takes time,
+% it is recommended to start with the **smallest bag file** for initial
+% testing.
+%
+% After parsing, place the output folders under a path such as:
+%
+%   MappingVanData\TestTrack\BaseMap\2025_09_30\BaseMap_<yourName>_0930\
+%
+% Replace <yourName> with your own identifier.
+%
+% IMPORTANT:
+%   - Update the variables `MappingVanDataRoot` and `rootdirs` in this demo
+%     script so that they point to your newly parsed directory.
+%   - The function `fcn_DataClean_loadRawDataFromDirectories` can **only**
+%     load *parsed* raw data; it cannot ingest untouched ROS bag files.
+%
 % If any function does not work as expected, or if you encounter missing
-% dependencies, please contact Xinyu at: xfc5113@psu.edu
+% dependencies or path issues, please contact:
+%
+%       xfc5113@psu.edu
+%
+% -------------------------------------------------------------------------
 
 
 %% Prepare the workspace
