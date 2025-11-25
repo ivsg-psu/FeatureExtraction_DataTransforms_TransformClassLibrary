@@ -1,7 +1,7 @@
-function M_transform_Vehicle_to_ENU = fcn_Transform_CalculateTransformation_VehicleToENU(GPSFront_ENU, GPSLeft_ENU, GPSRight_ENU, RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle, varargin)
+function M_transform_Vehicle_to_ENU = fcn_Transform_calculateTransformation_VehicleToENU(GPSFront_ENU, GPSLeft_ENU, GPSRight_ENU, RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle, varargin)
 
 
-% fcn_Transform_CalculateTransformation_VehicleToENU
+% fcn_Transform_calculateTransformation_VehicleToENU
 % This function takes three GPS Antenna centers, GPSFront_ENU, GPSLeft_ENU and 
 % GPSRight_ENU, in ENU coordinates as a (1 x 3) vector representing 
 % [x, y, z] in meters as the inputs and outputs the transformation matrix
@@ -136,7 +136,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Step 1 - Calculate the transformation from rear right GPS coordinate system to ENU coordinate system
-M_transform_RearRightGPS_to_ENU = fcn_Transform_CalculateTransformation_RearRightGPSToENU(GPSFront_ENU,GPSLeft_ENU, GPSRight_ENU);
+M_transform_RearRightGPS_to_ENU = fcn_Transform_calculateTransformation_RearRightGPSToENU(GPSFront_ENU,GPSLeft_ENU, GPSRight_ENU);
 
 
 %% Step 2 - Find the translational transformation matrix from vehicle origin to Rear GPS Center

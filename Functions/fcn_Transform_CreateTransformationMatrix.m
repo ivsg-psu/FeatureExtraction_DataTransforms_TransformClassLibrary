@@ -1,4 +1,4 @@
-function Transformation_Matrix = fcn_Transform_CreateTransformationMatrix(translation, x_angle,y_angle,z_angle)
+function Transformation_Matrix = fcn_Transform_createTransformationMatrix(translation, x_angle,y_angle,z_angle)
 % fcn_Transform_createTransformationMatrix creates a homogeneous transformation matrix
 % FORMAT:
 %
@@ -85,15 +85,5 @@ end
 %  |_|  |_|\__,_|_|_| |_|
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Create the translation matrix
-translation_matrix = makehgtform('translate',translation);
-% Create the z-rotate matrix
-rotation_matrix_z = makehgtform('zrotate',z_angle);
-% Create the y-rotate matrix
-rotation_matrix_y = makehgtform('yrotate',y_angle);
-% Create the x-rotate matrix
-rotation_matrix_x = makehgtform('xrotate',x_angle);
-% Compute the transformation matrix
-Transformation_Matrix = translation_matrix*rotation_matrix_z*...
-                                rotation_matrix_y*rotation_matrix_x;
+% Create transformation matrix
+Transformation_Matrix = se3([z_angle, y_angle, x_angle],"eul",'ZYX',translation);

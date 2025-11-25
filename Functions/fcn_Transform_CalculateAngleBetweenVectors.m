@@ -1,4 +1,4 @@
-function angle = fcn_Transform_CalculateAngleBetweenVectors(V_1, V_2, varargin)
+function angle = fcn_Transform_calculateAngleBetweenVectors(V_1, V_2, varargin)
 % fcn_Transform_CalculateAngleBetweenVectors calculates the angle in rad
 % between two vectors
 % two vectors given as V_1 and V_2

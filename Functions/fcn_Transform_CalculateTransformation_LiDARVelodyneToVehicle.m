@@ -1,7 +1,7 @@
-function M_transform_LiDARVelodyne_to_Vehicle = fcn_Transform_CalculateTransformation_LiDARVelodyneToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle,M_transform_LiDARVelodyne_to_RearRightGPS, varargin)
+function M_transform_LiDARVelodyne_to_Vehicle = fcn_Transform_calculateTransformation_LiDARVelodyneToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle,M_transform_LiDARVelodyne_to_RearRightGPS, varargin)
 
 
-% fcn_Transform_CalculateTransformation_VehicleToENU
+% fcn_Transform_calculateTransformation_LiDARVelodyneToVehicle
 % This function takes three GPS Antenna centers, GPSFront_ENU, GPSLeft_ENU and 
 % GPSRight_ENU, in ENU coordinates as a (1 x 3) vector representing 
 % [x, y, z] in meters as the inputs and outputs the transformation matrix
@@ -10,7 +10,7 @@ function M_transform_LiDARVelodyne_to_Vehicle = fcn_Transform_CalculateTransform
 %
 % FORMAT:
 %
-%      M_transform_Vehicle_to_ENU = fcn_Transform_CalculateTransformation_VehicleToENU(GPSFront_ENU,GPSLeft_ENU, GPSRight_ENU, RearRightGPS_offset_relative_to_VehicleOrigin, M_calibration_GPS_to_Vehicle, (fid), (fig_num))
+%      M_transform_Vehicle_to_ENU = fcn_Transform_calculateTransformation_LiDARVelodyneToVehicle(GPSFront_ENU,GPSLeft_ENU, GPSRight_ENU, RearRightGPS_offset_relative_to_VehicleOrigin, M_calibration_GPS_to_Vehicle, (fid), (fig_num))
 %
 % INPUTS:
 % 
@@ -37,7 +37,7 @@ function M_transform_LiDARVelodyne_to_Vehicle = fcn_Transform_CalculateTransform
 %
 % EXAMPLES:
 %
-%     See the script: script_fcn_Transform_CalculateTransformation_VehicleToENU
+%     See the script: TO_BE_DONE
 %     for a full test suite.
 %
 % This function was written on 2024_11_03 by X. Cao
@@ -46,7 +46,8 @@ function M_transform_LiDARVelodyne_to_Vehicle = fcn_Transform_CalculateTransform
 % Revision history
 % 2024_11_03 - Xinyu Cao, xfc5113@psu.edu
 % -- wrote the code originally
-
+% 2025_11_24 - Xinyu Cao, xfc5113@psu.edu
+% -- rename the function
 
 % To do list:
 % Edit the comments
@@ -118,7 +119,7 @@ end
 
 
 %% Step 1 - Find the transformation from rear right GPS coordinate system to Vehicle Coordinate System  
-M_transform_RearRightGPS_to_Vehicle = fcn_Transform_CalculateTransformation_RearRightGPSToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle);
+M_transform_RearRightGPS_to_Vehicle = fcn_Transform_calculateTransformation_RearRightGPSToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle);
 %% Step 2 - Compute the transformation from LiDAR coordinate system to 
 M_transform_LiDARVelodyne_to_Vehicle = M_transform_RearRightGPS_to_Vehicle * se3(M_transform_LiDARVelodyne_to_RearRightGPS);
 

@@ -1,4 +1,4 @@
-function [VehiclePose,M_transform_Vehicle_to_ENU_matrix] = fcn_Transform_estimateVehiclePoseinENU(GPSFront_ENU_array, GPSLeft_ENU_array, GPSRight_ENU_array, varargin)
+function [VehiclePose,M_transform_Vehicle_to_ENU_cell, tforms] = fcn_Transform_estimateVehiclePoseinENU(GPSFront_ENU_array, GPSLeft_ENU_array, GPSRight_ENU_array, varargin)
 % fcn_Transform_findVehiclePoseinENU
 %
 % This function takes two GPS Antenna centers, GPSLeft_ENU and 
@@ -96,7 +96,8 @@ end
 
 
 % Does user want to specify RearRightGPS_offset_relative_to_VehicleOrigin?
-RearRightGPS_offset_relative_to_VehicleOrigin = load("Data\RearRightGPS_offset_relative_to_VehicleOrigin.mat");
+% RearRightGPS_offset_relative_to_VehicleOrigin = load("Data\RearRightGPS_offset_relative_to_VehicleOrigin.mat");
+RearRightGPS_offset_relative_to_VehicleOrigin  = 0;
 if 4 <= nargin
     temp = varargin{1};
     if ~isempty(temp)
@@ -112,7 +113,8 @@ end
 
 
 % Does user want to specify RearRightGPS_offset_relative_to_VehicleOrigin?
-M_calibration_GPS_to_Vehicle = load("Data\Rotation_GPS2Vehicle_2024-05-15.mat");
+% M_calibration_GPS_to_Vehicle = load("Data\Rotation_GPS2Vehicle_2024-05-15.mat");
+M_calibration_GPS_to_Vehicle = eye(4);
 if 5 <= nargin
     temp = varargin{2};
     if ~isempty(temp)
@@ -173,23 +175,37 @@ end
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-N_points = size(GPSLeft_ENU_array,1);
-M_transform_Vehicle_to_ENU_matrix = nan(4,4,N_points);
-VehiclePose = nan(N_points,6);
-for idx_point = 1:N_points
-    GPSLeft_ENU = GPSLeft_ENU_array(idx_point,:);
-    GPSRight_ENU = GPSRight_ENU_array(idx_point,:);
-    GPSFront_ENU = GPSFront_ENU_array(idx_point,:);
+N_frames = size(GPSLeft_ENU_array,1);
+M_transform_Vehicle_to_ENU_cell = cell(N_frames,1);
+VehiclePose = nan(N_frames,6);
+for idx_frame = 1:N_frames
+    GPSLeft_ENU = GPSLeft_ENU_array(idx_frame,:);
+    GPSRight_ENU = GPSRight_ENU_array(idx_frame,:);
+    GPSFront_ENU = GPSFront_ENU_array(idx_frame,:);
     if all([~isnan(GPSLeft_ENU) ~isnan(GPSFront_ENU) ~isnan(GPSRight_ENU)])
-        M_transform_Vehicle_to_ENU = fcn_Transform_CalculateTransformation_VehicleToENU(GPSFront_ENU, GPSLeft_ENU, GPSRight_ENU,RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle);
+        M_transform_Vehicle_to_ENU = fcn_Transform_calculateTransformation_VehicleToENU(GPSFront_ENU, GPSLeft_ENU, GPSRight_ENU,RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle);
    
-        [roll,pitch,yaw] = fcn_Transform_CalculateAnglesofRotation(M_transform_Vehicle_to_ENU);
+        [roll,pitch,yaw] = fcn_Transform_calculateAnglesofRotation(M_transform_Vehicle_to_ENU);
         M_transform_Vehicle_to_ENU_obj = se3(M_transform_Vehicle_to_ENU);
         VehiclePose_ENU = M_transform_Vehicle_to_ENU_obj.transform([0 0 0]);
-        VehiclePose(idx_point,:) = [VehiclePose_ENU,roll,pitch,yaw];
-        M_transform_Vehicle_to_ENU_matrix(:,:,idx_point) = M_transform_Vehicle_to_ENU.tform;
+        VehiclePose(idx_frame,:) = [VehiclePose_ENU,roll,pitch,yaw];
+        M_transform_Vehicle_to_ENU_cell{idx_frame}= M_transform_Vehicle_to_ENU.tform;
+
     end
 end
+
+tforms = cell(N_frames-1,1);
+for idx_frame = 2:N_frames
+
+    M_transform_Vehicle_to_ENU_prev = M_transform_Vehicle_to_ENU_cell{idx_frame-1};
+    M_transform_Vehicle_to_ENU_cur = M_transform_Vehicle_to_ENU_cell{idx_frame};
+    if ~isempty(M_transform_Vehicle_to_ENU_prev) && ~isempty(M_transform_Vehicle_to_ENU_cur)
+        tform = M_transform_Vehicle_to_ENU_cur\M_transform_Vehicle_to_ENU_prev;
+        tforms{idx_frame - 1} = tform;
+    end
+end
+
+
 
 
 %% Plot the results (for debugging)?
