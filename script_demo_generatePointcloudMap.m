@@ -145,6 +145,8 @@ setenv('MATLABFLAG_TRANSFORM_FLAG_DO_DEBUG','0');
 
 disp('Welcome to the demo code for the ExtractCL library!')
 
+addpath('C:\Users\abb6486\Documents\IVSG\FeatureExtraction_DataCleanClassLibrary\Functions\fcn_DataClean_loadRawData');
+addpath('C:\Users\abb6486\Documents\IVSG\FeatureExtraction_DataCleanClassLibrary\Functions');
 
 %% Define Flags and Identifiers
 Flags.flag_do_load_SICK = 0;
@@ -170,11 +172,12 @@ Identifiers.SourceBagFileName =''; % This is filled in automatically for each fi
 fid = 1;
 clear rawDataCellArray
 % Please change the root to your path, including the date and folder name
-MappingVanDataRoot = "D:\MappingVanData\ParsedBags";
+MappingVanDataRoot = "C:\MappingVanData\ParsedBags";
+
 Location = Identifiers.ProjectStage;
 Treatment = Identifiers.WorkZoneScenario;
 Date = "2025-09-30";
-rootdirs{1} = fullfile(MappingVanDataRoot, Location, Treatment,Date,"BaseMap_0930_35Mph_1Lap");
+rootdirs{1} = fullfile(MappingVanDataRoot, Location, Treatment,Date,"BaseMap_Aneesh_20250930");
 
 bagQueryString = 'mapping_van_2025-09-30*';
 rawDataCellArray = fcn_DataClean_loadRawDataFromDirectories(rootdirs, Identifiers,bagQueryString, fid,Flags);
@@ -229,7 +232,7 @@ startline = [445.871882554 209.029823474;
 
 %% Break GPS data into laps
 % [lap_traversals_VehiclePose,~,~,laps_indices] = fcn_Laps_breakDataIntoLaps(VehiclePose_traversal,startline);
-laps_indices_cell = fcn_Laps_breakDataIntoLapIndices(VehiclePose_ENU,startline_straight);
+% laps_indices_cell = fcn_Laps_breakDataIntoLapIndices(VehiclePose_ENU,startline_straight);
 
 
 
@@ -280,7 +283,7 @@ Flags.filter_in_XYZ = 1;
 Flags.plot_raw_LIDAR = 0;
 alignedDataENUCellArray = cell(N_datasets,1);
 for idx_dataset = 1:1
-
+    
     alignedDataStructure = alignedDataCellArray{idx_dataset};
     LiDAR_DataStructure = alignedDataStructure.Lidar_Velodyne_Rear;
     %% Transform LiDAR pointcloud from LiDAR frame to vehicle frame

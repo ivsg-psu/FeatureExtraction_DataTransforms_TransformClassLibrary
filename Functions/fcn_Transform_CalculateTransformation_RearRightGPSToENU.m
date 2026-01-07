@@ -1,4 +1,4 @@
-function M_transform_RearRightGPS_to_ENU = fcn_Transform_calculateTransformation_RearRightGPSToENU(GPSFront_ENU,GPSLeft_ENU, GPSRight_ENU, varargin)
+function M_transform_RearRightGPS_to_ENU = fcn_Transform_CalculateTransformation_RearRightGPSToENU(GPSFront_ENU,GPSLeft_ENU, GPSRight_ENU, varargin)
 
 % fcn_Transform_CalculateTransformation_RearRightGPSToENU
 % This function takes three GPS Antenna centers, GPSFront_ENU, GPSLeft_ENU and 

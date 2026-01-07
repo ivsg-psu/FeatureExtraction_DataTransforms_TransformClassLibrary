@@ -183,9 +183,9 @@ for idx_frame = 1:N_frames
     GPSRight_ENU = GPSRight_ENU_array(idx_frame,:);
     GPSFront_ENU = GPSFront_ENU_array(idx_frame,:);
     if all([~isnan(GPSLeft_ENU) ~isnan(GPSFront_ENU) ~isnan(GPSRight_ENU)])
-        M_transform_Vehicle_to_ENU = fcn_Transform_calculateTransformation_VehicleToENU(GPSFront_ENU, GPSLeft_ENU, GPSRight_ENU,RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle);
+        M_transform_Vehicle_to_ENU = fcn_Transform_CalculateTransformation_VehicleToENU(GPSFront_ENU, GPSLeft_ENU, GPSRight_ENU,RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle);
    
-        [roll,pitch,yaw] = fcn_Transform_calculateAnglesofRotation(M_transform_Vehicle_to_ENU);
+        [roll,pitch,yaw] = fcn_Transform_CalculateAnglesofRotation(M_transform_Vehicle_to_ENU);
         M_transform_Vehicle_to_ENU_obj = se3(M_transform_Vehicle_to_ENU);
         VehiclePose_ENU = M_transform_Vehicle_to_ENU_obj.transform([0 0 0]);
         VehiclePose(idx_frame,:) = [VehiclePose_ENU,roll,pitch,yaw];

@@ -1,4 +1,4 @@
-function M_transform_LiDARVelodyne_to_Vehicle = fcn_Transform_calculateTransformation_LiDARVelodyneToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle,M_transform_LiDARVelodyne_to_RearRightGPS, varargin)
+function M_transform_LiDARVelodyne_to_Vehicle = fcn_Transform_CalculateTransformation_LiDARVelodyneToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle,M_transform_LiDARVelodyne_to_RearRightGPS, varargin)
 
 
 % fcn_Transform_calculateTransformation_LiDARVelodyneToVehicle
@@ -119,7 +119,7 @@ end
 
 
 %% Step 1 - Find the transformation from rear right GPS coordinate system to Vehicle Coordinate System  
-M_transform_RearRightGPS_to_Vehicle = fcn_Transform_calculateTransformation_RearRightGPSToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle);
+M_transform_RearRightGPS_to_Vehicle = fcn_Transform_CalculateTransformation_RearRightGPSToVehicle(RearRightGPS_offset_relative_to_VehicleOrigin,M_calibration_GPS_to_Vehicle);
 %% Step 2 - Compute the transformation from LiDAR coordinate system to 
 M_transform_LiDARVelodyne_to_Vehicle = M_transform_RearRightGPS_to_Vehicle * se3(M_transform_LiDARVelodyne_to_RearRightGPS);
 

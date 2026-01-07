@@ -1,4 +1,4 @@
-function [roll, pitch, yaw] = fcn_Transform_calculateAnglesofRotation(M_transform_Vehicle_to_ENU, varargin)
+function [roll, pitch, yaw] = fcn_Transform_CalculateAnglesofRotation(M_transform_Vehicle_to_ENU, varargin)
 % fcn_Transform_CalculateAnglesofRotation calculates roll, pitch, and yaw
 % angle with the transformation matrix
 %
